@@ -1,0 +1,528 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = AC81CABA2BED259700933492 /* RealityKitContent */; };
+		AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CABC2BED259700933492 /* GENIUSApp.swift */; };
+		AC81CABF2BED259700933492 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CABE2BED259700933492 /* ContentView.swift */; };
+		AC81CAC12BED259700933492 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAC02BED259700933492 /* ImmersiveView.swift */; };
+		AC81CAC32BED259800933492 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC22BED259800933492 /* Assets.xcassets */; };
+		AC81CAC62BED259800933492 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC52BED259800933492 /* Preview Assets.xcassets */; };
+		AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAD02BED259800933492 /* GENIUSTests.swift */; };
+		AC9B13DA2BF2A42A00D793CD /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13D92BF2A42A00D793CD /* ChatView.swift */; };
+		AC9B13DE2BF4097E00D793CD /* ArgoCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */; };
+		AC9B13E12BF50D1D00D793CD /* SwiftWhisper in Frameworks */ = {isa = PBXBuildFile; productRef = AC9B13E02BF50D1D00D793CD /* SwiftWhisper */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AC81CACD2BED259800933492 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC81CAAD2BED259700933492 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC81CAB42BED259700933492;
+			remoteInfo = GENIUS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AC81CAB52BED259700933492 /* GENIUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENIUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC81CAB92BED259700933492 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		AC81CABC2BED259700933492 /* GENIUSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GENIUSApp.swift; sourceTree = "<group>"; };
+		AC81CABE2BED259700933492 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AC81CAC02BED259700933492 /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
+		AC81CAC22BED259800933492 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AC81CAC52BED259800933492 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AC81CAC72BED259800933492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC81CACC2BED259800933492 /* GENIUSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GENIUSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC81CAD02BED259800933492 /* GENIUSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GENIUSTests.swift; sourceTree = "<group>"; };
+		AC9B13D92BF2A42A00D793CD /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgoCall.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AC81CAB22BED259700933492 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */,
+				AC9B13E12BF50D1D00D793CD /* SwiftWhisper in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC81CAC92BED259800933492 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AC81CAAC2BED259700933492 = {
+			isa = PBXGroup;
+			children = (
+				AC81CAB72BED259700933492 /* GENIUS */,
+				AC81CAB82BED259700933492 /* Packages */,
+				AC81CACF2BED259800933492 /* GENIUSTests */,
+				AC81CAB62BED259700933492 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AC81CAB62BED259700933492 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC81CAB52BED259700933492 /* GENIUS.app */,
+				AC81CACC2BED259800933492 /* GENIUSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC81CAB72BED259700933492 /* GENIUS */ = {
+			isa = PBXGroup;
+			children = (
+				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
+				AC81CABE2BED259700933492 /* ContentView.swift */,
+				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
+				AC9B13D92BF2A42A00D793CD /* ChatView.swift */,
+				AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */,
+				AC81CAC22BED259800933492 /* Assets.xcassets */,
+				AC81CAC72BED259800933492 /* Info.plist */,
+				AC81CAC42BED259800933492 /* Preview Content */,
+			);
+			path = GENIUS;
+			sourceTree = "<group>";
+		};
+		AC81CAB82BED259700933492 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				AC81CAB92BED259700933492 /* RealityKitContent */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		AC81CAC42BED259800933492 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				AC81CAC52BED259800933492 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AC81CACF2BED259800933492 /* GENIUSTests */ = {
+			isa = PBXGroup;
+			children = (
+				AC81CAD02BED259800933492 /* GENIUSTests.swift */,
+			);
+			path = GENIUSTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AC81CAB42BED259700933492 /* GENIUS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC81CAD42BED259800933492 /* Build configuration list for PBXNativeTarget "GENIUS" */;
+			buildPhases = (
+				AC81CAB12BED259700933492 /* Sources */,
+				AC81CAB22BED259700933492 /* Frameworks */,
+				AC81CAB32BED259700933492 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GENIUS;
+			packageProductDependencies = (
+				AC81CABA2BED259700933492 /* RealityKitContent */,
+				AC9B13E02BF50D1D00D793CD /* SwiftWhisper */,
+			);
+			productName = GENIUS;
+			productReference = AC81CAB52BED259700933492 /* GENIUS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AC81CACB2BED259800933492 /* GENIUSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC81CAD72BED259800933492 /* Build configuration list for PBXNativeTarget "GENIUSTests" */;
+			buildPhases = (
+				AC81CAC82BED259800933492 /* Sources */,
+				AC81CAC92BED259800933492 /* Frameworks */,
+				AC81CACA2BED259800933492 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC81CACE2BED259800933492 /* PBXTargetDependency */,
+			);
+			name = GENIUSTests;
+			productName = GENIUSTests;
+			productReference = AC81CACC2BED259800933492 /* GENIUSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AC81CAAD2BED259700933492 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					AC81CAB42BED259700933492 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					AC81CACB2BED259800933492 = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = AC81CAB42BED259700933492;
+					};
+				};
+			};
+			buildConfigurationList = AC81CAB02BED259700933492 /* Build configuration list for PBXProject "GENIUS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AC81CAAC2BED259700933492;
+			packageReferences = (
+				AC9B13DF2BF50D1D00D793CD /* XCRemoteSwiftPackageReference "SwiftWhisper" */,
+			);
+			productRefGroup = AC81CAB62BED259700933492 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC81CAB42BED259700933492 /* GENIUS */,
+				AC81CACB2BED259800933492 /* GENIUSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AC81CAB32BED259700933492 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC81CAC62BED259800933492 /* Preview Assets.xcassets in Resources */,
+				AC81CAC32BED259800933492 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC81CACA2BED259800933492 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AC81CAB12BED259700933492 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC9B13DA2BF2A42A00D793CD /* ChatView.swift in Sources */,
+				AC81CABF2BED259700933492 /* ContentView.swift in Sources */,
+				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
+				AC81CAC12BED259700933492 /* ImmersiveView.swift in Sources */,
+				AC9B13DE2BF4097E00D793CD /* ArgoCall.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC81CAC82BED259800933492 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AC81CACE2BED259800933492 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC81CAB42BED259700933492 /* GENIUS */;
+			targetProxy = AC81CACD2BED259800933492 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AC81CAD22BED259800933492 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = xros;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				XROS_DEPLOYMENT_TARGET = 1.1;
+			};
+			name = Debug;
+		};
+		AC81CAD32BED259800933492 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = xros;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 1.1;
+			};
+			name = Release;
+		};
+		AC81CAD52BED259800933492 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
+				DEVELOPMENT_TEAM = 5W26799MY8;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+			};
+			name = Debug;
+		};
+		AC81CAD62BED259800933492 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
+				DEVELOPMENT_TEAM = 5W26799MY8;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+			};
+			name = Release;
+		};
+		AC81CAD82BED259800933492 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5W26799MY8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GENIUS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GENIUS";
+				XROS_DEPLOYMENT_TARGET = 1.1;
+			};
+			name = Debug;
+		};
+		AC81CAD92BED259800933492 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5W26799MY8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GENIUS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GENIUS";
+				XROS_DEPLOYMENT_TARGET = 1.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AC81CAB02BED259700933492 /* Build configuration list for PBXProject "GENIUS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC81CAD22BED259800933492 /* Debug */,
+				AC81CAD32BED259800933492 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC81CAD42BED259800933492 /* Build configuration list for PBXNativeTarget "GENIUS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC81CAD52BED259800933492 /* Debug */,
+				AC81CAD62BED259800933492 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC81CAD72BED259800933492 /* Build configuration list for PBXNativeTarget "GENIUSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC81CAD82BED259800933492 /* Debug */,
+				AC81CAD92BED259800933492 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AC9B13DF2BF50D1D00D793CD /* XCRemoteSwiftPackageReference "SwiftWhisper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exPHAT/SwiftWhisper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AC81CABA2BED259700933492 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
+		};
+		AC9B13E02BF50D1D00D793CD /* SwiftWhisper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC9B13DF2BF50D1D00D793CD /* XCRemoteSwiftPackageReference "SwiftWhisper" */;
+			productName = SwiftWhisper;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = AC81CAAD2BED259700933492 /* Project object */;
+}
