@@ -2,3 +2,4 @@
 * Argo has been intergrated into AVP app
 * Speech to text is working (still needs debugging)
 * Text to speech working
+* Started looking into UE5 and Unity for VR development
