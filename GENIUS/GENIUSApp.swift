@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import RealityKit
 
 @main
 struct GENIUSApp: App {
 
-    var body: some Scene {
+    var body: some SwiftUI.Scene {
         WindowGroup {
             TabView {
                 ContentView()
@@ -18,8 +19,15 @@ struct GENIUSApp: App {
             }
         }
 
-        ImmersiveSpace(id: "ImmersiveSpace") {
-            ImmersiveView()
-        }
+//        ImmersiveSpace(id: "ImmersiveSpace") {
+//            ImmersiveView()
+//        }
+        
+        WindowGroup(id: "volume", for: String.self) { $modelName in
+            if let modelName {
+                VolumeView(modelName: modelName)
+            }
+            
+        }.windowStyle(.volumetric)
     }
 }

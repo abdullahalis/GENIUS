@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var immersiveSpaceIsShown = false
     @State private var nightMode = false
     @State private var isRecording = false
+    @State private var numberOfRects = 0
     
     @State private var question = ""
     @State private var meetingText = ""
@@ -25,6 +26,8 @@ struct ContentView: View {
     
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+    
+    @Environment(\.openWindow) var openWindow
     
     
 
@@ -41,7 +44,15 @@ struct ContentView: View {
                 )
                 .frame(width: 2000, height: 2000)
             VStack {
-                
+//                Button("but") {
+//                    openWindow(id: "volume")
+//                }
+                Button("Earth") {
+                        openWindow(id: "volume", value: "Earth")
+                }
+                Button("Mars") {
+                        openWindow(id: "volume", value: "Mars")
+                }
                 mainMenuItems()
                 
                 Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
@@ -62,6 +73,25 @@ struct ContentView: View {
                       }
                 Text(updatingTextHolder.responseText)
                 
+                Toggle("Show Immersive", isOn: $showImmersiveSpace)
+                            .onChange(of: showImmersiveSpace) { _, newValue in
+                            Task {
+                                if newValue {
+                                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
+                                    case .opened:
+                                        immersiveSpaceIsShown = true
+                                    case .error, .userCancelled:
+                                        fallthrough
+                                    @unknown default:
+                                        immersiveSpaceIsShown = false
+                                        showImmersiveSpace = false
+                                    }
+                                } else if immersiveSpaceIsShown {
+                                    await dismissImmersiveSpace()
+                                    immersiveSpaceIsShown = false
+                                }
+                            }
+                        }
                 Button {nightMode.toggle() }label: {
                     Text("NightMode")
                         .frame(width: 200, height: 50)
@@ -98,9 +128,6 @@ struct ContentView: View {
             }
         }
     };
-    
-    
-    
 }
 
 
@@ -172,6 +199,12 @@ class Recorder: ObservableObject {
 
                              // Check for the end phrase
                 if updatingTextHolder.recongnizedText.contains("thank you") {
+                    
+                    do {
+                      try audioSession.setActive(false)
+                    } catch let error {
+                      print("error deactivating audio session after finishing recording:", error.localizedDescription)
+                    }
                     getResponse(prompt: self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
                     print(updatingTextHolder.responseText)
                     self.isCapturingText = false
