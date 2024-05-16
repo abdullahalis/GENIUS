@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 import AVFAudio
+import Combine
+
 
 func Speak(text: String, speechSynthesizer: AVSpeechSynthesizer) {
   let audioSession = AVAudioSession() // 2) handle audio session first, before trying to read the text
@@ -24,9 +26,10 @@ func Speak(text: String, speechSynthesizer: AVSpeechSynthesizer) {
   // Assign the voice to the utterance.
   utterance.voice = voice
   // Tell the synthesizer to speak the utterance.
+
   speechSynthesizer.speak(utterance)
 }
-func getResponse(prompt: String, responseText: Binding<String>, speechSynthesizer: AVSpeechSynthesizer) {
+func getResponse(prompt: String, updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
   // Access Argo API
   let url = URL(string: "https://apps-dev.inside.anl.gov/argoapi/api/v1/resource/chat/")!
   // Form HTTP request
@@ -64,10 +67,12 @@ func getResponse(prompt: String, responseText: Binding<String>, speechSynthesize
           let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
           if let responseString = jsonResponse?["response"] as? String {
             print("Response String:", responseString)
+        
             Speak(text: responseString, speechSynthesizer: speechSynthesizer)
             // update Text of UI
             DispatchQueue.main.async {
-              responseText.wrappedValue = responseString
+                updatingTextHolder.responseText = responseString
+                
             }
           }
           else {
