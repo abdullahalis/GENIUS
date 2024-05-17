@@ -19,7 +19,6 @@
 		AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAD02BED259800933492 /* GENIUSTests.swift */; };
 		AC9B13DA2BF2A42A00D793CD /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13D92BF2A42A00D793CD /* ChatView.swift */; };
 		AC9B13DE2BF4097E00D793CD /* ArgoCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */; };
-		AC9B13E12BF50D1D00D793CD /* SwiftWhisper in Frameworks */ = {isa = PBXBuildFile; productRef = AC9B13E02BF50D1D00D793CD /* SwiftWhisper */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +55,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */,
-				AC9B13E12BF50D1D00D793CD /* SwiftWhisper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,7 +147,6 @@
 			name = GENIUS;
 			packageProductDependencies = (
 				AC81CABA2BED259700933492 /* RealityKitContent */,
-				AC9B13E02BF50D1D00D793CD /* SwiftWhisper */,
 			);
 			productName = GENIUS;
 			productReference = AC81CAB52BED259700933492 /* GENIUS.app */;
@@ -532,11 +529,6 @@
 		AC81CABA2BED259700933492 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
-		};
-		AC9B13E02BF50D1D00D793CD /* SwiftWhisper */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AC9B13DF2BF50D1D00D793CD /* XCRemoteSwiftPackageReference "SwiftWhisper" */;
-			productName = SwiftWhisper;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

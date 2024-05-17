@@ -67,9 +67,11 @@ struct ContentView: View {
                     Recorder().startRecording(updatingTextHolder: updatingTextHolder)
                     //getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
                       }
-                Button("Ask Genius") {
+                Button("Stop Recording") {
                     Recorder().stopRecording(updatingTextHolder: updatingTextHolder)
-                    //getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                      }
+                Button("Ask GENIUS") {
+                    getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
                       }
                 Text(updatingTextHolder.responseText)
                 
@@ -140,12 +142,12 @@ struct mainMenuItems: View {
         
         VStack {
             Text("Welcome to GENIUS")
-                .font(.system(size: 50, weight: .medium))
+                .font(.system(size: 30, weight: .medium))
             Image(systemName: "brain.head.profile.fill")
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 180, height: 180)
+                .frame(width: 90, height: 90)
         }
         .padding(.bottom, 40)
 
@@ -190,7 +192,7 @@ class Recorder: ObservableObject {
         self.recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
             if let result = result {
                 finalTranscription = result.bestTranscription.formattedString
-                updatingTextHolder.recongnizedText = finalTranscription
+                updatingTextHolder.recongnizedText = finalTranscription.lowercased()
                 print(updatingTextHolder.recongnizedText)
                 if updatingTextHolder.recongnizedText.contains("hey genius") {
                     self.isCapturingText = true
@@ -205,16 +207,14 @@ class Recorder: ObservableObject {
                     } catch let error {
                       print("error deactivating audio session after finishing recording:", error.localizedDescription)
                     }
-                    getResponse(prompt: self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
-                    print(updatingTextHolder.responseText)
+                    if let range = updatingTextHolder.recongnizedText.range(of: "hey genius ") {
+                        self.question = String(updatingTextHolder.recongnizedText[(range.upperBound...)])
+                        getResponse(prompt: self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
+                    }
+                    print("Question: "+self.question)
                     self.isCapturingText = false
-                                 
                     }
 
-                // Capture text between start and end phrases
-                if self.isCapturingText {
-                    self.question += updatingTextHolder.recongnizedText
-                }
                              
                 // React to recognized commands here
                 if updatingTextHolder.recongnizedText.contains("night mode") {
