@@ -19,6 +19,7 @@
 		AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAD02BED259800933492 /* GENIUSTests.swift */; };
 		AC9B13DA2BF2A42A00D793CD /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13D92BF2A42A00D793CD /* ChatView.swift */; };
 		AC9B13DE2BF4097E00D793CD /* ArgoCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */; };
+		ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		AC81CAD02BED259800933492 /* GENIUSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GENIUSTests.swift; sourceTree = "<group>"; };
 		AC9B13D92BF2A42A00D793CD /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgoCall.swift; sourceTree = "<group>"; };
+		ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,9 +97,10 @@
 				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
 				AC9B13D92BF2A42A00D793CD /* ChatView.swift */,
 				AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */,
+				2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */,
+				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
 				2FB3AB862BF6521E002F09E9 /* Earth.usdz */,
 				2FB3AB882BF67D7E002F09E9 /* Mars.usdz */,
-				2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */,
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
 				AC81CAC72BED259800933492 /* Info.plist */,
 				AC81CAC42BED259800933492 /* Preview Content */,
@@ -242,6 +245,7 @@
 				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
 				AC81CAC12BED259700933492 /* ImmersiveView.swift in Sources */,
 				2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */,
+				ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */,
 				AC9B13DE2BF4097E00D793CD /* ArgoCall.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
