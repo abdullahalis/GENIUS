@@ -7,6 +7,9 @@
 * Looked into building 3D mesh of protein-protein data
 
 # May 20 - May 24
+* Unity requires a pro license for visionOS development, so it has been dropped.
+* 
+
 # May 27 - May 31
 # June 03 - June 07
 # June 10 - June 14
