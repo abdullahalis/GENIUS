@@ -55,7 +55,7 @@ class Recorder: ObservableObject {
                     self.question = ""
                 }
 
-                             // Check for the end phrase
+                // Check for the end phrase
                 if updatingTextHolder.recongnizedText.contains("thank you") {
                     
                     do {

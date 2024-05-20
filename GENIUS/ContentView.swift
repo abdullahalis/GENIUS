@@ -91,7 +91,7 @@ struct ContentView: View {
                                 }
                             }
                         }
-                Button {nightMode.toggle() }label: {
+                Button {updatingTextHolder.nightMode.toggle() }label: {
                     Text("NightMode")
                         .frame(width: 200, height: 50)
                         .cornerRadius(20)
@@ -156,4 +156,3 @@ class UpdatingTextHolder: ObservableObject {
     @Published var recongnizedText: String = ""
     @Published var nightMode: Bool = false
 }
-
