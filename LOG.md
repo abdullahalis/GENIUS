@@ -8,7 +8,9 @@
 
 # May 20 - May 24
 * Unity requires a pro license for visionOS development, so it has been dropped.
-* 
+* UE5 was refusing to build and reported the following error:
+**InvalidDataException: The archive entry was compressed using an unsupported compression method.**
+Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.gitdeps.xml [Source](https://forums.unrealengine.com/t/upcoming-disruption-of-service-impacting-unreal-engine-users-on-github/1155880/149)
 
 # May 27 - May 31
 # June 03 - June 07
