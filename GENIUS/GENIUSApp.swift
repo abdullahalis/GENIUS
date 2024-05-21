@@ -13,15 +13,12 @@ struct GENIUSApp: App {
 
     var body: some SwiftUI.Scene {
         WindowGroup {
-            TabView {
-                ContentView()
-                ChatView()
-            }
+            ContentView().environmentObject(ConversationManager.shared)
         }
 
-//        ImmersiveSpace(id: "ImmersiveSpace") {
-//            ImmersiveView()
-//        }
+        ImmersiveSpace(id: "ImmersiveSpace") {
+            ImmersiveView()
+        }
         
         WindowGroup(id: "volume", for: String.self) { $modelName in
             if let modelName {

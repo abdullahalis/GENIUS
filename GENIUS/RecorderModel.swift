@@ -12,6 +12,7 @@ import Speech
 
 class Recorder: ObservableObject {
     var isCapturingText = false;
+    var isCapturingMeeting = false;
     let audioEngine = AVAudioEngine()
     var recognitionTask: SFSpeechRecognitionTask?
     var question = ""
@@ -54,6 +55,9 @@ class Recorder: ObservableObject {
                     self.isCapturingText = true
                     self.question = ""
                 }
+                if updatingTextHolder.recongnizedText.contains("record meeting") {
+                    self.isCapturingMeeting = true
+                }
 
                 // Check for the end phrase
                 if updatingTextHolder.recongnizedText.contains("thank you") {
@@ -65,11 +69,26 @@ class Recorder: ObservableObject {
                     }
                     if let range = updatingTextHolder.recongnizedText.range(of: "hey genius ") {
                         self.question = String(updatingTextHolder.recongnizedText[(range.upperBound...)])
-                        getResponse(prompt: self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
+                        Argo().getResponse(prompt: self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
                     }
                     print("Question: "+self.question)
                     self.isCapturingText = false
+                }
+                
+                if updatingTextHolder.recongnizedText.contains("end meeting") {
+                    
+                    do {
+                      try audioSession.setActive(false)
+                    } catch let error {
+                      print("error deactivating audio session after finishing recording:", error.localizedDescription)
                     }
+                    if let range = updatingTextHolder.recongnizedText.range(of: "record meeting ") {
+                        self.question = String(updatingTextHolder.recongnizedText[(range.upperBound...)])
+                        Argo().getResponse(prompt: "Summarize this: " + self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
+                    }
+                    print("Meeting: "+self.question)
+                    self.isCapturingText = true
+                }
 
                              
                 // React to recognized commands here

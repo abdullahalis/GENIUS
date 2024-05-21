@@ -17,9 +17,12 @@
 		AC81CAC32BED259800933492 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC22BED259800933492 /* Assets.xcassets */; };
 		AC81CAC62BED259800933492 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC52BED259800933492 /* Preview Assets.xcassets */; };
 		AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAD02BED259800933492 /* GENIUSTests.swift */; };
-		AC9B13DA2BF2A42A00D793CD /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13D92BF2A42A00D793CD /* ChatView.swift */; };
-		AC9B13DE2BF4097E00D793CD /* ArgoCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */; };
 		ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */; };
+		ACDC9BD62BFBA538008C5B21 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = ACDC9BD52BFBA538008C5B21 /* GestureKit */; };
+		ACDC9C662BFD15A4008C5B21 /* hands-together.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */; };
+		ACDC9C682BFD1D84008C5B21 /* spiderman.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */; };
+		ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C692BFD21E4008C5B21 /* Argo.swift */; };
+		ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,9 +49,11 @@
 		AC81CAC72BED259800933492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC81CACC2BED259800933492 /* GENIUSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GENIUSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC81CAD02BED259800933492 /* GENIUSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GENIUSTests.swift; sourceTree = "<group>"; };
-		AC9B13D92BF2A42A00D793CD /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
-		AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgoCall.swift; sourceTree = "<group>"; };
 		ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderModel.swift; sourceTree = "<group>"; };
+		ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "hands-together.gesturecomposer"; sourceTree = "<group>"; };
+		ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spiderman.gesturecomposer; sourceTree = "<group>"; };
+		ACDC9C692BFD21E4008C5B21 /* Argo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Argo.swift; sourceTree = "<group>"; };
+		ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */,
+				ACDC9BD62BFBA538008C5B21 /* GestureKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +83,7 @@
 				AC81CAB82BED259700933492 /* Packages */,
 				AC81CACF2BED259800933492 /* GENIUSTests */,
 				AC81CAB62BED259700933492 /* Products */,
+				ACDC9BD42BFBA538008C5B21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -93,12 +100,13 @@
 			isa = PBXGroup;
 			children = (
 				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
+				ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */,
 				AC81CABE2BED259700933492 /* ContentView.swift */,
 				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
-				AC9B13D92BF2A42A00D793CD /* ChatView.swift */,
-				AC9B13DD2BF4097E00D793CD /* ArgoCall.swift */,
 				2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */,
 				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
+				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
+				ACDC9C622BFD1579008C5B21 /* HandGestures */,
 				2FB3AB862BF6521E002F09E9 /* Earth.usdz */,
 				2FB3AB882BF67D7E002F09E9 /* Mars.usdz */,
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
@@ -132,6 +140,22 @@
 			path = GENIUSTests;
 			sourceTree = "<group>";
 		};
+		ACDC9BD42BFBA538008C5B21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ACDC9C622BFD1579008C5B21 /* HandGestures */ = {
+			isa = PBXGroup;
+			children = (
+				ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */,
+				ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */,
+			);
+			path = HandGestures;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -150,6 +174,7 @@
 			name = GENIUS;
 			packageProductDependencies = (
 				AC81CABA2BED259700933492 /* RealityKitContent */,
+				ACDC9BD52BFBA538008C5B21 /* GestureKit */,
 			);
 			productName = GENIUS;
 			productReference = AC81CAB52BED259700933492 /* GENIUS.app */;
@@ -202,7 +227,7 @@
 			);
 			mainGroup = AC81CAAC2BED259700933492;
 			packageReferences = (
-				AC9B13DF2BF50D1D00D793CD /* XCRemoteSwiftPackageReference "SwiftWhisper" */,
+				ACDC9BD32BFBA432008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */,
 			);
 			productRefGroup = AC81CAB62BED259700933492 /* Products */;
 			projectDirPath = "";
@@ -220,6 +245,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FB3AB892BF67D7E002F09E9 /* Mars.usdz in Resources */,
+				ACDC9C682BFD1D84008C5B21 /* spiderman.gesturecomposer in Resources */,
+				ACDC9C662BFD15A4008C5B21 /* hands-together.gesturecomposer in Resources */,
 				AC81CAC62BED259800933492 /* Preview Assets.xcassets in Resources */,
 				2FB3AB872BF6521E002F09E9 /* Earth.usdz in Resources */,
 				AC81CAC32BED259800933492 /* Assets.xcassets in Resources */,
@@ -240,13 +267,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC9B13DA2BF2A42A00D793CD /* ChatView.swift in Sources */,
 				AC81CABF2BED259700933492 /* ContentView.swift in Sources */,
 				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
+				ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */,
 				AC81CAC12BED259700933492 /* ImmersiveView.swift in Sources */,
 				2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */,
 				ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */,
-				AC9B13DE2BF4097E00D793CD /* ArgoCall.swift in Sources */,
+				ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +427,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "In order to use voice commands";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "In order to use voice commands";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -428,6 +456,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "In order to use voice commands";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "In order to use voice commands";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -519,12 +548,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AC9B13DF2BF50D1D00D793CD /* XCRemoteSwiftPackageReference "SwiftWhisper" */ = {
+		ACDC9BD32BFBA432008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exPHAT/SwiftWhisper.git";
+			repositoryURL = "https://github.com/nthstate/GestureKit";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -533,6 +562,11 @@
 		AC81CABA2BED259700933492 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
+		};
+		ACDC9BD52BFBA538008C5B21 /* GestureKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACDC9BD32BFBA432008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */;
+			productName = GestureKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

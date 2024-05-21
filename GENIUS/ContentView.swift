@@ -8,9 +8,16 @@
 import SwiftUI
 import RealityKit
 import RealityKitContent
+import GestureKit
 import Speech
 
+
+
 struct ContentView: View {
+    
+    
+    
+    @State private var handsTogether = false
     
     @State private var prompt = ""
     @State private var showImmersiveSpace = false
@@ -32,7 +39,9 @@ struct ContentView: View {
     
 
     var body: some View {
+        
         ZStack {
+            
             Circle()
                 .fill(
                     RadialGradient(
@@ -44,6 +53,7 @@ struct ContentView: View {
                 )
                 .frame(width: 2000, height: 2000)
             VStack {
+                
 
                 Button("Earth") {
                         openWindow(id: "volume", value: "Earth")
@@ -68,29 +78,29 @@ struct ContentView: View {
                     Recorder().stopRecording()
                       }
                 Button("Ask GENIUS") {
-                    getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                    Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
                       }
                 Text(updatingTextHolder.responseText)
                 
-                Toggle("Show Immersive", isOn: $showImmersiveSpace)
-                            .onChange(of: showImmersiveSpace) { _, newValue in
-                            Task {
-                                if newValue {
-                                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
-                                    case .opened:
-                                        immersiveSpaceIsShown = true
-                                    case .error, .userCancelled:
-                                        fallthrough
-                                    @unknown default:
-                                        immersiveSpaceIsShown = false
-                                        showImmersiveSpace = false
-                                    }
-                                } else if immersiveSpaceIsShown {
-                                    await dismissImmersiveSpace()
-                                    immersiveSpaceIsShown = false
-                                }
-                            }
-                        }
+//                Toggle("Show Immersive", isOn: $showImmersiveSpace)
+//                            .onChange(of: showImmersiveSpace) { _, newValue in
+//                            Task {
+//                                if newValue {
+//                                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
+//                                    case .opened:
+//                                        immersiveSpaceIsShown = true
+//                                    case .error, .userCancelled:
+//                                        fallthrough
+//                                    @unknown default:
+//                                        immersiveSpaceIsShown = false
+//                                        showImmersiveSpace = false
+//                                    }
+//                                } else if immersiveSpaceIsShown {
+//                                    await dismissImmersiveSpace()
+//                                    immersiveSpaceIsShown = false
+//                                }
+//                            }
+//                        }
                 Button {updatingTextHolder.nightMode.toggle() }label: {
                     Text("NightMode")
                         .frame(width: 200, height: 50)
@@ -127,6 +137,8 @@ struct ContentView: View {
             }
         }
     };
+    
+    
 }
 
 
@@ -150,6 +162,7 @@ struct mainMenuItems: View {
 
     }
 }
+
 
 class UpdatingTextHolder: ObservableObject {
     @Published var responseText: String = ""
