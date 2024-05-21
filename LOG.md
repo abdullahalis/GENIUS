@@ -11,6 +11,8 @@
 * UE5 was refusing to build and reported the following error:
 **InvalidDataException: The archive entry was compressed using an unsupported compression method.**
 Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.gitdeps.xml [Source](https://forums.unrealengine.com/t/upcoming-disruption-of-service-impacting-unreal-engine-users-on-github/1155880/149)
+* Got hand gestures working. Using hand gestures for basic commands
+* Stores conversation with Argo, so we can have an on going conversation. (still needs work, continuesly mentions previous messages, even when not brought up)
 
 # May 27 - May 31
 # June 03 - June 07
