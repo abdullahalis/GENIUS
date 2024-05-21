@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "swiftwhisper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exPHAT/SwiftWhisper.git",
+      "state" : {
+        "revision" : "a192004db08de7c6eaa169eede77f1625e7d23fb",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "umainspatialgestures",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Umain-Vision-Pro/UmainSpatialGestures.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "0c80e7b7c9c1b2e8c727e61744d50116be4e6df1"
+      }
+    }
+  ],
+  "version" : 2
+}

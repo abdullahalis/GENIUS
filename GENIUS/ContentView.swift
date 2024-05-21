@@ -30,6 +30,8 @@ struct ContentView: View {
     @Environment(\.openWindow) var openWindow
     
     
+    
+    
 
     var body: some View {
         ZStack {
@@ -68,7 +70,7 @@ struct ContentView: View {
                     Recorder().stopRecording()
                       }
                 Button("Ask GENIUS") {
-                    getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                    Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
                       }
                 Text(updatingTextHolder.responseText)
                 

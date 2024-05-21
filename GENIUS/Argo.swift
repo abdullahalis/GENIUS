@@ -1,18 +1,20 @@
-//
-//  ArgoCall.swift
-//  GENIUS
-//
-//  Created by Abdullah Ali on 5/14/24.
-//
-
 import Foundation
 import SwiftUI
 import AVFAudio
 import Combine
 
+class Argo {
+    private var conversationManager: ConversationManager
 
-class ArgoCall {
-    
+    init() {
+        self.conversationManager = ConversationManager.shared
+    }
+
+    func performTask() {
+        // Example task using the conversation manager
+        let history = conversationManager.getConversationHistory()
+        print("Conversation History: \(history)")
+    }
     
     func Speak(text: String, speechSynthesizer: AVSpeechSynthesizer) {
         let audioSession = AVAudioSession() // 2) handle audio session first, before trying to read the text
@@ -33,6 +35,9 @@ class ArgoCall {
         speechSynthesizer.speak(utterance)
     }
     func getResponse(prompt: String, updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
+        
+        // add context with prompt
+        let fullPrompt = conversationManager.getContext() + prompt
         // Access Argo API
         let url = URL(string: "https://apps-dev.inside.anl.gov/argoapi/api/v1/resource/chat/")!
         // Form HTTP request
@@ -46,7 +51,7 @@ class ArgoCall {
             "stop": [],
             "temperature": 0.1,
             "top_p": 0.9,
-            "prompt": [prompt]
+            "prompt": [fullPrompt]
         ]
         do {
             // Convert paramaters to JSON
@@ -76,6 +81,8 @@ class ArgoCall {
                             DispatchQueue.main.async {
                                 
                                 
+                                self.conversationManager.addEntry(prompt: prompt, response: responseString)
+                                print("history:", self.conversationManager.getConversationHistory())
                                 updatingTextHolder.responseText = responseString
                                 
                             }

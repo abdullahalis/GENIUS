@@ -10,6 +10,7 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
+
 struct VolumeView: View {
     @State var modelName: String
     @State var lastGestureValueX = CGFloat(0)
@@ -37,6 +38,8 @@ struct VolumeView: View {
                 let entity = try await Entity.init(named: modelName, in: realityKitContentBundle)
                 entity.position = SIMD3<Float>(x:0, y:-0.2, z:0)
                 entity.scale = SIMD3<Float>(repeating: 2)
+                entity.components.set(InputTargetComponent())
+                entity.generateCollisionShapes(recursive: true)
                 
                 content.add(entity)
             }

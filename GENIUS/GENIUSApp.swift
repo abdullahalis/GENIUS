@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import UmainSpatialGestures
 
 @main
 struct GENIUSApp: App {
@@ -14,7 +15,7 @@ struct GENIUSApp: App {
     var body: some SwiftUI.Scene {
         WindowGroup {
             TabView {
-                ContentView()
+                ContentView().environmentObject(ConversationManager.shared)
                 ChatView()
             }
         }
@@ -26,6 +27,7 @@ struct GENIUSApp: App {
         WindowGroup(id: "volume", for: String.self) { $modelName in
             if let modelName {
                 VolumeView(modelName: modelName)
+                    .useFullGesture()
             }
             
         }.windowStyle(.volumetric)
