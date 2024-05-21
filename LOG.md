@@ -7,6 +7,8 @@
 * Looked into building 3D mesh of protein-protein data
 
 # May 20 - May 24
+* Added ability to open 3D models as volume windows
+* Created ConversationManager to give Argo context of the previous conversation with the new prompt
 # May 27 - May 31
 # June 03 - June 07
 # June 10 - June 14
