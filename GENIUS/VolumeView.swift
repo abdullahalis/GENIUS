@@ -11,6 +11,9 @@ import RealityKit
 import RealityKitContent
 
 struct VolumeView: View {
+    
+    
+    
     @State var modelName: String
     @State var lastGestureValueX = CGFloat(0)
     @State var lastGestureValueY = CGFloat(0)
@@ -32,22 +35,23 @@ struct VolumeView: View {
         }
     
     var body: some View {
-        RealityView { content in
-            do {
-                let entity = try await Entity.init(named: modelName, in: realityKitContentBundle)
-                entity.position = SIMD3<Float>(x:0, y:-0.2, z:0)
-                entity.scale = SIMD3<Float>(repeating: 2)
-                
-                content.add(entity)
-            }
-            catch {
-                print(error)
-            }
-        }
-        .rotation3DEffect(.radians(rotateBy), axis: .y)
-        .gesture(
-            drag)
-        .rotation3DEffect(rotation, axis: .xy)
+        Model3D(named: modelName)
+//        RealityView { content in
+//            do {
+//                let entity = try await Entity.init(named: modelName, in: realityKitContentBundle)
+//                entity.position = SIMD3<Float>(x:0, y:-0.2, z:0)
+//                entity.scale = SIMD3<Float>(repeating: 2)
+//
+//                content.add(entity)
+//            }
+//            catch {
+//                print(error)
+//            }
+//        }
+//        .rotation3DEffect(.radians(rotateBy), axis: .y)
+//        .gesture(
+//            drag)
+//        .rotation3DEffect(rotation, axis: .xy)
             
             
 //            DragGesture(minimumDistance: 0.0)
@@ -56,9 +60,9 @@ struct VolumeView: View {
 //                                    print("rotating")
 //                                    let location3d = value.convert(value.location3D, from: .local, to: .scene)
 //                                    let startLocation = value.convert(value.startLocation3D, from: .local, to: .scene)
-//                                    
+//
 //                                    let delta = location3d - startLocation
-//                                    
+//
 //                                    rotateBy = Double(atan(delta.x * 100))
             
             

@@ -39,74 +39,61 @@ struct ContentView: View {
     
 
     var body: some View {
-        
-        ZStack {
-            
-            Circle()
-                .fill(
-                    RadialGradient(
-                        gradient: Gradient(colors: updatingTextHolder.nightMode ? [Color.red, Color.clear] : [Color.blue, Color.clear]),
-                        center: .center,
-                        startRadius: 0,
-                        endRadius: 400
+        NavigationStack {
+            ZStack {
+                
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            gradient: Gradient(colors: updatingTextHolder.nightMode ? [Color.red, Color.clear] : [Color.blue, Color.clear]),
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: 400
+                        )
                     )
-                )
-                .frame(width: 2000, height: 2000)
-            VStack {
-                
-
-                Button("Earth") {
-                        openWindow(id: "volume", value: "Earth")
+                    .frame(width: 2000, height: 2000)
+                VStack {
+                    mainMenuItems()
+                    
+                    Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
+                        .font(.title)
+                        .frame(width: 360)
+                        .padding(24)
+                        .glassBackgroundEffect()
+                    HStack {
+                        
+                        Button("Earth") {
+                            openWindow(id: "volume", value: "Earth")
+                        }
+                        Button("Mars") {
+                            openWindow(id: "volume", value: "Mars")
+                        }
+                    }
+                    
+                    TextField("Ask Genius something", text: $prompt)
+                    Button("Ask GENIUS") {
+                        Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                    }
+                    HStack {
+                        Button("Record") {
+                            Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                        }
+                        Button("Stop Recording") {
+                            Recorder().stopRecording()
+                        }
+                    }
+                    
+                    Text(updatingTextHolder.responseText)
+                    Text("\(updatingTextHolder.recongnizedText)")
+                    
+                    VStack {
+                        NavigationLink("Go to Help", destination: HelpView())
+                            .padding()
+                    }
+                    .navigationTitle("Main View")
+                    
+                    
                 }
-                Button("Mars") {
-                        openWindow(id: "volume", value: "Mars")
-                }
-                mainMenuItems()
-                
-                Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
-                    .font(.title)
-                    .frame(width: 360)
-                    .padding(24)
-                    .glassBackgroundEffect()
-                
-                TextField("Ask Genius something", text: $prompt)
-                
-                Button("Record") {
-                    Recorder().startRecording(updatingTextHolder: updatingTextHolder)
-                      }
-                Button("Stop Recording") {
-                    Recorder().stopRecording()
-                      }
-                Button("Ask GENIUS") {
-                    Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
-                      }
-                Text(updatingTextHolder.responseText)
-                
-//                Toggle("Show Immersive", isOn: $showImmersiveSpace)
-//                            .onChange(of: showImmersiveSpace) { _, newValue in
-//                            Task {
-//                                if newValue {
-//                                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
-//                                    case .opened:
-//                                        immersiveSpaceIsShown = true
-//                                    case .error, .userCancelled:
-//                                        fallthrough
-//                                    @unknown default:
-//                                        immersiveSpaceIsShown = false
-//                                        showImmersiveSpace = false
-//                                    }
-//                                } else if immersiveSpaceIsShown {
-//                                    await dismissImmersiveSpace()
-//                                    immersiveSpaceIsShown = false
-//                                }
-//                            }
-//                        }
-                Button {updatingTextHolder.nightMode.toggle() }label: {
-                    Text("NightMode")
-                        .frame(width: 200, height: 50)
-                        .cornerRadius(20)
-                }
-                Text("\(updatingTextHolder.recongnizedText)")
             }
         }
                 

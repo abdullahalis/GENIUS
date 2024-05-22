@@ -23,6 +23,7 @@
 		ACDC9C682BFD1D84008C5B21 /* spiderman.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */; };
 		ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C692BFD21E4008C5B21 /* Argo.swift */; };
 		ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */; };
+		ACDC9C732BFE51FE008C5B21 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C722BFE51FE008C5B21 /* HelpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spiderman.gesturecomposer; sourceTree = "<group>"; };
 		ACDC9C692BFD21E4008C5B21 /* Argo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Argo.swift; sourceTree = "<group>"; };
 		ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
+		ACDC9C722BFE51FE008C5B21 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */,
 				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
 				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
+				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
 				ACDC9C622BFD1579008C5B21 /* HandGestures */,
 				2FB3AB862BF6521E002F09E9 /* Earth.usdz */,
 				2FB3AB882BF67D7E002F09E9 /* Mars.usdz */,
@@ -272,6 +275,7 @@
 				ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */,
 				AC81CAC12BED259700933492 /* ImmersiveView.swift in Sources */,
 				2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */,
+				ACDC9C732BFE51FE008C5B21 /* HelpView.swift in Sources */,
 				ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */,
 				ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */,
 			);

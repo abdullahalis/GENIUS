@@ -37,8 +37,11 @@ struct ImmersiveView: View {
     
     @State var scene: Entity = Entity()
     var body: some View {
-        RealityView { _ in
-            
+        RealityView { content in
+            scene = try! await Entity(named: "Immersive", in: realityKitContentBundle)
+            print("Children:", scene.children)
+            content.add(scene)
+
 
         }
         .task {
@@ -51,7 +54,7 @@ struct ImmersiveView: View {
 //            scene = try! await Entity(named: "Immersive", in: realityKitContentBundle)
 //            print("Children:", scene.children)
 //            content.add(scene)
-//            
+//
 //        }
     }
     private func detectGestures() async {
