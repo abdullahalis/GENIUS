@@ -40,8 +40,8 @@
 
 /* Begin PBXFileReference section */
 		2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
-		2FB3AB862BF6521E002F09E9 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Earth.usdz; path = Packages/RealityKitContent/Sources/RealityKitContent/RealityKitContent.rkassets/Earth.usdz; sourceTree = SOURCE_ROOT; };
-		2FB3AB882BF67D7E002F09E9 /* Mars.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Mars.usdz; path = Packages/RealityKitContent/Sources/RealityKitContent/RealityKitContent.rkassets/Mars.usdz; sourceTree = SOURCE_ROOT; };
+		2FB3AB862BF6521E002F09E9 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Earth.usdz; path = GENIUS/Models/Earth.usdz; sourceTree = SOURCE_ROOT; };
+		2FB3AB882BF67D7E002F09E9 /* Mars.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Mars.usdz; path = GENIUS/Models/Mars.usdz; sourceTree = SOURCE_ROOT; };
 		450441212BFF94DE0034F730 /* ProteinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinView.swift; sourceTree = "<group>"; };
 		AC81CAB52BED259700933492 /* GENIUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENIUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC81CAB92BED259700933492 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
@@ -82,6 +82,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FE827C82BFFD525007AA006 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2FB3AB882BF67D7E002F09E9 /* Mars.usdz */,
+				2FB3AB862BF6521E002F09E9 /* Earth.usdz */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		AC81CAAC2BED259700933492 = {
 			isa = PBXGroup;
 			children = (
@@ -115,8 +124,7 @@
 				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
 				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
 				ACDC9C622BFD1579008C5B21 /* HandGestures */,
-				2FB3AB862BF6521E002F09E9 /* Earth.usdz */,
-				2FB3AB882BF67D7E002F09E9 /* Mars.usdz */,
+				2FE827C82BFFD525007AA006 /* Models */,
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
 				AC81CAC72BED259800933492 /* Info.plist */,
 				AC81CAC42BED259800933492 /* Preview Content */,
@@ -435,7 +443,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
-				DEVELOPMENT_TEAM = 5W26799MY8;
+				DEVELOPMENT_TEAM = AUTL8SCRXA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -447,7 +455,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -464,7 +472,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
-				DEVELOPMENT_TEAM = 5W26799MY8;
+				DEVELOPMENT_TEAM = AUTL8SCRXA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -476,7 +484,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -36,7 +36,7 @@ class ConversationManager: ObservableObject {
             context += "I prompted '" + entry.prompt + "'."
             context += "You responded '" + entry.response + "'.'"
         }
-        context += "Using this context answer the following prompt: "
+        
         return context
     }
 }

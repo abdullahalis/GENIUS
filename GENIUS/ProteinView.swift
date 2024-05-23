@@ -14,7 +14,7 @@ struct ProteinView: View {
                 VStack {
                     proteinMenuItems()
                     VStack {
-                        NavigationLink("Go back", destination: ContentView())
+                        NavigationLink("Go back", destination: ContentView(updatingTextHolder: UpdatingTextHolder()))
                             .padding()
                     }
                     .navigationTitle("Protein View")

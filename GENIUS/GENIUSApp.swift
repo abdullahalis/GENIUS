@@ -12,24 +12,28 @@ import UmainSpatialGestures
 
 @main
 struct GENIUSApp: App {
-
+    @ObservedObject var updatingTextHolder = UpdatingTextHolder()
+    
+    
+    
     var body: some SwiftUI.Scene {
         WindowGroup {
-            ContentView().environmentObject(ConversationManager.shared)
+            ContentView(updatingTextHolder: updatingTextHolder).environmentObject(ConversationManager.shared)
         }
         WindowGroup {
             HelpView()
         }
 
         ImmersiveSpace(id: "ImmersiveSpace") {
-            ImmersiveView()
+            ImmersiveView(updatingTextHolder: updatingTextHolder)
 
         }
         
         WindowGroup(id: "volume", for: String.self) { $modelName in
             if let modelName {
                 VolumeView(modelName: modelName)
-                    .useDragGesture()
+                    .useMagnifyGesture()
+                    .useRotateGesture()
             }
             
         }.windowStyle(.volumetric)
