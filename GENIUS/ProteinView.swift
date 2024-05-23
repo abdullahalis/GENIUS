@@ -21,6 +21,7 @@ struct ProteinView: View {
                 }
                 proteinMenuItems()
                 VStack {
+<<<<<<< HEAD
                     TextField(
                             "Enter protein name",
                             text: $username
@@ -37,6 +38,14 @@ struct ProteinView: View {
                     Button("LoadState") {
                         loadState()
                     }.padding()
+=======
+                    proteinMenuItems()
+                    VStack {
+                        NavigationLink("Go back", destination: ContentView(updatingTextHolder: UpdatingTextHolder()))
+                            .padding()
+                    }
+                    .navigationTitle("Protein View")
+>>>>>>> main
                 }
                 .textFieldStyle(.roundedBorder)
                 .navigationTitle("Protein View")

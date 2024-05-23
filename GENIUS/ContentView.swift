@@ -16,20 +16,18 @@ import Speech
 struct ContentView: View {
     
     
-    
     @State private var handsTogether = false
-    
     @State private var prompt = ""
-    @State private var showImmersiveSpace = false
-    @State private var immersiveSpaceIsShown = false
+    @State private var showImmersiveSpace = true
+    @State private var immersiveSpaceIsShown = true
     @State private var nightMode = false
     @State private var isRecording = false
-    @State private var numberOfRects = 0
     
     @State private var question = ""
     @State private var meetingText = ""
     let speechSynthesizer = AVSpeechSynthesizer()
-    @ObservedObject var updatingTextHolder = UpdatingTextHolder()
+//    @ObservedObject var updatingTextHolder = UpdatingTextHolder()
+    var updatingTextHolder: UpdatingTextHolder
     
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
@@ -54,12 +52,11 @@ struct ContentView: View {
                     .frame(width: 2000, height: 2000)
                 VStack {
                     mainMenuItems()
-                    
-                    Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
-                        .font(.title)
-                        .frame(width: 360)
-                        .padding(24)
-                        .glassBackgroundEffect()
+//                    Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
+//                        .font(.title)
+//                        .frame(width: 360)
+//                        .padding(24)
+//                        .glassBackgroundEffect()
                     HStack {
                         
                         Button("Earth") {
@@ -71,9 +68,9 @@ struct ContentView: View {
                     }
                     
                     TextField("Ask Genius something", text: $prompt)
-                    Button("Ask GENIUS") {
-                        Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
-                    }
+//                    Button("Ask GENIUS") {
+//                        Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+//                    }
                     HStack {
                         Button("Record") {
                             Recorder().startRecording(updatingTextHolder: updatingTextHolder)
@@ -82,7 +79,7 @@ struct ContentView: View {
                             Recorder().stopRecording()
                         }
                     }
-                    
+                    Text("Mode: \(updatingTextHolder.mode)")
                     Text(updatingTextHolder.responseText)
                     Text("\(updatingTextHolder.recongnizedText)")
                     
@@ -100,37 +97,42 @@ struct ContentView: View {
     
         
         .padding()
-//        .onAppear {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                Recorder().startRecording(updatingTextHolder: updatingTextHolder)
-//            }
-//        }
-        .onChange(of: showImmersiveSpace) { _, newValue in
+        .onAppear {
             Task {
-                if newValue {
-                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
-                    case .opened:
-                        immersiveSpaceIsShown = true
-                    case .error, .userCancelled:
-                        fallthrough
-                    @unknown default:
-                        immersiveSpaceIsShown = false
-                        showImmersiveSpace = false
-                    }
-                } else if immersiveSpaceIsShown {
-                    await dismissImmersiveSpace()
-                    immersiveSpaceIsShown = false
-                }
+                await openImmersiveSpace(id: "ImmersiveSpace")
             }
         }
+//        .onChange(of: showImmersiveSpace) { _, newValue in
+//            Task {
+//                if newValue {
+//                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
+//                    case .opened:
+//                        immersiveSpaceIsShown = true
+//                    case .error, .userCancelled:
+//                        fallthrough
+//                    @unknown default:
+//                        immersiveSpaceIsShown = false
+//                        showImmersiveSpace = false
+//                    }
+//                } else if immersiveSpaceIsShown {
+//                    await dismissImmersiveSpace()
+//                    immersiveSpaceIsShown = false
+//                }
+//            }
+//        }
     };
     
+    func getTextHolder() -> UpdatingTextHolder {
+        return updatingTextHolder
+    }
     
 }
 
 
+
+
 #Preview(windowStyle: .automatic) {
-    ContentView()
+    ContentView(updatingTextHolder: UpdatingTextHolder())
 }
 
 struct mainMenuItems: View {
@@ -155,4 +157,5 @@ class UpdatingTextHolder: ObservableObject {
     @Published var responseText: String = ""
     @Published var recongnizedText: String = ""
     @Published var nightMode: Bool = false
+    @Published var mode: String = "none"
 }
