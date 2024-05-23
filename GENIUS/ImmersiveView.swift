@@ -9,16 +9,18 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 import GestureKit
+import Speech
 
 
 
 struct ImmersiveView: View {
-    @StateObject private var updatingTextHolder = UpdatingTextHolder()
+    var updatingTextHolder: UpdatingTextHolder
     @State private var recording = false
+    let speechSynthesizer = AVSpeechSynthesizer()
     
     let detector: GestureDetector
       
-    init() {
+    init(updatingTextHolder: UpdatingTextHolder) {
             // Attempt to find the URL for the resource
             guard let handsTogetherURL = Bundle.main.url(forResource: "hands-together", withExtension: "gesturecomposer") else {
                 fatalError("hands-together.gesturecomposer not found in bundle")
@@ -32,6 +34,7 @@ struct ImmersiveView: View {
             
             // Initialize the detector with the configuration
             detector = GestureDetector(configuration: configuration)
+        self.updatingTextHolder = updatingTextHolder
         }
     
     
@@ -39,7 +42,6 @@ struct ImmersiveView: View {
     var body: some View {
         RealityView { content in
             scene = try! await Entity(named: "Immersive", in: realityKitContentBundle)
-            print("Children:", scene.children)
             content.add(scene)
 
 
@@ -47,7 +49,6 @@ struct ImmersiveView: View {
         .task {
             await detectGestures()
         }
-        .onAppear{print("test")}
         
 //        RealityView { content in
 //            // Add the initial RealityKit content
@@ -57,6 +58,7 @@ struct ImmersiveView: View {
 //
 //        }
     }
+        
     private func detectGestures() async {
            do {
                for try await gesture in detector.detectedGestures {
@@ -71,6 +73,7 @@ struct ImmersiveView: View {
                            recording = false
                            // Perform any additional actions needed when recording starts
                            Recorder().stopRecording()
+                           Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
                            print("Recording stopped")
                        }
                    }
@@ -89,5 +92,5 @@ struct ImmersiveView: View {
 }
 
 #Preview(immersionStyle: .mixed) {
-    ImmersiveView()
+    ImmersiveView(updatingTextHolder: UpdatingTextHolder())
 }

@@ -11,9 +11,34 @@ import Combine
 
 class Argo {
     private var conversationManager: ConversationManager
+    @State private var mode: String = "none"
+    private var modelsAvailable: String = "none"
+    
+    @Environment(\.openWindow) var openWindow
 
     init() {
         self.conversationManager = ConversationManager.shared
+        makeModelString()
+    }
+    
+    // get a string listing every model available to find options for "show me" prompt
+    func makeModelString() {
+        guard let ModelURLs = Bundle.main.urls(forResourcesWithExtension: "usdz", subdirectory: nil)
+        else {
+            print("usdz files not found")
+            return
+        }
+        
+        modelsAvailable = ""
+        
+        // combine file names into one string
+        ModelURLs.forEach {url in
+            modelsAvailable += (url.deletingPathExtension().lastPathComponent)
+            modelsAvailable += ", "
+        }
+        // get rid of last ", "
+        modelsAvailable = String(modelsAvailable.dropLast(2))
+        print("models:", modelsAvailable)
     }
 
     func performTask() {
@@ -40,10 +65,11 @@ class Argo {
         
         speechSynthesizer.speak(utterance)
     }
-    func getResponse(prompt: String, updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
-        
+    
+    func getResponse(prompt: String) -> String {
+        var responseStringReturn = ""
         // add context with prompt
-        let fullPrompt = conversationManager.getContext() + prompt
+        let fullPrompt = conversationManager.getContext() + "Using this context (if applicable or if it exists) to answer the following prompt:" + prompt
         // Access Argo API
         let url = URL(string: "https://apps-dev.inside.anl.gov/argoapi/api/v1/resource/chat/")!
         // Form HTTP request
@@ -80,18 +106,9 @@ class Argo {
                         // Extract response string from JSON response
                         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                         if let responseString = jsonResponse?["response"] as? String {
-                            print("Response String:", responseString)
+                            print("responsein getrep", responseString)
+                            responseStringReturn = responseString
                             
-                            self.Speak(text: responseString, speechSynthesizer: speechSynthesizer)
-                            // update Text of UI
-                            DispatchQueue.main.async {
-                                
-                                
-                                self.conversationManager.addEntry(prompt: prompt, response: responseString)
-                                print("history:", self.conversationManager.getConversationHistory())
-                                updatingTextHolder.responseText = responseString
-                                
-                            }
                         }
                         else {
                             print("Response does not contain 'response' field or it's not a string")
@@ -108,5 +125,91 @@ class Argo {
         catch {
             print("Error creating JSON: \(error)")
         }
+        return responseStringReturn
     }
+    
+    func handleRecording(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
+        let recording = updatingTextHolder.recongnizedText
+        
+        // get first 10 words to extract the desired functionality
+        let words = recording.components(separatedBy: " ")
+        let firstTenWords = Array(words.prefix(10))
+        let firstTenWordsString = firstTenWords.joined(separator: " ")
+        print("first tne:", firstTenWordsString)
+        if firstTenWordsString.contains("record meeting") {
+            self.handleMeeting(updatingTextHolder: updatingTextHolder)
+        }
+        
+        else if firstTenWordsString.contains("tell me") {
+            self.handlePrompt(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+        }
+        
+        else if firstTenWordsString.contains("show me") {
+            self.handleModel(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+        }
+        print("recognized:", updatingTextHolder.recongnizedText)
+
+//        // React to recognized commands here
+//        if updatingTextHolder.recongnizedText.contains("night mode") {
+//            updatingTextHolder.nightMode.toggle()
+//            self.stopRecording()
+//        }
+//        if updatingTextHolder.recongnizedText.contains("clear chat") {
+//            updatingTextHolder.recongnizedText = ""
+//            self.stopRecording()
+//        }
+    }
+    
+    func handleMeeting(updatingTextHolder: UpdatingTextHolder) {
+        updatingTextHolder.mode = "meeting"
+        print("meeting")
+    }
+    
+    func handlePrompt(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
+        updatingTextHolder.mode = "prompt"
+        print("PROMPT")
+        if let range = updatingTextHolder.recongnizedText.range(of: "tell me ") {
+            let question = String(updatingTextHolder.recongnizedText[(range.upperBound...)])
+            let responseString = getResponse(prompt: question)
+            
+                print("response:", responseString)
+                self.Speak(text: responseString, speechSynthesizer: speechSynthesizer)
+                self.conversationManager.addEntry(prompt: question, response: responseString)
+                print("history:", self.conversationManager.getConversationHistory())
+                updatingTextHolder.responseText = responseString
+            
+        }
+    }
+    
+    func handleModel(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
+        updatingTextHolder.mode = "model"
+        
+        if (modelsAvailable == "none") {
+            Speak(text: "There are no models to show you", speechSynthesizer: speechSynthesizer)
+            return
+        }
+        if (updatingTextHolder.recongnizedText.contains("earth")) {
+            openWindow(id: "volume", value: "Earth")
+        }
+        let modelToOpen = findBestModel()
+        
+        print ("model to open:", modelToOpen)
+        
+        if modelsAvailable.contains(modelToOpen) {
+            openWindow(id: "volume", value: modelToOpen)
+        }
+        else {
+            print("no model available/matching")
+        }
+        
+    }
+    
+    func findBestModel() -> String{
+        var prompt = "I need to display a 3d model. using the context of our previous conversation if applicable, decide which of the following 3d model files should be displayed. Your response will be directly used to open the model so respond with only your choice of file name with no space or anything else. If you think none of the available models are applicable, respond with the word 'none'. Here are the available models: ( \(modelsAvailable))."
+        
+        return getResponse(prompt: prompt)
+        
+    }
+    
+    
 }

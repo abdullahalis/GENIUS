@@ -49,57 +49,9 @@ class Recorder: ObservableObject {
         self.recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
             if let result = result {
                 finalTranscription = result.bestTranscription.formattedString
+                print("transcribe:", finalTranscription.lowercased())
                 updatingTextHolder.recongnizedText = finalTranscription.lowercased()
-                print(updatingTextHolder.recongnizedText)
-                if updatingTextHolder.recongnizedText.contains("hey genius") {
-                    self.isCapturingText = true
-                    self.question = ""
-                }
-                if updatingTextHolder.recongnizedText.contains("record meeting") {
-                    self.isCapturingMeeting = true
-                }
 
-                // Check for the end phrase
-                if updatingTextHolder.recongnizedText.contains("thank you") {
-                    
-                    do {
-                      try audioSession.setActive(false)
-                    } catch let error {
-                      print("error deactivating audio session after finishing recording:", error.localizedDescription)
-                    }
-                    if let range = updatingTextHolder.recongnizedText.range(of: "hey genius ") {
-                        self.question = String(updatingTextHolder.recongnizedText[(range.upperBound...)])
-                        Argo().getResponse(prompt: self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
-                    }
-                    print("Question: "+self.question)
-                    self.isCapturingText = false
-                }
-                
-                if updatingTextHolder.recongnizedText.contains("end meeting") {
-                    
-                    do {
-                      try audioSession.setActive(false)
-                    } catch let error {
-                      print("error deactivating audio session after finishing recording:", error.localizedDescription)
-                    }
-                    if let range = updatingTextHolder.recongnizedText.range(of: "record meeting ") {
-                        self.question = String(updatingTextHolder.recongnizedText[(range.upperBound...)])
-                        Argo().getResponse(prompt: "Summarize this: " + self.question, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
-                    }
-                    print("Meeting: "+self.question)
-                    self.isCapturingText = true
-                }
-
-                             
-                // React to recognized commands here
-                if updatingTextHolder.recongnizedText.contains("night mode") {
-                    updatingTextHolder.nightMode.toggle()
-                    self.stopRecording()
-                }
-                if updatingTextHolder.recongnizedText.contains("clear chat") {
-                    updatingTextHolder.recongnizedText = ""
-                    self.stopRecording()
-                }
         }
       
         if error != nil || result?.isFinal == true {
@@ -122,9 +74,17 @@ class Recorder: ObservableObject {
     }
   
   func stopRecording() {
-    audioEngine.stop()
-    recognitionTask?.cancel()
-    audioEngine.inputNode.removeTap(onBus: 0)
+      let audioSession = AVAudioSession.sharedInstance()
+      do {
+          try audioSession.setActive(false)
+          audioEngine.stop()
+          recognitionTask?.cancel()
+          audioEngine.inputNode.removeTap(onBus: 0)
+           
+      } catch let error {
+          print("error deactivating audio session after finishing recording:", error.localizedDescription)
+      }
+      
   }
   
 }
