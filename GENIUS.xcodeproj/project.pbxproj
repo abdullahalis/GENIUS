@@ -19,7 +19,6 @@
 		AC81CAC62BED259800933492 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC52BED259800933492 /* Preview Assets.xcassets */; };
 		AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAD02BED259800933492 /* GENIUSTests.swift */; };
 		ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */; };
-		ACDC9BD62BFBA538008C5B21 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = ACDC9BD52BFBA538008C5B21 /* GestureKit */; };
 		ACDC9C662BFD15A4008C5B21 /* hands-together.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */; };
 		ACDC9C682BFD1D84008C5B21 /* spiderman.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */; };
 		ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C692BFD21E4008C5B21 /* Argo.swift */; };
@@ -27,6 +26,7 @@
 		ACDC9C732BFE51FE008C5B21 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C722BFE51FE008C5B21 /* HelpView.swift */; };
 		ACDC9C762BFE5386008C5B21 /* UmainSpatialGestures in Frameworks */ = {isa = PBXBuildFile; productRef = ACDC9C752BFE5386008C5B21 /* UmainSpatialGestures */; };
 		ACDC9C782BFE72A9008C5B21 /* MeetingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */; };
+		ACDC9C832BFFD800008C5B21 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = ACDC9C822BFFD800008C5B21 /* GestureKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +61,6 @@
 		ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
 		ACDC9C722BFE51FE008C5B21 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingManager.swift; sourceTree = "<group>"; };
-		ACDC9C792BFF9DE8008C5B21 /* GENIUS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GENIUS-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */,
-				ACDC9BD62BFBA538008C5B21 /* GestureKit in Frameworks */,
+				ACDC9C832BFFD800008C5B21 /* GestureKit in Frameworks */,
 				ACDC9C762BFE5386008C5B21 /* UmainSpatialGestures in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,7 +131,6 @@
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
 				AC81CAC72BED259800933492 /* Info.plist */,
 				AC81CAC42BED259800933492 /* Preview Content */,
-				ACDC9C792BFF9DE8008C5B21 /* GENIUS-Bridging-Header.h */,
 			);
 			path = GENIUS;
 			sourceTree = "<group>";
@@ -195,8 +193,8 @@
 			name = GENIUS;
 			packageProductDependencies = (
 				AC81CABA2BED259700933492 /* RealityKitContent */,
-				ACDC9BD52BFBA538008C5B21 /* GestureKit */,
 				ACDC9C752BFE5386008C5B21 /* UmainSpatialGestures */,
+				ACDC9C822BFFD800008C5B21 /* GestureKit */,
 			);
 			productName = GENIUS;
 			productReference = AC81CAB52BED259700933492 /* GENIUS.app */;
@@ -250,8 +248,8 @@
 			);
 			mainGroup = AC81CAAC2BED259700933492;
 			packageReferences = (
-				ACDC9BD32BFBA432008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */,
 				ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */,
+				ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */,
 			);
 			productRefGroup = AC81CAB62BED259700933492 /* Products */;
 			projectDirPath = "";
@@ -467,7 +465,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "GENIUS/GENIUS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
@@ -499,7 +497,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "GENIUS/GENIUS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
@@ -580,17 +578,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		ACDC9BD32BFBA432008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */ = {
+		ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nthstate/GestureKit";
+			repositoryURL = "https://github.com/Umain-Vision-Pro/UmainSpatialGestures";
 			requirement = {
 				branch = main;
 				kind = branch;
 			};
 		};
-		ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */ = {
+		ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Umain-Vision-Pro/UmainSpatialGestures";
+			repositoryURL = "https://github.com/nthstate/GestureKit";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -603,15 +601,15 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
 		};
-		ACDC9BD52BFBA538008C5B21 /* GestureKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = ACDC9BD32BFBA432008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */;
-			productName = GestureKit;
-		};
 		ACDC9C752BFE5386008C5B21 /* UmainSpatialGestures */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */;
 			productName = UmainSpatialGestures;
+		};
+		ACDC9C822BFFD800008C5B21 /* GestureKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */;
+			productName = GestureKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

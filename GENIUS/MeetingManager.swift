@@ -20,12 +20,12 @@ class MeetingManager : ObservableObject {
     }
     
     func summarizeMeeting(updatingTextHolder: UpdatingTextHolder) -> String{
-        Argo().getResponse(prompt: "Summarize this information all of this " + self.meetingText, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
+        Argo().getResponse(prompt: "Summarize this information all of this " + self.meetingText)
         return updatingTextHolder.responseText
     }
     func extractData(updatingTextHolder: UpdatingTextHolder, dataToExtract : String) -> String{
         let prompt = "Extract everything that concerns '" + dataToExtract + "' within this passage. " + self.meetingText
-        Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: self.speechSynthesizer)
+        Argo().getResponse(prompt: prompt)
         return updatingTextHolder.responseText
     }
     func replayMeeting() {
