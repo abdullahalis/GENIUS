@@ -75,9 +75,7 @@ struct ImmersiveView: View {
                        }
                    }
                }
-           } catch {
-               print("Error detecting gestures: \(error)")
-           }
+           } 
        }
     
     func showEntity(name:String) {

@@ -31,12 +31,15 @@ class ConversationManager: ObservableObject {
     
     func getContext() -> String {
         let recent = conversationHistory.suffix(10)
-        var context = "This is the recent history of our conversation: "
-        recent.forEach {entry in
-            context += "I prompted '" + entry.prompt + "'."
-            context += "You responded '" + entry.response + "'.'"
+        var context = ""
+        if !conversationHistory.isEmpty {
+            context = "Context (for reference only, do not discuss): "
+            recent.forEach {entry in
+                context += "I prompted '" + entry.prompt + "'."
+                context += "You responded '" + entry.response + "'.'"
+            }
+            context += "New Request: "
         }
-        context += "Using this context answer the following prompt: "
         return context
     }
 }

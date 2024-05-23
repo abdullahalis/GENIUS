@@ -11,14 +11,10 @@ import RealityKitContent
 import GestureKit
 import Speech
 
-
-
 struct ContentView: View {
     
     
-    
     @State private var handsTogether = false
-    
     @State private var prompt = ""
     @State private var showImmersiveSpace = false
     @State private var immersiveSpaceIsShown = false

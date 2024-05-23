@@ -17,10 +17,6 @@ struct GENIUSApp: App {
         WindowGroup {
             ContentView().environmentObject(ConversationManager.shared)
         }
-        WindowGroup {
-            HelpView()
-        }
-
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
 
