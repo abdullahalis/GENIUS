@@ -88,7 +88,7 @@ struct ContentView: View {
                     
                     VStack {
                         NavigationLink("Go to Help", destination: HelpView())
-                            .padding()
+                        NavigationLink("Go to Gecko", destination: ProteinView())
                     }
                     .navigationTitle("Main View")
                     

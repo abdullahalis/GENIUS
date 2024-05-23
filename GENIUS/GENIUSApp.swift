@@ -17,10 +17,15 @@ struct GENIUSApp: App {
         WindowGroup {
             ContentView().environmentObject(ConversationManager.shared)
         }
+        
         WindowGroup {
             HelpView()
         }
-
+        
+        ImmersiveSpace(id: "Proteins") {
+            ProteinView()
+        }
+        
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
 
