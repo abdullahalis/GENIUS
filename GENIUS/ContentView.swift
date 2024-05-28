@@ -77,6 +77,9 @@ struct ContentView: View {
                         }
                         Button("Stop Recording") {
                             Recorder().stopRecording()
+                            Task {
+                                await Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                            }
                         }
                     }
                     Text("Mode: \(updatingTextHolder.mode)")
@@ -85,7 +88,7 @@ struct ContentView: View {
                     
                     VStack {
                         NavigationLink("Go to Help", destination: HelpView())
-                        NavigationLink("Go to Gecko", destination: ProteinView())
+                            .padding()
                     }
                     .navigationTitle("Main View")
                     

@@ -19,15 +19,23 @@ class MeetingManager : ObservableObject {
         self.meetingText = meetingText
     }
     
-    func summarizeMeeting(updatingTextHolder: UpdatingTextHolder) -> String{
-        Argo().getResponse(prompt: "Summarize this information all of this " + self.meetingText)
-        return updatingTextHolder.responseText
+    func summarizeMeeting(updatingTextHolder: UpdatingTextHolder) {
+        do {
+            Task {
+                try await Argo().getResponse(prompt: "Summarize this information all of this " + self.meetingText)
+            }
+        }
     }
-    func extractData(updatingTextHolder: UpdatingTextHolder, dataToExtract : String) -> String{
-        let prompt = "Extract everything that concerns '" + dataToExtract + "' within this passage. " + self.meetingText
-        Argo().getResponse(prompt: prompt)
-        return updatingTextHolder.responseText
+    
+    func extractData(updatingTextHolder: UpdatingTextHolder, dataToExtract : String) {
+        do {
+            Task {
+                let prompt = "Extract everything that concerns '" + dataToExtract + "' within this passage. " + self.meetingText
+                let response = try await Argo().getResponse(prompt: prompt)
+            }
+        }
     }
+    
     func replayMeeting() {
         Argo().Speak(text: self.meetingText, speechSynthesizer: speechSynthesizer)
     }

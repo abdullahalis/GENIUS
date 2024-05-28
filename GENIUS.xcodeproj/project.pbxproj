@@ -10,6 +10,8 @@
 		2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */; };
 		2FB3AB872BF6521E002F09E9 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB862BF6521E002F09E9 /* Earth.usdz */; };
 		2FB3AB892BF67D7E002F09E9 /* Mars.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB882BF67D7E002F09E9 /* Mars.usdz */; };
+		2FE827CE2C066FE6007AA006 /* UmainSpatialGestures in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */; };
+		2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CF2C066FEB007AA006 /* GestureKit */; };
 		450441222BFF94DE0034F730 /* ProteinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441212BFF94DE0034F730 /* ProteinView.swift */; };
 		450441242BFF9A5D0034F730 /* Protein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* Protein.swift */; };
 		AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = AC81CABA2BED259700933492 /* RealityKitContent */; };
@@ -25,9 +27,7 @@
 		ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C692BFD21E4008C5B21 /* Argo.swift */; };
 		ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */; };
 		ACDC9C732BFE51FE008C5B21 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C722BFE51FE008C5B21 /* HelpView.swift */; };
-		ACDC9C762BFE5386008C5B21 /* UmainSpatialGestures in Frameworks */ = {isa = PBXBuildFile; productRef = ACDC9C752BFE5386008C5B21 /* UmainSpatialGestures */; };
 		ACDC9C782BFE72A9008C5B21 /* MeetingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */; };
-		ACDC9C832BFFD800008C5B21 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = ACDC9C822BFFD800008C5B21 /* GestureKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,9 +70,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FE827CE2C066FE6007AA006 /* UmainSpatialGestures in Frameworks */,
+				2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */,
 				AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */,
-				ACDC9C832BFFD800008C5B21 /* GestureKit in Frameworks */,
-				ACDC9C762BFE5386008C5B21 /* UmainSpatialGestures in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,8 +196,8 @@
 			name = GENIUS;
 			packageProductDependencies = (
 				AC81CABA2BED259700933492 /* RealityKitContent */,
-				ACDC9C752BFE5386008C5B21 /* UmainSpatialGestures */,
-				ACDC9C822BFFD800008C5B21 /* GestureKit */,
+				2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */,
+				2FE827CF2C066FEB007AA006 /* GestureKit */,
 			);
 			productName = GENIUS;
 			productReference = AC81CAB52BED259700933492 /* GENIUS.app */;
@@ -601,19 +601,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AC81CABA2BED259700933492 /* RealityKitContent */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RealityKitContent;
-		};
-		ACDC9C752BFE5386008C5B21 /* UmainSpatialGestures */ = {
+		2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */;
 			productName = UmainSpatialGestures;
 		};
-		ACDC9C822BFFD800008C5B21 /* GestureKit */ = {
+		2FE827CF2C066FEB007AA006 /* GestureKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */;
 			productName = GestureKit;
+		};
+		AC81CABA2BED259700933492 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

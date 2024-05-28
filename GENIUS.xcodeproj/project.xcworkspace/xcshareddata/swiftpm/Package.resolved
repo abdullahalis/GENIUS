@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "gesturekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nthstate/GestureKit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "4d9f9d5f5db0fb318baded6f3d7a109b80bc4707"
+      }
+    },
+    {
+      "identity" : "umainspatialgestures",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Umain-Vision-Pro/UmainSpatialGestures",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8366f1e2b223d2b07695c334d0050434dc6b231f"
+      }
+    },
+    {
+      "identity" : "uuidv7",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nthState/UUIDV7",
+      "state" : {
+        "branch" : "main",
+        "revision" : "68c460a23918f82b590cf4b20d06e92e019b39fc"
+      }
+    }
+  ],
+  "version" : 2
+}

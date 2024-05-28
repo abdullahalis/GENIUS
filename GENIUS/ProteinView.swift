@@ -9,35 +9,34 @@ import SwiftUI
 import RealityKit
 
 struct ProteinView: View {
-    @State private var username: String = ""
-    @FocusState private var emailFieldIsFocused: Bool
+    @State private var name: String = ""
+    @FocusState private var TextFieldIsFocused: Bool
     
     var body: some View {
         NavigationStack {
             VStack {
-                HStack{
-                    SphereView()
-                    SphereView()
-                }
+                //HStack{
+                //    SphereView()
+                //    SphereView()
+                //}
                 proteinMenuItems()
                 VStack {
                     TextField(
                             "Enter protein name",
-                            text: $username
+                            text: $name
                         )
-                        .focused($emailFieldIsFocused)
+                        .focused($TextFieldIsFocused)
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .fixedSize()
 
 
-                        Text(username)
-                            .foregroundColor(emailFieldIsFocused ? .red : .blue)
+                        Text(name)
+                            .foregroundColor(TextFieldIsFocused ? .red : .blue)
                     
                     Button("LoadState") {
-                        loadState()
+                        getProteins(proteins: [name])
                     }.padding()
-                    proteinMenuItems()
                     VStack {
                         NavigationLink("Go back", destination: ContentView(updatingTextHolder: UpdatingTextHolder()))
                             .padding()
