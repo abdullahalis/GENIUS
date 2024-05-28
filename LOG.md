@@ -14,6 +14,7 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
 * Got hand gestures working. Using hand gestures for basic commands
 * Stores conversation with Argo, so we can have an on going conversation. (still needs work, continuesly mentions previous messages, even when not brought up)
 * Successfully converted dot file to usdz and imported into Apple Reality Composer Pro.
+* Started building interface for the string-db API
 
 # May 27 - May 31
 # June 03 - June 07
