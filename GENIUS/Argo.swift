@@ -32,6 +32,7 @@ class Argo {
         
         modelsAvailableStr = ""
         
+        
         // combine file names into one string
         ModelURLs.forEach {url in
             modelsAvailable.insert(url.deletingPathExtension().lastPathComponent, at: modelsAvailable.endIndex)
