@@ -92,7 +92,7 @@ struct ContentView: View {
                         }
                         .navigationTitle("Main View")
                         VStack {
-                            NavigationLink("Protein", destination: ProteinView())
+                            NavigationLink("Protein", destination: ProteinView(updatingTextHolder: updatingTextHolder))
                                 .padding()
                         }
                         .navigationTitle("Main View")

@@ -9,6 +9,7 @@ import SwiftUI
 import RealityKit
 
 struct ProteinView: View {
+    @ObservedObject var updatingTextHolder: UpdatingTextHolder
     @State private var name: String = ""
     @FocusState private var TextFieldIsFocused: Bool
     
@@ -29,13 +30,20 @@ struct ProteinView: View {
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .fixedSize()
-
-                        Text(name)
-                            .foregroundColor(TextFieldIsFocused ? .red : .blue)
                     
                     Button("Search database") {
                         getProteins(proteins: [name])
                     }.padding()
+                    
+                   HStack {
+                       Button("Record") {
+                           Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                       }
+                       Button("Stop") {
+                           Recorder().stopRecording()
+                       }
+                   }
+                   Text(updatingTextHolder.recongnizedText)
                 }
                 .textFieldStyle(.roundedBorder)
                 .navigationTitle("Protein View")
@@ -89,5 +97,5 @@ struct proteinMenuItems: View {
 }
 
 #Preview {
-    ProteinView()
+    ProteinView(updatingTextHolder: UpdatingTextHolder())
 }
