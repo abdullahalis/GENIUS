@@ -30,11 +30,10 @@ struct ProteinView: View {
                         .disableAutocorrection(true)
                         .fixedSize()
 
-
                         Text(name)
                             .foregroundColor(TextFieldIsFocused ? .red : .blue)
                     
-                    Button("LoadState") {
+                    Button("Search database") {
                         getProteins(proteins: [name])
                     }.padding()
                     VStack {
@@ -78,13 +77,16 @@ struct proteinMenuItems: View {
     var body: some View {
         
         VStack {
-            Text("Welcome to the ProteinView")
-                .font(.system(size: 30, weight: .medium))
             Image(systemName: "lizard.circle")
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 90, height: 90)
+            Text("Welcome to Gecko!")
+                .font(.system(size: 35, weight: .medium))
+                .padding(.bottom, 10)
+            Text("Gecko allows you to visualize protein interactions in VR")
+                .font(.system(size: 25, weight: .medium))
         }
         .padding(.bottom, 40)
 
