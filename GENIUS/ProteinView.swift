@@ -36,11 +36,6 @@ struct ProteinView: View {
                     Button("Search database") {
                         getProteins(proteins: [name])
                     }.padding()
-                    VStack {
-                        NavigationLink("Go back", destination: ContentView(updatingTextHolder: UpdatingTextHolder()))
-                            .padding()
-                    }
-                    .navigationTitle("Protein View")
                 }
                 .textFieldStyle(.roundedBorder)
                 .navigationTitle("Protein View")
