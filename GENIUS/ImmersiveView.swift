@@ -60,26 +60,26 @@ struct ImmersiveView: View {
     }
         
     private func detectGestures() async {
-           do {
-               for try await gesture in detector.detectedGestures {
-                   if let gestureDescription = gesture.description as? String {
-                       print("\(gestureDescription)")
-                       if !recording && gestureDescription.contains("Detected: All fingers then thumb") {
-                           recording = true
-                           Recorder().startRecording(updatingTextHolder: updatingTextHolder)
-                           print("Recording started")
-                       }
-                       else if recording && gestureDescription.contains("Detected: Spider-Man") {
-                           recording = false
-                           // Perform any additional actions needed when recording starts
-                           Recorder().stopRecording()
-                           Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
-                           print("Recording stopped")
-                       }
+       do {
+           for try await gesture in detector.detectedGestures {
+               if let gestureDescription = gesture.description as? String {
+                   print("\(gestureDescription)")
+                   if !recording && gestureDescription.contains("Detected: All fingers then thumb") {
+                       recording = true
+                       Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                       print("Recording started")
+                   }
+                   else if recording && gestureDescription.contains("Detected: Spider-Man") {
+                       recording = false
+                       // Perform any additional actions needed when recording starts
+                       Recorder().stopRecording()
+                        Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                       print("Recording stopped")
                    }
                }
-           } 
+           }
        }
+    }
     
     func showEntity(name:String) {
         scene.findEntity(named: name)?.isEnabled = true
@@ -88,7 +88,6 @@ struct ImmersiveView: View {
     func removeEntity(name:String) {
         scene.findEntity(named: name)?.isEnabled = true
     }
-    
 }
 
 #Preview(immersionStyle: .mixed) {
