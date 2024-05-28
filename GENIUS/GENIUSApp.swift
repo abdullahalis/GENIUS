@@ -18,22 +18,8 @@ struct GENIUSApp: App {
     
     var body: some SwiftUI.Scene {
         WindowGroup {
-<<<<<<< HEAD
-            ContentView().environmentObject(ConversationManager.shared)
-        }
-        
-        WindowGroup {
-            HelpView()
-        }
-        
-        ImmersiveSpace(id: "Proteins") {
-            ProteinView()
-        }
-        
-=======
             ContentView(updatingTextHolder: updatingTextHolder).environmentObject(ConversationManager.shared)
         }
->>>>>>> main
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView(updatingTextHolder: updatingTextHolder)
 
@@ -47,5 +33,9 @@ struct GENIUSApp: App {
             }
             
         }.windowStyle(.volumetric)
+    
+        ImmersiveSpace(id: "Proteins") {
+            ProteinView()
+        }
     }
 }
