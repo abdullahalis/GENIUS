@@ -63,9 +63,9 @@ struct ContentView: View {
                     }
                     
                     TextField("Ask Genius something", text: $prompt)
-//                    Button("Ask GENIUS") {
-//                        Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
-//                    }
+                    //                    Button("Ask GENIUS") {
+                    //                        Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                    //                    }
                     HStack {
                         Button("Record") {
                             Recorder().startRecording(updatingTextHolder: updatingTextHolder)
@@ -80,19 +80,23 @@ struct ContentView: View {
                     Text("Mode: \(updatingTextHolder.mode)")
                     Text(updatingTextHolder.responseText)
                     Text("\(updatingTextHolder.recongnizedText)")
-                    
-                    VStack {
-                        NavigationLink("Go to Help", destination: HelpView())
-                            .padding()
+                    HStack {
+                        VStack {
+                            NavigationLink("Go to Help", destination: HelpView())
+                                .padding()
+                        }
+                        .navigationTitle("Main View")
+                        VStack {
+                            NavigationLink("Meetings", destination: MeetingView(updatingTextHolder: updatingTextHolder))
+                                .padding()
+                        }
+                        .navigationTitle("Main View")
+                        VStack {
+                            NavigationLink("Protein", destination: ProteinView())
+                                .padding()
+                        }
+                        .navigationTitle("Main View")
                     }
-                    .navigationTitle("Main View")
-                    VStack {
-                        NavigationLink("Meetings", destination: MeetingView(updatingTextHolder: updatingTextHolder))
-                            .padding()
-                    }
-                    .navigationTitle("Main View")
-                    
-                    
                 }
             }
         }
