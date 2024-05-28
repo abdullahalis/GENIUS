@@ -14,6 +14,7 @@
 		2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CF2C066FEB007AA006 /* GestureKit */; };
 		450441222BFF94DE0034F730 /* ProteinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441212BFF94DE0034F730 /* ProteinView.swift */; };
 		450441242BFF9A5D0034F730 /* Protein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* Protein.swift */; };
+		AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F03C52C06778D00F4D500 /* MeetingView.swift */; };
 		AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = AC81CABA2BED259700933492 /* RealityKitContent */; };
 		AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CABC2BED259700933492 /* GENIUSApp.swift */; };
 		AC81CABF2BED259700933492 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CABE2BED259700933492 /* ContentView.swift */; };
@@ -46,6 +47,7 @@
 		2FB3AB882BF67D7E002F09E9 /* Mars.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Mars.usdz; path = GENIUS/Models/Mars.usdz; sourceTree = SOURCE_ROOT; };
 		450441212BFF94DE0034F730 /* ProteinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinView.swift; sourceTree = "<group>"; };
 		450441232BFF9A5D0034F730 /* Protein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protein.swift; sourceTree = "<group>"; };
+		AC1F03C52C06778D00F4D500 /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
 		AC81CAB52BED259700933492 /* GENIUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENIUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC81CAB92BED259700933492 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		AC81CABC2BED259700933492 /* GENIUSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GENIUSApp.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
+				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
 				450441212BFF94DE0034F730 /* ProteinView.swift */,
 				450441232BFF9A5D0034F730 /* Protein.swift */,
 				ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */,
@@ -300,6 +303,7 @@
 				450441222BFF94DE0034F730 /* ProteinView.swift in Sources */,
 				2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */,
 				ACDC9C732BFE51FE008C5B21 /* HelpView.swift in Sources */,
+				AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */,
 				ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */,
 				ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */,
 				450441242BFF9A5D0034F730 /* Protein.swift in Sources */,

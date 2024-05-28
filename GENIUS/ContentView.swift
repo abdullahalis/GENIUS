@@ -52,11 +52,6 @@ struct ContentView: View {
                     .frame(width: 2000, height: 2000)
                 VStack {
                     mainMenuItems()
-//                    Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
-//                        .font(.title)
-//                        .frame(width: 360)
-//                        .padding(24)
-//                        .glassBackgroundEffect()
                     HStack {
                         
                         Button("Earth") {
@@ -91,6 +86,11 @@ struct ContentView: View {
                             .padding()
                     }
                     .navigationTitle("Main View")
+                    VStack {
+                        NavigationLink("Meetings", destination: MeetingView(updatingTextHolder: updatingTextHolder))
+                            .padding()
+                    }
+                    .navigationTitle("Main View")
                     
                     
                 }
@@ -105,24 +105,6 @@ struct ContentView: View {
                 await openImmersiveSpace(id: "ImmersiveSpace")
             }
         }
-//        .onChange(of: showImmersiveSpace) { _, newValue in
-//            Task {
-//                if newValue {
-//                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
-//                    case .opened:
-//                        immersiveSpaceIsShown = true
-//                    case .error, .userCancelled:
-//                        fallthrough
-//                    @unknown default:
-//                        immersiveSpaceIsShown = false
-//                        showImmersiveSpace = false
-//                    }
-//                } else if immersiveSpaceIsShown {
-//                    await dismissImmersiveSpace()
-//                    immersiveSpaceIsShown = false
-//                }
-//            }
-//        }
     };
     
     func getTextHolder() -> UpdatingTextHolder {
@@ -161,4 +143,5 @@ class UpdatingTextHolder: ObservableObject {
     @Published var recongnizedText: String = ""
     @Published var nightMode: Bool = false
     @Published var mode: String = "none"
+    @Published var meetingManagers: [MeetingManager] = []
 }

@@ -189,6 +189,19 @@ class Argo {
     func handleMeeting(updatingTextHolder: UpdatingTextHolder) {
         updatingTextHolder.mode = "meeting"
         print("meeting")
+        if let range = updatingTextHolder.recongnizedText.range(of: "record meeting ") {
+            do{
+                Task {
+                    let meeting =  try await getResponse(prompt: "Added proper punctuation and fix any spelling or grammar errors you find: " + String(updatingTextHolder.recongnizedText[(range.upperBound...)]))
+                    let meetingName = try await getResponse(prompt: "Come up with a short name to describe this meeting: " + meeting)
+                    let newMeeting = MeetingManager(meetingText: meeting, meetingName: meetingName)
+                    newMeeting.summarizeMeeting(updatingTextHolder: updatingTextHolder)
+                    updatingTextHolder.meetingManagers.append(newMeeting)
+                    updatingTextHolder.responseText = "Meeting added"
+                    print("Meeting added")
+                }
+            }
+        }
     }
     
     func handlePrompt(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
