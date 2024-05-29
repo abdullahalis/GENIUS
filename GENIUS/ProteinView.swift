@@ -10,7 +10,8 @@ import RealityKit
 
 struct ProteinView: View {
     @ObservedObject var updatingTextHolder: UpdatingTextHolder
-    @State private var name: String = ""
+    @State private var names: String = ""
+    @State private var species: String = ""
     @FocusState private var TextFieldIsFocused: Bool
     
     var body: some View {
@@ -23,16 +24,23 @@ struct ProteinView: View {
                 proteinMenuItems()
                 VStack {
                     TextField(
-                            "Enter protein name",
-                            text: $name
+                            "  Enter protein name(s)  ",
+                            text: $names
                         )
                         .focused($TextFieldIsFocused)
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .fixedSize()
-                    
+                    TextField(
+                            "Enter NCBI taxonomyID",
+                            text: $species
+                        )
+                        .focused($TextFieldIsFocused)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .fixedSize()
                     Button("Search database") {
-                        getProteins(proteins: [name])
+                        print(names, species)
                     }.padding()
                     
                    HStack {
@@ -88,7 +96,7 @@ struct proteinMenuItems: View {
             Text("Welcome to Gecko!")
                 .font(.system(size: 35, weight: .medium))
                 .padding(.bottom, 10)
-            Text("Gecko allows you to visualize protein interactions in VR")
+            Text("Visualize protein interactions in VR")
                 .font(.system(size: 25, weight: .medium))
         }
         .padding(.bottom, 40)
