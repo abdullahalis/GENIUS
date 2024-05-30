@@ -10,7 +10,7 @@ import AVFAudio
 import Combine
 
 class Argo {
-    private var conversationManager: ConversationManager
+    var conversationManager: ConversationManager
     @State private var mode: String = "none"
     private var modelsAvailable: [String] = []
     private var modelsAvailableStr: String = "none"
@@ -188,7 +188,6 @@ class Argo {
     
     func handleMeeting(updatingTextHolder: UpdatingTextHolder) {
         updatingTextHolder.mode = "meeting"
-        print("meeting")
         if let range = updatingTextHolder.recongnizedText.range(of: "record meeting ") {
             do{
                 Task {
