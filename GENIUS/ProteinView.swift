@@ -40,7 +40,10 @@ struct ProteinView: View {
                         .disableAutocorrection(true)
                         .fixedSize()
                     Button("Search database") {
-                        print(names, species)
+                        getData(proteins: names, species: species) { (p,i) in
+                            print(p)
+                            print(i)
+                        }
                     }.padding()
                     
                    HStack {
