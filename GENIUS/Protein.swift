@@ -87,17 +87,17 @@ class Interaction: CustomStringConvertible{
         self.tscore = tscore
     }
     
-    func getProteinA() -> String {return self.proteinA}
-    func getProteinB() -> String {return self.proteinB}
+    func getProteinA() -> String    {return self.proteinA}
+    func getProteinB() -> String    {return self.proteinB}
     func getNcbiTaxonId() -> String {return self.ncbiTaxonId}
-    func getScore() -> Double {return self.score}
-    func getNScore() -> Double {return self.nscore}
-    func getFScore() -> Double {return self.fscore}
-    func getPScore() -> Double {return self.pscore}
-    func getAScore() -> Double {return self.ascore}
-    func getEScore() -> Double {return self.escore}
-    func getDScore() -> Double {return self.dscore}
-    func getTScore() -> Double {return self.tscore}
+    func getScore() -> Double       {return self.score}
+    func getNScore() -> Double      {return self.nscore}
+    func getFScore() -> Double      {return self.fscore}
+    func getPScore() -> Double      {return self.pscore}
+    func getAScore() -> Double      {return self.ascore}
+    func getEScore() -> Double      {return self.escore}
+    func getDScore() -> Double      {return self.dscore}
+    func getTScore() -> Double      {return self.tscore}
     
     
 }

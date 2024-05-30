@@ -13,17 +13,19 @@ struct ProteinView: View {
     @State private var names: String = ""
     @State private var species: String = ""
     @FocusState private var TextFieldIsFocused: Bool
+    @State private var isModelShown: Bool = false
+    @State private var proteins: [Protein] = []
+    @State private var interactions: [Interaction] = []
+    
+    @Environment(\.openWindow) private var openWindow
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                //HStack{
-                //    SphereView()
-                //    SphereView()
-                //}
-                proteinMenuItems()
+        ZStack{
+            NavigationStack {
                 VStack {
-                    TextField(
+                    proteinMenuItems()
+                    VStack {
+                        TextField(
                             "  Enter protein name(s)  ",
                             text: $names
                         )
@@ -31,7 +33,7 @@ struct ProteinView: View {
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .fixedSize()
-                    TextField(
+                        TextField(
                             "Enter NCBI taxonomyID",
                             text: $species
                         )
@@ -39,26 +41,41 @@ struct ProteinView: View {
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .fixedSize()
-                    Button("Search database") {
-                        getData(proteins: names, species: species) { (p,i) in
-                            print(p)
-                            print(i)
+                        Button("Search database") {
+                            getData(proteins: names, species: species) { (p,i) in
+                                self.proteins = p
+                                self.interactions = i
+                                self.isModelShown.toggle()
+                            }
+                        }.padding()
+                        
+                        HStack {
+                            Button("Record") {
+                                Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                            }
+                            Button("Stop") {
+                                Recorder().stopRecording()
+                            }
                         }
-                    }.padding()
-                    
-                   HStack {
-                       Button("Record") {
-                           Recorder().startRecording(updatingTextHolder: updatingTextHolder)
-                       }
-                       Button("Stop") {
-                           Recorder().stopRecording()
-                       }
-                   }
-                   Text(updatingTextHolder.recongnizedText)
+                        Text(updatingTextHolder.recongnizedText)
+                    }
+                    .textFieldStyle(.roundedBorder)
+                    .navigationTitle("Protein View")
                 }
-                .textFieldStyle(.roundedBorder)
-                .navigationTitle("Protein View")
             }
+            if isModelShown {modelView(nodes: self.proteins, edges: self.interactions)}
+        }
+    }
+}
+
+struct modelView: View {
+    let nodes: [Protein]
+    let edges: [Interaction]
+    
+    var body: some View {
+        RealityView { content in
+            let model = create3DModel(proteins: nodes, interactions: edges)
+            content.add(model)
         }
     }
 }
@@ -105,6 +122,29 @@ struct proteinMenuItems: View {
         .padding(.bottom, 40)
 
     }
+}
+
+func create3DModel(proteins: [Protein], interactions: [Interaction]) -> ModelEntity {
+    let proteinNetwork = ModelEntity()
+    
+    // Define positions for each protein
+    let positions: [SIMD3<Float>] = [
+        SIMD3<Float>(0, 0, 0), // Adjust the positions as needed
+        SIMD3<Float>(0, 0.1, 0),
+        SIMD3<Float>(0, 0.2, 0),
+        SIMD3<Float>(0, -0.1, 0)
+    ]
+    
+    // Create entities for proteins
+    for (index,_) in proteins.enumerated() {
+        let sphere = MeshResource.generateSphere(radius: 0.01) // Adjust the radius as needed
+        let proteinObject = ModelEntity(mesh: sphere, materials: [SimpleMaterial(color: .white, isMetallic: true)])
+        //proteinObject.setPosition(positions[index], relativeTo: proteinNetwork)
+        proteinObject.position = positions[index]
+        //proteinObject.position = SIMD3<Float>(Float.random(in: -0.3 ... 0.3), Float.random(in: -0.3 ... 0.3), Float.random(in: -0.3 ... 0.3))
+        proteinNetwork.addChild(proteinObject)
+    }
+    return proteinNetwork
 }
 
 #Preview {
