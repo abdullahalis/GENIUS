@@ -18,6 +18,7 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
 
 # May 27 - May 31
 * Set up interface for Gecko, our protein visualization tool. We can now query the STRING-db with requests for data,
+* Created functions that deal with meetings. It now transcribes, summarizes, and names them.
 
 # June 03 - June 07
 # June 10 - June 14
