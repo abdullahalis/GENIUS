@@ -34,7 +34,7 @@ struct GENIUSApp: App {
             
         }.windowStyle(.volumetric)
     
-        ImmersiveSpace(id: "Proteins") {
+        WindowGroup(id: "Proteins") {
             ProteinView(updatingTextHolder: updatingTextHolder)
         }
     }

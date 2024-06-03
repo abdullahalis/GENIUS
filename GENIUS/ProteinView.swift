@@ -63,46 +63,11 @@ struct ProteinView: View {
                     .navigationTitle("Protein View")
                 }
             }
-            if isModelShown {modelView(nodes: self.proteins, edges: self.interactions)}
+            if isModelShown {modelView(proteins: self.proteins, interactions: self.interactions)}
         }
     }
 }
 
-struct modelView: View {
-    let nodes: [Protein]
-    let edges: [Interaction]
-    
-    var body: some View {
-        RealityView { content in
-            let model = create3DModel(proteins: nodes, interactions: edges)
-            content.add(model)
-        }
-    }
-}
-
-struct SphereView: View {
-    @State private var scale = false
-    var body: some View {
-        RealityView { content in
-            let model = ModelEntity(
-                mesh: .generateSphere(radius: 0.05),
-                materials: [SimpleMaterial(color: .white, isMetallic: true)])
-
-
-            // Enable interactions on the entity.
-            model.components.set(InputTargetComponent())
-            model.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.05)]))
-            content.add(model)
-        } update: { content in
-            if let model = content.entities.first {
-                model.transform.scale = scale ? [1.2, 1.2, 1.2] : [1.0, 1.0, 1.0]
-            }
-        }
-        .gesture(TapGesture().targetedToAnyEntity().onEnded { _ in
-            scale.toggle()
-        })
-    }
-}
 
 struct proteinMenuItems: View {
     var body: some View {
@@ -124,27 +89,69 @@ struct proteinMenuItems: View {
     }
 }
 
-func create3DModel(proteins: [Protein], interactions: [Interaction]) -> ModelEntity {
-    let proteinNetwork = ModelEntity()
+
+struct modelView: View {
+    let proteins: [Protein]
+    let interactions: [Interaction]
     
-    // Define positions for each protein
-    let positions: [SIMD3<Float>] = [
-        SIMD3<Float>(0, 0, 0), // Adjust the positions as needed
-        SIMD3<Float>(0, 0.1, 0),
-        SIMD3<Float>(0, 0.2, 0),
-        SIMD3<Float>(0, -0.1, 0)
-    ]
-    
-    // Create entities for proteins
-    for (index,_) in proteins.enumerated() {
-        let sphere = MeshResource.generateSphere(radius: 0.01) // Adjust the radius as needed
-        let proteinObject = ModelEntity(mesh: sphere, materials: [SimpleMaterial(color: .white, isMetallic: true)])
-        //proteinObject.setPosition(positions[index], relativeTo: proteinNetwork)
-        proteinObject.position = positions[index]
-        //proteinObject.position = SIMD3<Float>(Float.random(in: -0.3 ... 0.3), Float.random(in: -0.3 ... 0.3), Float.random(in: -0.3 ... 0.3))
-        proteinNetwork.addChild(proteinObject)
+    @State private var nodes: [ModelEntity] = []
+    @State private var edges: [ModelEntity] = []
+        
+    var body: some View {
+        RealityView { content in
+            
+            createNodes()
+            for node in nodes {
+                content.add(node)
+            }
+            
+            createEdges()
+            for edge in edges {
+                content.add(edge)
+            }
+        } .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
+            if let descEntity = value.entity.children.first(where: { $0.name == "desc"}) {
+                descEntity.isEnabled.toggle()
+            }
+        })
     }
-    return proteinNetwork
+    
+    private func createNodes() {
+        let colors: [UIColor] = [.black, .blue, .brown, .cyan, .darkGray, .gray, .green, .lightGray, .magenta, .orange, .purple, .red, .white, .yellow]
+        // Create entities for proteins
+        for p in proteins {
+            let sphere = MeshResource.generateSphere(radius: 0.01)
+            let proteinObject = ModelEntity(mesh: sphere, materials: [SimpleMaterial(color: colors.randomElement()!, isMetallic: false)])
+            
+            // Assign random position to each protein within the bounding box of parent window
+            // Bounds configured based on default window size
+            proteinObject.position = SIMD3<Float>(Float.random(in: -0.3 ... 0.3), Float.random(in: -0.2 ... 0.2), Float.random(in: 0 ... 0.2))
+            
+            proteinObject.name = p.getPreferredName()
+            
+            // Set interactivity
+            proteinObject.components.set(InputTargetComponent())
+            proteinObject.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.01)]))
+            
+            // Add protein name
+            let label = MeshResource.generateText(p.getPreferredName(),
+                                                  extrusionDepth: 0,
+                                                  font: .systemFont(ofSize: 0.01),
+                                                  alignment: .left)
+            
+            let labelEntity = ModelEntity(mesh: label, materials: [UnlitMaterial(color: .white)])
+            labelEntity.position = SIMD3<Float>(-0.015, 0.01, 0)
+            labelEntity.name = "label"
+            
+            
+            proteinObject.addChild(labelEntity)
+            nodes.append(proteinObject)
+        }
+    }
+    
+    private func createEdges() {
+        // Nothing, so far...
+    }
 }
 
 #Preview {

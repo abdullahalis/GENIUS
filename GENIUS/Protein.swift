@@ -178,7 +178,7 @@ func getInteractions(identifiers: String,
             
     requestAPI(method: "network", params: params) { response in
         if let proteinString = response {
-            print(proteinString)
+
             let lines = proteinString
                 .trimmingCharacters(in: .whitespacesAndNewlines)
                 .components(separatedBy: "\n")
