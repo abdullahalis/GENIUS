@@ -29,11 +29,8 @@ class Protein: CustomStringConvertible{
         self.ncbiTaxonId = ncbiTaxonId
         self.taxonName = taxonName
         self.preferredName = preferredName
-        // Remove last sentence with trailing ellipsis
-        self.annotation = annotation
-            .components(separatedBy: ". ")
-            .dropLast()
-            .joined(separator: ". ")
+        // Truncate annotation with trailing ellipsis
+        self.annotation = String(annotation.prefix(265)) + " [...]"
     }
     
     func getStringId() -> String      {return self.stringId}

@@ -78,7 +78,7 @@ struct proteinMenuItems: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 90, height: 90)
-            Text("Welcome to Gecko!")
+            Text("Gecko")
                 .font(.system(size: 35, weight: .medium))
                 .padding(.bottom, 10)
             Text("Visualize protein interactions in VR")
@@ -109,8 +109,10 @@ struct modelView: View {
             for edge in edges {
                 content.add(edge)
             }
-        } .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
-            if let descEntity = value.entity.children.first(where: { $0.name == "desc"}) {
+            
+        }
+        .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
+            if let descEntity = value.entity.children.first(where: { $0.name == "descWindow"}) {
                 descEntity.isEnabled.toggle()
             }
         })
@@ -125,11 +127,12 @@ struct modelView: View {
             
             // Assign random position to each protein within the bounding box of parent window
             // Bounds configured based on default window size
-            proteinObject.position = SIMD3<Float>(Float.random(in: -0.3 ... 0.3), Float.random(in: -0.2 ... 0.2), Float.random(in: 0 ... 0.2))
+            proteinObject.position = SIMD3<Float>(Float.random(in: -0.3 ... 0.3), Float.random(in: -0.15 ... 0.15), Float.random(in: 0 ... 0.2))
             
             proteinObject.name = p.getPreferredName()
             
             // Set interactivity
+            proteinObject.components.set(HoverEffectComponent())
             proteinObject.components.set(InputTargetComponent())
             proteinObject.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.01)]))
             
@@ -143,8 +146,27 @@ struct modelView: View {
             labelEntity.position = SIMD3<Float>(-0.015, 0.01, 0)
             labelEntity.name = "label"
             
+            let desc = MeshResource.generateText(p.getAnnotation(),
+                                                 extrusionDepth: 0,
+                                                 font: .systemFont(ofSize: 0.008),
+                                                 containerFrame: CGRect(x: 0, y: 0, width: 0.14, height: 0.09),
+                                                 alignment: .left,
+                                                 lineBreakMode: .byWordWrapping)
             
+            let descEntity = ModelEntity(mesh: desc, materials: [UnlitMaterial(color: .black)])
+            descEntity.position = SIMD3<Float>(-0.07, -0.045, 0.000001)
+            descEntity.name = "desc"
+            
+            let window = MeshResource.generatePlane(width: 0.15, height: 0.1, cornerRadius: 0.01)
+            let windowEntity = ModelEntity(mesh: window, materials: [UnlitMaterial(color: .white)])
+            windowEntity.position = SIMD3<Float>(0.09, 0, 0)
+            windowEntity.name = "descWindow"
+            windowEntity.addChild(descEntity)
+            windowEntity.isEnabled = false
+            
+            proteinObject.addChild(windowEntity)
             proteinObject.addChild(labelEntity)
+            
             nodes.append(proteinObject)
         }
     }
