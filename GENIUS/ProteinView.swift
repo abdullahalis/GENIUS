@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import UmainSpatialGestures
 
 struct ProteinView: View {
     @ObservedObject var updatingTextHolder: UpdatingTextHolder
@@ -116,10 +117,26 @@ struct modelView: View {
                 descEntity.isEnabled.toggle()
             }
         })
+        .useDragGesture()
     }
     
     private func createNodes() {
         let colors: [UIColor] = [.black, .blue, .brown, .cyan, .darkGray, .gray, .green, .lightGray, .magenta, .orange, .purple, .red, .white, .yellow]
+        
+
+        // Create a template entity for protein descriptions
+        let descTemplate = ModelEntity(mesh: MeshResource.generateText(""),
+                                       materials: [UnlitMaterial(color: .black)])
+        descTemplate.position = SIMD3<Float>(-0.07, -0.045, 0.000001)
+        descTemplate.name = "desc"
+        
+        let window = MeshResource.generatePlane(width: 0.15, height: 0.1, cornerRadius: 0.01)
+        let windowTemplate = ModelEntity(mesh: window, materials: [UnlitMaterial(color: .white)])
+        windowTemplate.position = SIMD3<Float>(0.09, 0, 0)
+        windowTemplate.name = "descWindow"
+        windowTemplate.addChild(descTemplate)
+        windowTemplate.isEnabled = false
+        
         // Create entities for proteins
         for p in proteins {
             let sphere = MeshResource.generateSphere(radius: 0.01)
@@ -134,7 +151,7 @@ struct modelView: View {
             // Set interactivity
             proteinObject.components.set(HoverEffectComponent())
             proteinObject.components.set(InputTargetComponent())
-            proteinObject.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.01)]))
+            proteinObject.generateCollisionShapes(recursive: true)
             
             // Add protein name
             let label = MeshResource.generateText(p.getPreferredName(),
@@ -146,24 +163,19 @@ struct modelView: View {
             labelEntity.position = SIMD3<Float>(-0.015, 0.01, 0)
             labelEntity.name = "label"
             
-            let desc = MeshResource.generateText(p.getAnnotation(),
-                                                 extrusionDepth: 0,
-                                                 font: .systemFont(ofSize: 0.008),
-                                                 containerFrame: CGRect(x: 0, y: 0, width: 0.14, height: 0.09),
-                                                 alignment: .left,
-                                                 lineBreakMode: .byWordWrapping)
+            // Clone template and replace mesh
+            let windowEntity = windowTemplate.clone(recursive: true)
+            if let descEntity = windowEntity.children.first as? ModelEntity {
+                let newMesh = MeshResource.generateText(p.getAnnotation(),
+                                                        extrusionDepth: 0,
+                                                        font: .systemFont(ofSize: 0.008),
+                                                        containerFrame: CGRect(x: 0, y: 0, width: 0.14, height: 0.09),
+                                                        alignment: .left,
+                                                        lineBreakMode: .byWordWrapping)
+                descEntity.model?.mesh = newMesh
+            }
             
-            let descEntity = ModelEntity(mesh: desc, materials: [UnlitMaterial(color: .black)])
-            descEntity.position = SIMD3<Float>(-0.07, -0.045, 0.000001)
-            descEntity.name = "desc"
-            
-            let window = MeshResource.generatePlane(width: 0.15, height: 0.1, cornerRadius: 0.01)
-            let windowEntity = ModelEntity(mesh: window, materials: [UnlitMaterial(color: .white)])
-            windowEntity.position = SIMD3<Float>(0.09, 0, 0)
-            windowEntity.name = "descWindow"
-            windowEntity.addChild(descEntity)
-            windowEntity.isEnabled = false
-            
+            // Add children entites to proteinObject
             proteinObject.addChild(windowEntity)
             proteinObject.addChild(labelEntity)
             
