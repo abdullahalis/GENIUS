@@ -20,6 +20,7 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
 * Set up interface for Gecko, our protein visualization tool. We can now query the STRING-db with requests for data.
 * Created functions that deal with meetings. It now transcribes, summarizes, and names them.
 * Started working on functions to generate 3D models for protein data.
+* Created features for meetings. Now keeps tracks, summarizes, and names meetings.
 
 # June 03 - June 07
 * Finished functions to create spheres for each protein returned by API request. 
