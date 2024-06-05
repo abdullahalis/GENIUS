@@ -7,7 +7,6 @@
 
 import SwiftUI
 import RealityKit
-import UmainSpatialGestures
 
 struct ProteinView: View {
     @ObservedObject var updatingTextHolder: UpdatingTextHolder
@@ -117,7 +116,14 @@ struct modelView: View {
                 descEntity.isEnabled.toggle()
             }
         })
-        .useDragGesture()
+        .gesture(DragGesture().targetedToAnyEntity().onChanged { value in
+            let nodeObject = value.entity
+            nodeObject.position = value.convert(value.location3D, from: .local, to: nodeObject.parent!)
+            
+            // Iterate through interactions to find relevant edges to recalculate
+            //
+        })
+        
     }
     
     private func createNodes() {
@@ -184,7 +190,29 @@ struct modelView: View {
     }
     
     private func createEdges() {
-        // Nothing, so far...
+        for i in interactions {
+            
+            // Retrieve proteins
+            let p1 = nodes.first(where: { $0.name == i.getProteinA()})
+            let p2 = nodes.first(where: { $0.name == i.getProteinB()})
+            
+            let startPos = p1?.position ?? SIMD3(0, 0, 0)
+            let endPos = p2?.position ?? SIMD3(1, 1, 1)
+            let midPos = (startPos + endPos) / 2
+            
+            // Calculate orientation and length of edge
+            let dist = simd_distance(startPos, endPos)
+            let dir = endPos - startPos
+            let rotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(dir))
+            let line = MeshResource.generateCylinder(height: dist, radius: 0.001)
+            
+            let lineEntity = ModelEntity(mesh: line, materials: [UnlitMaterial(color: .white)])
+            lineEntity.position = midPos
+            lineEntity.orientation = rotation
+            lineEntity.name = (p1?.name ?? "Unknown") + " -> " + (p2?.name ?? "Unknown")
+            
+            edges.append(lineEntity)
+        }
     }
 }
 

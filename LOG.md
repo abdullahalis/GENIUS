@@ -25,6 +25,7 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
 # June 03 - June 07
 * Finished functions to create spheres for each protein returned by API request. 
 * Finished tooltip-style description boxes for protein objects that appear when clicked on.
+# Added edges to protein network
 
 # June 10 - June 14
 # June 17 - June 21
