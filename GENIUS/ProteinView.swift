@@ -13,6 +13,7 @@ struct ProteinView: View {
     @State private var names: String = ""
     @State private var species: String = ""
     @FocusState private var TextFieldIsFocused: Bool
+    @State private var buttonText = " Search database "
     @State private var isModelShown: Bool = false
     @State private var proteins: [Protein] = []
     @State private var interactions: [Interaction] = []
@@ -41,11 +42,14 @@ struct ProteinView: View {
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .fixedSize()
-                        Button("Search database") {
+                        Button(buttonText) {
                             getData(proteins: names, species: species) { (p,i) in
                                 self.proteins = p
                                 self.interactions = i
                                 self.isModelShown.toggle()
+                                if buttonText == " Search database "{
+                                    buttonText = "            Clear            "
+                                } else {buttonText = " Search database "}
                             }
                         }.padding()
                         
@@ -112,18 +116,25 @@ struct modelView: View {
             
         }
         .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
-            if let descEntity = value.entity.children.first(where: { $0.name == "descWindow"}) {
-                descEntity.isEnabled.toggle()
+            if let object = value.entity as? ModelEntity {
+                if let descEntity = object.children.first(where: { $0.name == "descWindow"}) {
+                    descEntity.isEnabled.toggle()
+                    
+                    if object.name.contains("->"){
+                        if descEntity.isEnabled{
+                            object.model?.materials = [ UnlitMaterial(color: .green)]
+                        } else {
+                            object.model?.materials = [ UnlitMaterial(color: .white)]
+                        }
+                    }
+                }
             }
         })
         .gesture(DragGesture().targetedToAnyEntity().onChanged { value in
             let nodeObject = value.entity
             nodeObject.position = value.convert(value.location3D, from: .local, to: nodeObject.parent!)
-            
-            // Iterate through interactions to find relevant edges to recalculate
-            //
+            updateEdges(entity: nodeObject)
         })
-        
     }
     
     private func createNodes() {
@@ -190,6 +201,21 @@ struct modelView: View {
     }
     
     private func createEdges() {
+        
+        // Create a template entity for edge descriptions
+        let descTemplate = ModelEntity(mesh: MeshResource.generateText(""),
+                                       materials: [UnlitMaterial(color: .black)])
+        descTemplate.position = SIMD3<Float>(-0.07, -0.045, 0.000001)
+        descTemplate.name = "desc"
+        
+        let window = MeshResource.generatePlane(width: 0.17, height: 0.115, cornerRadius: 0.01)
+        let windowTemplate = ModelEntity(mesh: window, materials: [UnlitMaterial(color: .white)])
+        windowTemplate.position = SIMD3<Float>(0.1, 0, 0)
+        windowTemplate.name = "descWindow"
+        windowTemplate.addChild(descTemplate)
+        windowTemplate.isEnabled = false
+        
+        // Create entities for edges
         for i in interactions {
             
             // Retrieve proteins
@@ -211,7 +237,64 @@ struct modelView: View {
             lineEntity.orientation = rotation
             lineEntity.name = (p1?.name ?? "Unknown") + " -> " + (p2?.name ?? "Unknown")
             
+            // Set interactivity
+            lineEntity.components.set(HoverEffectComponent())
+            lineEntity.components.set(InputTargetComponent())
+            lineEntity.generateCollisionShapes(recursive: true)
+            
+            // Clone template and replace mesh
+            let edgeDescString = """
+                \(i.getProteinA()) -> \(i.getProteinB())
+            
+                Combined score:                       \(String(format: "%.2f", i.getScore()))
+                Gene neighborhood score:        \(String(format: "%.2f", i.getNScore()))
+                Gene fusion score:                    \(String(format: "%.2f", i.getFScore()))
+                Phylogenetic profile score:       \(String(format: "%.2f", i.getPScore()))
+                Coexpression score:                 \(String(format: "%.2f", i.getAScore()))
+                Experimental score:                  \(String(format: "%.2f", i.getEScore()))
+                Database score:                       \(String(format: "%.2f", i.getDScore()))
+                Textmining score:                     \(String(format: "%.2f", i.getTScore()))
+            """
+            let windowEntity = windowTemplate.clone(recursive: true)
+            if let descEntity = windowEntity.children.first as? ModelEntity {
+                let newMesh = MeshResource.generateText(edgeDescString,
+                                                        extrusionDepth: 0,
+                                                        font: .systemFont(ofSize: 0.008),
+                                                        containerFrame: CGRect(x: -0.015, y: -0.0075, width: 0.16, height: 0.1),
+                                                        alignment: .left,
+                                                        lineBreakMode: .byWordWrapping)
+                descEntity.model?.mesh = newMesh
+            }
+            windowEntity.orientation = simd_conjugate(lineEntity.orientation)
+            lineEntity.addChild(windowEntity)
             edges.append(lineEntity)
+        }
+    }
+    
+    private func updateEdges(entity: Entity) {
+        let edgesToChange = edges.filter {$0.name.contains(entity.name)}
+                
+        for edge in edgesToChange {
+            let edgeNodes = edge.name.components(separatedBy: " -> ")
+            
+            // Retrieve nodes
+            let p1 = nodes.first(where: { $0.name == edgeNodes[0]})
+            let p2 = nodes.first(where: { $0.name == edgeNodes[1]})
+            
+            let startPos = p1?.position ?? SIMD3(0, 0, 0)
+            let endPos = p2?.position ?? SIMD3(1, 1, 1)
+            let midPos = (startPos + endPos) / 2
+            
+            // Calculate orientation and length of edge
+            let dist = simd_distance(startPos, endPos)
+            let dir = endPos - startPos
+            let rotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(dir))
+            let newLine = MeshResource.generateCylinder(height: dist, radius: 0.001)
+            
+            edge.model?.mesh = newLine
+            edge.position = midPos
+            edge.orientation = rotation
+            edge.children.first?.orientation = simd_conjugate(rotation)
         }
     }
 }
