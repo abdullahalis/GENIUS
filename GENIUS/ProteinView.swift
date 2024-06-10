@@ -207,8 +207,6 @@ struct ProteinView: View {
     @State private var isModelShown: Bool = false
     @State private var network = Network()
     
-    @Environment(\.openWindow) private var openWindow
-    
     var body: some View {
         ZStack{
             NavigationStack {
@@ -299,9 +297,9 @@ struct modelView: View {
                     
                     if object.name.contains("->"){
                         if descEntity.isEnabled{
-                            object.model?.materials = [ UnlitMaterial(color: .green)]
+                            object.model?.materials = [SimpleMaterial(color: .green, isMetallic: false)]
                         } else {
-                            object.model?.materials = [ UnlitMaterial(color: .white)]
+                            object.model?.materials = [SimpleMaterial(color: .white, isMetallic: false)]
                         }
                     }
                 }
