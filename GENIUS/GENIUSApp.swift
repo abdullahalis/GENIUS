@@ -14,8 +14,6 @@ import UmainSpatialGestures
 struct GENIUSApp: App {
     @ObservedObject var updatingTextHolder = UpdatingTextHolder()
     
-    
-    
     var body: some SwiftUI.Scene {
         WindowGroup {
             ContentView(updatingTextHolder: updatingTextHolder).environmentObject(ConversationManager.shared)

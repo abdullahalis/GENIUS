@@ -52,7 +52,6 @@ struct ProteinView: View {
                                 } else {buttonText = " Search database "}
                             }
                         }.padding()
-                        
                         HStack {
                             Button("Record") {
                                 Recorder().startRecording(updatingTextHolder: updatingTextHolder)
