@@ -11,8 +11,6 @@
 		2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */; };
 		2FB3AB872BF6521E002F09E9 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB862BF6521E002F09E9 /* Earth.usdz */; };
 		2FB3AB892BF67D7E002F09E9 /* Mars.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB882BF67D7E002F09E9 /* Mars.usdz */; };
-		2FD48DDA2C0E1DFA002DBC5D /* avatar.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2F04BBA32C0E107000793581 /* avatar.mp4 */; };
-		2FD48DDC2C0E1FA1002DBC5D /* 0001-0120.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2FD48DDB2C0E1F84002DBC5D /* 0001-0120.mp4 */; };
 		2FD48E562C0E2786002DBC5D /* 0117.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FD48DDE2C0E2784002DBC5D /* 0117.png */; };
 		2FD48E572C0E2786002DBC5D /* 0041.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FD48DDF2C0E2784002DBC5D /* 0041.png */; };
 		2FD48E582C0E2786002DBC5D /* 0045.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FD48DE02C0E2784002DBC5D /* 0045.png */; };
@@ -174,12 +172,10 @@
 
 /* Begin PBXFileReference section */
 		2F04BBA12C0E103B00793581 /* GENIUS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GENIUS; sourceTree = "<group>"; };
-		2F04BBA32C0E107000793581 /* avatar.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = avatar.mp4; sourceTree = "<group>"; };
 		2F714BC42C175B8300F309F1 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 		2FB3AB862BF6521E002F09E9 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Earth.usdz; path = GENIUS/Models/Earth.usdz; sourceTree = SOURCE_ROOT; };
 		2FB3AB882BF67D7E002F09E9 /* Mars.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Mars.usdz; path = GENIUS/Models/Mars.usdz; sourceTree = SOURCE_ROOT; };
-		2FD48DDB2C0E1F84002DBC5D /* 0001-0120.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "0001-0120.mp4"; sourceTree = "<group>"; };
 		2FD48DDE2C0E2784002DBC5D /* 0117.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0117.png; sourceTree = "<group>"; };
 		2FD48DDF2C0E2784002DBC5D /* 0041.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0041.png; sourceTree = "<group>"; };
 		2FD48DE02C0E2784002DBC5D /* 0045.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0045.png; sourceTree = "<group>"; };
@@ -515,7 +511,6 @@
 				2F04BBA12C0E103B00793581 /* GENIUS */,
 				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
 				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
-				450441212BFF94DE0034F730 /* ProteinView.swift */,
 				2FE827D12C067DEB007AA006 /* ConvoView.swift */,
 				450441232BFF9A5D0034F730 /* Protein.swift */,
 				450441212BFF94DE0034F730 /* ProteinView.swift */,
@@ -532,8 +527,6 @@
 				2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */,
 				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
 				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
-				2FD48DDB2C0E1F84002DBC5D /* 0001-0120.mp4 */,
-				2F04BBA32C0E107000793581 /* avatar.mp4 */,
 				ACDC9C622BFD1579008C5B21 /* HandGestures */,
 				2FE827C82BFFD525007AA006 /* Models */,
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
@@ -702,7 +695,6 @@
 				2FD48EAA2C0E2786002DBC5D /* 0077.png in Resources */,
 				2FD48EAB2C0E2786002DBC5D /* 0011.png in Resources */,
 				2FD48E562C0E2786002DBC5D /* 0117.png in Resources */,
-				2FD48DDC2C0E1FA1002DBC5D /* 0001-0120.mp4 in Resources */,
 				2FD48E7E2C0E2786002DBC5D /* 0102.png in Resources */,
 				2FD48E822C0E2786002DBC5D /* 0038.png in Resources */,
 				2FD48E6D2C0E2786002DBC5D /* 0037.png in Resources */,
@@ -711,7 +703,6 @@
 				2FD48E572C0E2786002DBC5D /* 0041.png in Resources */,
 				2FD48E842C0E2786002DBC5D /* 0095.png in Resources */,
 				2FD48EBA2C0E2786002DBC5D /* 0109.png in Resources */,
-				2FD48DDA2C0E1DFA002DBC5D /* avatar.mp4 in Resources */,
 				2FD48E962C0E2786002DBC5D /* 0039.png in Resources */,
 				2FD48E5B2C0E2786002DBC5D /* 0015.png in Resources */,
 				2FD48E6C2C0E2786002DBC5D /* 0075.png in Resources */,
