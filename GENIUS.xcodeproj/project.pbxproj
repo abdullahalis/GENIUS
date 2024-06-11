@@ -142,7 +142,7 @@
 		2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CF2C066FEB007AA006 /* GestureKit */; };
 		2FE827D22C067DEB007AA006 /* ConvoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE827D12C067DEB007AA006 /* ConvoView.swift */; };
 		450441222BFF94DE0034F730 /* ProteinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441212BFF94DE0034F730 /* ProteinView.swift */; };
-		450441242BFF9A5D0034F730 /* Protein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* Protein.swift */; };
+		450441242BFF9A5D0034F730 /* ProteinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* ProteinManager.swift */; };
 		452DB3932C17965200FD161A /* ProteinSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DB3922C17965200FD161A /* ProteinSpace.swift */; };
 		AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F03C52C06778D00F4D500 /* MeetingView.swift */; };
 		AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = AC81CABA2BED259700933492 /* RealityKitContent */; };
@@ -305,7 +305,7 @@
 		2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketchfab.swift; sourceTree = "<group>"; };
 		2FE827D12C067DEB007AA006 /* ConvoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoView.swift; sourceTree = "<group>"; };
 		450441212BFF94DE0034F730 /* ProteinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinView.swift; sourceTree = "<group>"; };
-		450441232BFF9A5D0034F730 /* Protein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protein.swift; sourceTree = "<group>"; };
+		450441232BFF9A5D0034F730 /* ProteinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinManager.swift; sourceTree = "<group>"; };
 		452DB3922C17965200FD161A /* ProteinSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinSpace.swift; sourceTree = "<group>"; };
 		AC1F03C52C06778D00F4D500 /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
 		AC81CAB52BED259700933492 /* GENIUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENIUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -491,7 +491,7 @@
 				ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */,
 				ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */,
 				2FD48ECE2C0E3E06002DBC5D /* AnimationManager.swift */,
-				450441232BFF9A5D0034F730 /* Protein.swift */,
+				450441232BFF9A5D0034F730 /* ProteinManager.swift */,
 				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
 				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
 				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
@@ -850,7 +850,7 @@
 				ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */,
 				2FD48EDB2C1252F1002DBC5D /* Sketchfab.swift in Sources */,
 				ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */,
-				450441242BFF9A5D0034F730 /* Protein.swift in Sources */,
+				450441242BFF9A5D0034F730 /* ProteinManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
