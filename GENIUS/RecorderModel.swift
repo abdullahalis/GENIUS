@@ -25,6 +25,7 @@ class Recorder: ObservableObject {
     
   
     func startRecording(updatingTextHolder: UpdatingTextHolder) {
+        updatingTextHolder.mode = "Recording..."
     
         guard speechRecognizer.isAvailable else {
             print("Speech recognition is not available on this device")

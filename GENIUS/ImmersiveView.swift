@@ -67,7 +67,6 @@ struct ImmersiveView: View {
                    if !recording && gestureDescription.contains("Detected: All fingers then thumb") {
                        recording = true
                        Recorder().startRecording(updatingTextHolder: updatingTextHolder)
-                       updatingTextHolder.mode = "Recording..."
                        print("Recording started")
                    }
                    else if recording && gestureDescription.contains("Detected: Spider-Man") {
@@ -75,7 +74,7 @@ struct ImmersiveView: View {
                        // Perform any additional actions needed when recording starts
                        Recorder().stopRecording()
                         Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
-                       print("Recording stopped")
+                       updatingTextHolder.mode = "Stopped Recording"
                    }
                }
            }

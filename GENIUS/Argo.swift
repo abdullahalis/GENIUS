@@ -178,7 +178,7 @@ class Argo {
             }
             
             // Use the names of models to pick the one to open
-            prompt = "Your response must be one phrase with no spaces or punctuation: You have previously created a search query for a 3D model. That search has been ran and now I have the results as a dictionary of models in the form (uid, name). Please use the context from our previous conversation to identify the model whose name best matches what I want to see. Provide the uid of that model. Here is the dictionary of models: \(models). Based on our previous discussion, decide which model's name best matches my previous prompts. Simpler names are better. Please provide ONLY the uid of the matching model. Your response must only include the uid."
+            prompt = "Your response must be one phrase with no spaces or punctuation: You have previously created a search query for a 3D model. That search has been ran and now I have the results as a dictionary of models in the form (uid, name). Here is the dictionary of models: \(models). Based on the search: '\(modelSearch)' and our previous discussion, decide which model's name best matches. Please provide ONLY the uid of the matching model. Your response must only include the uid."
             let modelToOpen = try await getResponse(prompt: prompt)
             print("model to open:", modelToOpen)
             

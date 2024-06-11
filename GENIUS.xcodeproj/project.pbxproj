@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2F714BC52C175B8300F309F1 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F714BC42C175B8300F309F1 /* index.html */; };
+		2F714BC62C18B31700F309F1 /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED62C10F3BB002DBC5D /* ModelView.swift */; };
 		2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */; };
 		2FB3AB872BF6521E002F09E9 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB862BF6521E002F09E9 /* Earth.usdz */; };
 		2FB3AB892BF67D7E002F09E9 /* Mars.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB882BF67D7E002F09E9 /* Mars.usdz */; };
@@ -135,7 +136,6 @@
 		2FD48ED12C0E3E50002DBC5D /* GeniusAnimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED02C0E3E50002DBC5D /* GeniusAnimView.swift */; };
 		2FD48ED32C0E438B002DBC5D /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED22C0E438A002DBC5D /* Functions.swift */; };
 		2FD48ED52C0E4812002DBC5D /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED42C0E4812002DBC5D /* Speaker.swift */; };
-		2FD48ED72C10F3BB002DBC5D /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED62C10F3BB002DBC5D /* ModelView.swift */; };
 		2FD48ED92C10F6E3002DBC5D /* Bananas.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FD48ED82C10F6E2002DBC5D /* Bananas.usdz */; };
 		2FD48EDB2C1252F1002DBC5D /* Sketchfab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */; };
 		2FE827CE2C066FE6007AA006 /* UmainSpatialGestures in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */; };
@@ -512,6 +512,7 @@
 				2FD48DDD2C0E2751002DBC5D /* GeniusAnimation */,
 				2F04BBA12C0E103B00793581 /* GENIUS */,
 				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
+				2FD48ED62C10F3BB002DBC5D /* ModelView.swift */,
 				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
 				2FE827D12C067DEB007AA006 /* ConvoView.swift */,
 				450441232BFF9A5D0034F730 /* Protein.swift */,
@@ -535,7 +536,6 @@
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
 				AC81CAC72BED259800933492 /* Info.plist */,
 				AC81CAC42BED259800933492 /* Preview Content */,
-				2FD48ED62C10F3BB002DBC5D /* ModelView.swift */,
 				2F714BC42C175B8300F309F1 /* index.html */,
 			);
 			path = GENIUS;
@@ -817,6 +817,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F714BC62C18B31700F309F1 /* ModelView.swift in Sources */,
 				2FD48ED52C0E4812002DBC5D /* Speaker.swift in Sources */,
 				AC81CABF2BED259700933492 /* ContentView.swift in Sources */,
 				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
