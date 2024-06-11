@@ -30,11 +30,6 @@ class MeetingManager : Identifiable {
             }
         }
     }
-//    func extractData(updatingTextHolder: UpdatingTextHolder, dataToExtract : String) -> String{
-//        let prompt = "Extract everything that concerns '" + dataToExtract + "' within this passage. " + self.meetingText
-//        Argo().getResponse(prompt: prompt)
-//        return updatingTextHolder.responseText
-//    }
     func replayMeeting() {
         Argo().Speak(text: self.meetingText, speechSynthesizer: speechSynthesizer)
     }

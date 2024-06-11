@@ -45,7 +45,6 @@ struct MeetingView: View {
                             recording = true
                         }
                     }
-                    
                 }
             }
         }
