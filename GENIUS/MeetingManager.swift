@@ -35,7 +35,7 @@ class MeetingManager : Identifiable {
 //        return updatingTextHolder.responseText
 //    }
     func replayMeeting() {
-        Argo().Speak(text: self.meetingText, speechSynthesizer: speechSynthesizer)
+        Argo().speak(text: self.meetingText, speechSynthesizer: speechSynthesizer)
     }
     func getName() -> String {
        return meetingName

@@ -14,43 +14,17 @@ class Argo {
     @State private var mode: String = "none"
     private var modelsAvailable: [String] = []
     private var modelsAvailableStr: String = "none"
+    private let speaker: Speaker
     
     @Environment(\.openWindow) var openWindow
 
     init() {
         self.conversationManager = ConversationManager.shared
-        makeModelString()
+        self.speaker = Speaker()
     }
     
-    // get a string listing every model available to find options for "show me" prompt
-    func makeModelString() {
-        guard let ModelURLs = Bundle.main.urls(forResourcesWithExtension: "usdz", subdirectory: nil)
-        else {
-            print("usdz files not found")
-            return
-        }
-        
-        modelsAvailableStr = ""
-        
-        
-        // combine file names into one string
-        ModelURLs.forEach {url in
-            modelsAvailable.insert(url.deletingPathExtension().lastPathComponent, at: modelsAvailable.endIndex)
-            modelsAvailableStr += (url.deletingPathExtension().lastPathComponent)
-            modelsAvailableStr += ", "
-        }
-        // get rid of last ", "
-        modelsAvailableStr = String(modelsAvailableStr.dropLast(2))
-        print("models:", modelsAvailable)
-    }
-
-    func performTask() {
-        // Example task using the conversation manager
-        let history = conversationManager.getConversationHistory()
-        print("Conversation History: \(history)")
-    }
-    
-    func Speak(text: String, speechSynthesizer: AVSpeechSynthesizer) {
+    // Text to Speech function
+    func speak(text: String, speechSynthesizer: AVSpeechSynthesizer) {
         let audioSession = AVAudioSession() // 2) handle audio session first, before trying to read the text
         do {
             try audioSession.setCategory(.playback, mode: .default, options: .duckOthers)
@@ -65,16 +39,16 @@ class Argo {
         // Assign the voice to the utterance.
         utterance.voice = voice
         // Tell the synthesizer to speak the utterance.
-        
         speechSynthesizer.speak(utterance)
     }
     
     func getResponse(prompt: String) async throws -> String {
-        var responseString = ""
         // add context with prompt
-        let fullPrompt = await conversationManager.getContext() + "Using this context (if applicable or if it exists) to answer the following prompt:" + prompt
+        let fullPrompt = conversationManager.getContext() + "Using this context (if applicable or if it exists) to answer the following prompt:" + prompt
+
         // Access Argo API
         let url = URL(string: "https://apps-dev.inside.anl.gov/argoapi/api/v1/resource/chat/")!
+        
         // Form HTTP request
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -89,74 +63,34 @@ class Argo {
             "prompt": [fullPrompt]
         ]
         
-            // Convert paramaters to JSON
-            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-            request.httpBody = jsonData
-            
-            let (data, response) = try await URLSession.shared.data(for: request)
-            
-            // Check if response is valid
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("Invalid Response")
-                return "Invalid Response"
-            }
-
-            // Extract response string from JSON response
-            let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            if let responseString = jsonResponse?["response"] as? String {
-
-                print("responseString in do:", responseString)
-                return responseString
-            }
-            else {
-                print("Response does not contain 'response' field or it's not a string")
-                return "Error"
-            }
+        // Convert paramaters to JSON
+        let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        request.httpBody = jsonData
         
+        // Send request
+        let (data, response) = try await URLSession.shared.data(for: request)
         
-            
-            // Send request
-//            let task = try await URLSession.shared.dataTask(with: request) { (data, response, error) in
-//                if let error = error {
-//                    print("Error: \(error)")
-//                    return
-//                }
-//                // Check if response is valid
-//                guard let httpResponse = response as? HTTPURLResponse,
-//                      (200...299).contains(httpResponse.statusCode) else {
-//                    print("Invalid Response")
-//                    return
-//                }
-//                if let data = data {
-//                    do {
-//                        // Extract response string from JSON response
-//                        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-//                        if let responseString = jsonResponse?["response"] as? String {
-//
-//                            print("responseString in do:", responseString)
-//
-//                        }
-//                        else {
-//                            print("Response does not contain 'response' field or it's not a string")
-//                        }
-//                    }
-//                    catch {
-//                        print("Error parsing JSON: \(error)")
-//                    }
-//                }
-//            }
-//            // run request
-//            task.resume()
-            
-//            print("responseStringReturn", responseString)
-//        }
-//        catch {
-//            print("Error creating JSON: \(error)")
-//        }
-       
+        // Check if response is valid
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            print("Invalid Response")
+            return "Invalid Response"
+        }
+
+        // Extract response string from JSON response
+        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        
+        if let responseString = jsonResponse?["response"] as? String {
+            print("responseString in do:", responseString)
+            return responseString
+        }
+        else {
+            print("Response does not contain 'response' field or it's not a string")
+            return "Error"
+        }
     }
     
+    // Extract mode needed based on user's recognized text
     func handleRecording(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
         let recording = updatingTextHolder.recongnizedText
         
@@ -174,18 +108,12 @@ class Argo {
         else if firstTenWordsString.contains("show me") {
             self.handleModel(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
         }
-
-//        // React to recognized commands here
-//        if updatingTextHolder.recongnizedText.contains("night mode") {
-//            updatingTextHolder.nightMode.toggle()
-//            self.stopRecording()
-//        }
-//        if updatingTextHolder.recongnizedText.contains("clear chat") {
-//            updatingTextHolder.recongnizedText = ""
-//            self.stopRecording()
-//        }
+        else {
+            self.speak(text: "No response possible", speechSynthesizer: speechSynthesizer)
+        }
     }
     
+    // Summarize and punctutate recorded meeting
     func handleMeeting(updatingTextHolder: UpdatingTextHolder) {
         updatingTextHolder.mode = "meeting"
         print("meeting")
@@ -204,8 +132,8 @@ class Argo {
         }
     }
     
+    // Sends prompt straight to Argo
     func handlePrompt(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
-        
         // extract prompt from recognized speech
         if let range = updatingTextHolder.recongnizedText.range(of: "tell me ") {
             
@@ -218,7 +146,7 @@ class Argo {
                     print("response:", response)
                     
                     // call text to speech function with the response from Argo
-                    self.Speak(text: response, speechSynthesizer: speechSynthesizer)
+                    self.speak(text: response, speechSynthesizer: speechSynthesizer)
                     
                     // add converation entry
                     self.conversationManager.addEntry(prompt: question, response: response)
@@ -231,49 +159,41 @@ class Argo {
         }
     }
     
+    // Opens a 3D model based on user input
     func handleModel(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
         updatingTextHolder.mode = "model"
         
-        if (modelsAvailableStr == "none") {
-            Speak(text: "There are no models to show you", speechSynthesizer: speechSynthesizer)
-            return
-        }
-        
         Task {
-            let modelToOpen = await findBestModel()
+            // generate a search query based on user input
+            var prompt = "I need to display a 3d model. I am using an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(updatingTextHolder.recongnizedText)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
             
+            let modelSearch = try await getResponse(prompt: prompt)
+            print("searching for:", modelSearch)
+            // search Sketchfab API for models relating to the search query
+            let results = try await sketchFabSearch(q: modelSearch)
             
-            print ("model to open:", modelToOpen)
-            
-            if modelsAvailable.contains(modelToOpen) {
-                openWindow(id: "volume", value: modelToOpen)
+            // Construct dictionary from the result struct
+            var models = [String:String]()
+            for result in results {
+                models[result.uid] = result.name
             }
-            else {
-                print("no model available/matching")
-            }
-        }
-        
-    }
-    
-    func findBestModel() async -> String{
-        let prompt = "I need to display a 3d model. using the context of our previous conversation if applicable, decide which of the following 3d model files should be displayed. Your response will be directly used to open the model so respond with only your choice of file name with no space or anything else. If you think none of the available models are applicable, respond with the word 'none'. Here are the available models: ( \(modelsAvailableStr)). Please limit your response to one single word with no punctuation"
-        var response = ""
-        do {
-            response = try await getResponse(prompt: prompt)
-            for model in modelsAvailable {
-                if response.contains(model) {
-                    return model
+            
+            // Use the names of models to pick the one to open
+            prompt = "Your response must be one phrase with no spaces or punctuation: You have previously created a search query for a 3D model. That search has been ran and now I have the results as a dictionary of models in the form (uid, name). Please use the context from our previous conversation to identify the model whose name best matches what I want to see. Provide the uid of that model. Here is the dictionary of models: \(models). Based on our previous discussion, decide which model's name best matches my previous prompts. Simpler names are better. Please provide ONLY the uid of the matching model. Your response must only include the uid."
+            let modelToOpen = try await getResponse(prompt: prompt)
+            print("model to open:", modelToOpen)
+            
+            // check if model is valid
+            if (models.keys.contains(modelToOpen)) {
+                // open it using the main thread
+                DispatchQueue.main.async {
+                    self.openWindow(id: "model", value: modelToOpen)
+                    print("openeed")
                 }
             }
-            return "no model"
-        }
-        catch let error {
-            print("Error:", error)
-            response = "Error getting model"
-            return "no model"
-            
+            else {
+                print("Error generating model to open")
+            }
         }
     }
-    
-    
 }
