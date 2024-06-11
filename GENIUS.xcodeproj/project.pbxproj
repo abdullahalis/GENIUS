@@ -140,10 +140,10 @@
 		2FE827CE2C066FE6007AA006 /* UmainSpatialGestures in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */; };
 		2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CF2C066FEB007AA006 /* GestureKit */; };
 		2FE827D22C067DEB007AA006 /* ConvoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE827D12C067DEB007AA006 /* ConvoView.swift */; };
+		450278F82C18F0EB00A1260F /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450278F72C18F0EB00A1260F /* ModelView.swift */; };
 		450441222BFF94DE0034F730 /* ProteinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441212BFF94DE0034F730 /* ProteinView.swift */; };
 		450441242BFF9A5D0034F730 /* Protein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* Protein.swift */; };
 		452DB3932C17965200FD161A /* ProteinSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DB3922C17965200FD161A /* ProteinSpace.swift */; };
-		4594A5102C18B35000708AEF /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4594A50F2C18B35000708AEF /* ModelView.swift */; };
 		AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F03C52C06778D00F4D500 /* MeetingView.swift */; };
 		AC6BD4A02C12486A00F97091 /* PolarisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6BD49F2C12486A00F97091 /* PolarisView.swift */; };
 		AC6BD4A22C12487800F97091 /* PolarisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6BD4A12C12487800F97091 /* PolarisManager.swift */; };
@@ -306,10 +306,10 @@
 		2FD48ED82C10F6E2002DBC5D /* Bananas.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Bananas.usdz; sourceTree = "<group>"; };
 		2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketchfab.swift; sourceTree = "<group>"; };
 		2FE827D12C067DEB007AA006 /* ConvoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoView.swift; sourceTree = "<group>"; };
+		450278F72C18F0EB00A1260F /* ModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelView.swift; sourceTree = "<group>"; };
 		450441212BFF94DE0034F730 /* ProteinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinView.swift; sourceTree = "<group>"; };
 		450441232BFF9A5D0034F730 /* Protein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protein.swift; sourceTree = "<group>"; };
 		452DB3922C17965200FD161A /* ProteinSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinSpace.swift; sourceTree = "<group>"; };
-		4594A50F2C18B35000708AEF /* ModelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModelView.swift; path = ../../../Downloads/ModelView.swift; sourceTree = "<group>"; };
 		AC1F03C52C06778D00F4D500 /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
 		AC6BD49F2C12486A00F97091 /* PolarisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarisView.swift; sourceTree = "<group>"; };
 		AC6BD4A12C12487800F97091 /* PolarisManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarisManager.swift; sourceTree = "<group>"; };
@@ -490,6 +490,39 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		450278EE2C18F05100A1260F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
+				2FE827D12C067DEB007AA006 /* ConvoView.swift */,
+				450441212BFF94DE0034F730 /* ProteinView.swift */,
+				AC81CABE2BED259700933492 /* ContentView.swift */,
+				2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */,
+				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
+				2FD48ED02C0E3E50002DBC5D /* GeniusAnimView.swift */,
+				450278F72C18F0EB00A1260F /* ModelView.swift */,
+				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
+				452DB3922C17965200FD161A /* ProteinSpace.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		450278F92C18F10300A1260F /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */,
+				ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */,
+				2FD48ECE2C0E3E06002DBC5D /* AnimationManager.swift */,
+				450441232BFF9A5D0034F730 /* Protein.swift */,
+				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
+				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
+				2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */,
+				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
+				2FD48ED22C0E438A002DBC5D /* Functions.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		AC81CAAC2BED259700933492 = {
 			isa = PBXGroup;
 			children = (
@@ -513,8 +546,11 @@
 		AC81CAB72BED259700933492 /* GENIUS */ = {
 			isa = PBXGroup;
 			children = (
+				450278F92C18F10300A1260F /* Managers */,
+				450278EE2C18F05100A1260F /* Views */,
 				2FD48DDD2C0E2751002DBC5D /* GeniusAnimation */,
 				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
+<<<<<<< Updated upstream
 				AC6BD49F2C12486A00F97091 /* PolarisView.swift */,
 				AC6BD4A12C12487800F97091 /* PolarisManager.swift */,
 				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
@@ -536,6 +572,8 @@
 				2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */,
 				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
 				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
+=======
+>>>>>>> Stashed changes
 				ACDC9C622BFD1579008C5B21 /* HandGestures */,
 				2FE827C82BFFD525007AA006 /* Models */,
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
@@ -836,9 +874,9 @@
 				450441222BFF94DE0034F730 /* ProteinView.swift in Sources */,
 				2FE827D22C067DEB007AA006 /* ConvoView.swift in Sources */,
 				2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */,
+				450278F82C18F0EB00A1260F /* ModelView.swift in Sources */,
 				452DB3932C17965200FD161A /* ProteinSpace.swift in Sources */,
 				ACDC9C732BFE51FE008C5B21 /* HelpView.swift in Sources */,
-				4594A5102C18B35000708AEF /* ModelView.swift in Sources */,
 				AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */,
 				ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */,
 				2FD48EDB2C1252F1002DBC5D /* Sketchfab.swift in Sources */,
