@@ -485,6 +485,39 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		45783F332C18F996009BC5BE /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */,
+				ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */,
+				2FD48ECE2C0E3E06002DBC5D /* AnimationManager.swift */,
+				450441232BFF9A5D0034F730 /* Protein.swift */,
+				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
+				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
+				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
+				2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */,
+				2FD48ED22C0E438A002DBC5D /* Functions.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		45783F342C18F9C4009BC5BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2FD48ED62C10F3BB002DBC5D /* ModelView.swift */,
+				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
+				2FE827D12C067DEB007AA006 /* ConvoView.swift */,
+				450441212BFF94DE0034F730 /* ProteinView.swift */,
+				452DB3922C17965200FD161A /* ProteinSpace.swift */,
+				AC81CABE2BED259700933492 /* ContentView.swift */,
+				2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */,
+				2FD48ED02C0E3E50002DBC5D /* GeniusAnimView.swift */,
+				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
+				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		AC81CAAC2BED259700933492 = {
 			isa = PBXGroup;
 			children = (
@@ -508,27 +541,10 @@
 		AC81CAB72BED259700933492 /* GENIUS */ = {
 			isa = PBXGroup;
 			children = (
+				45783F342C18F9C4009BC5BE /* Views */,
+				45783F332C18F996009BC5BE /* Managers */,
 				2FD48DDD2C0E2751002DBC5D /* GeniusAnimation */,
 				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
-				2FD48ED62C10F3BB002DBC5D /* ModelView.swift */,
-				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
-				2FE827D12C067DEB007AA006 /* ConvoView.swift */,
-				450441232BFF9A5D0034F730 /* Protein.swift */,
-				450441212BFF94DE0034F730 /* ProteinView.swift */,
-				452DB3922C17965200FD161A /* ProteinSpace.swift */,
-				ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */,
-				ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */,
-				AC81CABE2BED259700933492 /* ContentView.swift */,
-				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
-				2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */,
-				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
-				2FD48ED02C0E3E50002DBC5D /* GeniusAnimView.swift */,
-				2FD48ECE2C0E3E06002DBC5D /* AnimationManager.swift */,
-				2FD48ED22C0E438A002DBC5D /* Functions.swift */,
-				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
-				2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */,
-				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
-				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
 				ACDC9C622BFD1579008C5B21 /* HandGestures */,
 				2FE827C82BFFD525007AA006 /* Models */,
 				AC81CAC22BED259800933492 /* Assets.xcassets */,
