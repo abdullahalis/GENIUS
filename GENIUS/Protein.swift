@@ -9,7 +9,7 @@
 import Foundation
 
 // Class to model proteins as objects
-class Protein: CustomStringConvertible{
+class Protein: CustomStringConvertible {
     private var stringId: String        // STRING-db identifier
     private var ncbiTaxonId: String     // NCBI Taxonomic Identifier for species
     private var taxonName: String       // Taxonomic name for species
@@ -42,7 +42,7 @@ class Protein: CustomStringConvertible{
 }
 
 // Class to model protein-protein interactions as objects
-class Interaction: CustomStringConvertible{
+class Interaction: CustomStringConvertible {
     private var proteinA: String
     private var proteinB: String
     private var ncbiTaxonId: String
@@ -95,8 +95,6 @@ class Interaction: CustomStringConvertible{
     func getEScore() -> Double      {return self.escore}
     func getDScore() -> Double      {return self.dscore}
     func getTScore() -> Double      {return self.tscore}
-    
-    
 }
 
 // Wrapper function

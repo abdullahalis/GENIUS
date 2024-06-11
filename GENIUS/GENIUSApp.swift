@@ -34,6 +34,12 @@ struct GENIUSApp: App {
     
         WindowGroup(id: "Proteins") {
             ProteinView(updatingTextHolder: updatingTextHolder)
+                .environmentObject(Network.shared)
+        }
+        
+        ImmersiveSpace(id: "ProteinSpace") {
+            ProteinSpace()
+                .environmentObject(Network.shared)
         }
     }
 }

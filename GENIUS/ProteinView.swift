@@ -8,16 +8,16 @@
 import SwiftUI
 import RealityKit
 
-class Network {
-    private var proteins: [Protein]
-    private var interactions: [Interaction]
+// Class to model network objects
+class Network: ObservableObject {
+    private var proteins: [Protein] = []
+    private var interactions: [Interaction] = []
     private var nodes: [ModelEntity] = []
     private var edges: [ModelEntity] = []
     
-    init(p: [Protein] = [], i: [Interaction] = []) {
-        self.proteins = p
-        self.interactions = i
-    }
+    // Declare singleton instance of Network
+    static let shared = Network()
+    private init() { }
     
     func setProteins(p: [Protein]) {self.proteins = p}
     func setInteractions(i: [Interaction]) {self.interactions = i}
@@ -184,7 +184,7 @@ class Network {
             let endPos = p2?.position ?? SIMD3(1, 1, 1)
             let midPos = (startPos + endPos) / 2
                 
-            // Calculate orientation and length of edge
+            // Recalculate orientation and length of edge
             let dist = simd_distance(startPos, endPos)
             let dir = endPos - startPos
             let rotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(dir))
@@ -199,61 +199,90 @@ class Network {
 }
 
 struct ProteinView: View {
+    @EnvironmentObject var network: Network
     @ObservedObject var updatingTextHolder: UpdatingTextHolder
     @State private var names: String = ""
     @State private var species: String = ""
     @FocusState private var TextFieldIsFocused: Bool
     @State private var buttonText = " Search database "
-    @State private var isModelShown: Bool = false
-    @State private var network = Network()
+    
+    @State private var showImmersiveSpace = false
+    @State private var immersiveSpaceIsShown = true
+    
+    @Environment(\.openImmersiveSpace) var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+    
     
     var body: some View {
-        ZStack{
-            NavigationStack {
+        NavigationStack {
+            VStack {
+                proteinMenuItems()
                 VStack {
-                    proteinMenuItems()
-                    VStack {
-                        TextField(
-                            "  Enter protein name(s)  ",
-                            text: $names
-                        )
-                        .focused($TextFieldIsFocused)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .fixedSize()
-                        TextField(
-                            "Enter NCBI taxonomyID",
-                            text: $species
-                        )
-                        .focused($TextFieldIsFocused)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .fixedSize()
-                        Button(buttonText) {
-                            getData(proteins: names, species: species) { (p,i) in
-                                network.setProteins(p: p)
-                                network.setInteractions(i: i)
-                                self.isModelShown.toggle()
-                                if buttonText == " Search database " {
-                                    buttonText = "            Clear            "
-                                } else {buttonText = " Search database "}
-                            }
-                        }.padding()
-                        HStack {
-                            Button("Record") {
-                                Recorder().startRecording(updatingTextHolder: updatingTextHolder)
-                            }
-                            Button("Stop") {
-                                Recorder().stopRecording()
-                            }
+                    TextField(
+                        "  Enter protein name(s)  ",
+                        text: $names
+                    )
+                    .focused($TextFieldIsFocused)
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
+                    .fixedSize()
+                    TextField(
+                        "Enter NCBI taxonomyID",
+                        text: $species
+                    )
+                    .focused($TextFieldIsFocused)
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
+                    .fixedSize()
+                    Button(buttonText) {
+                        getData(proteins: names, species: species) { (p,i) in
+                            network.setProteins(p: p)
+                            network.setInteractions(i: i)
+                            if buttonText == " Search database " {
+                                buttonText = "            Clear            "
+                            } else {buttonText = " Search database "}
                         }
-                        Text(updatingTextHolder.recongnizedText)
+                    }.padding()
+                    Toggle("Show model", isOn: $showImmersiveSpace)
+                        .font(.system(size: 18, weight: .medium))
+                        .frame(width: 170)
+                        .padding(15)
+                        .glassBackgroundEffect()
+                    HStack {
+                        Button("Record") {
+                            Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                        }
+                        Button("Stop") {
+                            Recorder().stopRecording()
+                        }
                     }
-                    .textFieldStyle(.roundedBorder)
-                    .navigationTitle("Protein View")
+                    Text(updatingTextHolder.recongnizedText)
+                }
+                .textFieldStyle(.roundedBorder)
+                .navigationTitle("Protein View")
+                .onChange(of: showImmersiveSpace) { _, newValue in
+                    Task {
+                        if newValue {
+                            switch await openImmersiveSpace(id: "ProteinSpace") {
+                            case .opened:
+                                immersiveSpaceIsShown = true
+                            case .error, .userCancelled:
+                                fallthrough
+                            @unknown default:
+                                immersiveSpaceIsShown = false
+                                showImmersiveSpace = false
+                            }
+                        } else if immersiveSpaceIsShown {
+                            await dismissImmersiveSpace()
+                            immersiveSpaceIsShown = false
+                        }
+                    }
                 }
             }
-            if isModelShown {modelView(network: self.network)}
+        }.onAppear{ // Dismiss existing immersive space from main menu
+            Task {
+                await dismissImmersiveSpace()
+            }
         }
     }
 }
@@ -278,41 +307,6 @@ struct proteinMenuItems: View {
     }
 }
 
-struct modelView: View {
-    let network: Network
-    var body: some View {
-        RealityView { content in
-            network.createModel()
-            for node in network.getNodes() {
-                content.add(node)
-            }
-            for edge in network.getEdges() {
-                content.add(edge)
-            }
-        }
-        .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
-            if let object = value.entity as? ModelEntity {
-                if let descEntity = object.children.first(where: { $0.name == "descWindow"}) {
-                    descEntity.isEnabled.toggle()
-                    
-                    if object.name.contains("->"){
-                        if descEntity.isEnabled{
-                            object.model?.materials = [SimpleMaterial(color: .green, isMetallic: false)]
-                        } else {
-                            object.model?.materials = [SimpleMaterial(color: .white, isMetallic: false)]
-                        }
-                    }
-                }
-            }
-        })
-        .gesture(DragGesture().targetedToAnyEntity().onChanged { value in
-            let nodeObject = value.entity
-            nodeObject.position = value.convert(value.location3D, from: .local, to: nodeObject.parent!)
-            network.updateEdges(entity: nodeObject)
-        })
-    }
-}
-
 #Preview {
-    ProteinView(updatingTextHolder: UpdatingTextHolder())
+    ProteinView(updatingTextHolder: UpdatingTextHolder()).environmentObject(Network.shared)
 }
