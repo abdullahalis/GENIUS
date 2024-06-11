@@ -14,6 +14,7 @@ class MeetingManager : Identifiable {
     private var meetingText : String
     private var meetingName : String
     private var summary = ""
+    private var request = ""
     
     init(meetingText : String, meetingName : String) {
         self.id = UUID()
@@ -45,5 +46,36 @@ class MeetingManager : Identifiable {
     }
     func getSummary() -> String {
        return summary
+    }
+    
+    func voiceCommands(updatingTextHolder: UpdatingTextHolder) {
+        Recorder().stopRecording()
+        handleCommands(updatingTextHolder: updatingTextHolder)
+    }
+    
+    func handleCommands(updatingTextHolder: UpdatingTextHolder) {
+        let recording = updatingTextHolder.recongnizedText
+        
+        // get first 10 words to extract the desired functionality
+        let words = recording.components(separatedBy: " ")
+        let firstTenWords = Array(words.prefix(10))
+        let firstTenWordsString = firstTenWords.joined(separator: " ")
+        
+        if firstTenWordsString.contains("replay meeting") {
+            Argo().Speak(text: meetingText, speechSynthesizer: speechSynthesizer)
+        }
+        else if firstTenWordsString.contains("summary") {
+            Argo().Speak(text: summary, speechSynthesizer: speechSynthesizer)
+        }
+        else {
+            do {
+                Task {
+                    let response = try await Argo().getResponse(prompt: "Using this info '" + meetingText + "' " + recording)
+                    Argo().Speak(text: response, speechSynthesizer: speechSynthesizer)
+                    Argo().conversationManager.addEntry(prompt: recording, response: response)
+                }
+            }
+        }
+        //
     }
 }
