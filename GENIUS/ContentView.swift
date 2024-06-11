@@ -97,11 +97,6 @@ struct ContentView: View {
                                 .padding()
                         }
                         .navigationTitle("Main View")
-                        VStack {
-                            NavigationLink("Polaris", destination: PolarisView(updatingTextHolder: updatingTextHolder))
-                                .padding()
-                        }
-                        .navigationTitle("Main View")
                     }
                 }
             }
