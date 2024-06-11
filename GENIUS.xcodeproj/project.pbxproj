@@ -172,7 +172,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F04BBA12C0E103B00793581 /* GENIUS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GENIUS; sourceTree = "<group>"; };
 		2F714BC42C175B8300F309F1 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 		2FB3AB862BF6521E002F09E9 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Earth.usdz; path = GENIUS/Models/Earth.usdz; sourceTree = SOURCE_ROOT; };
@@ -510,7 +509,6 @@
 			isa = PBXGroup;
 			children = (
 				2FD48DDD2C0E2751002DBC5D /* GeniusAnimation */,
-				2F04BBA12C0E103B00793581 /* GENIUS */,
 				AC81CABC2BED259700933492 /* GENIUSApp.swift */,
 				2FD48ED62C10F3BB002DBC5D /* ModelView.swift */,
 				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
