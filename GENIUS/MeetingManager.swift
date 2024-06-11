@@ -36,7 +36,7 @@ class MeetingManager : Identifiable {
 //        return updatingTextHolder.responseText
 //    }
     func replayMeeting() {
-        Argo().Speak(text: self.meetingText, speechSynthesizer: speechSynthesizer)
+        Argo().speak(text: self.meetingText, speechSynthesizer: speechSynthesizer)
     }
     func getName() -> String {
        return meetingName
@@ -62,16 +62,16 @@ class MeetingManager : Identifiable {
         let firstTenWordsString = firstTenWords.joined(separator: " ")
         
         if firstTenWordsString.contains("replay meeting") {
-            Argo().Speak(text: meetingText, speechSynthesizer: speechSynthesizer)
+            Argo().speak(text: meetingText, speechSynthesizer: speechSynthesizer)
         }
         else if firstTenWordsString.contains("summary") {
-            Argo().Speak(text: summary, speechSynthesizer: speechSynthesizer)
+            Argo().speak(text: summary, speechSynthesizer: speechSynthesizer)
         }
         else {
             do {
                 Task {
                     let response = try await Argo().getResponse(prompt: "Using this info '" + meetingText + "' " + recording)
-                    Argo().Speak(text: response, speechSynthesizer: speechSynthesizer)
+                    Argo().speak(text: response, speechSynthesizer: speechSynthesizer)
                     Argo().conversationManager.addEntry(prompt: recording, response: response)
                 }
             }

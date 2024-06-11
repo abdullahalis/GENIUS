@@ -67,6 +67,7 @@ struct ImmersiveView: View {
                    if !recording && gestureDescription.contains("Detected: All fingers then thumb") {
                        recording = true
                        Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                       updatingTextHolder.mode = "Recording..."
                        print("Recording started")
                    }
                    else if recording && gestureDescription.contains("Detected: Spider-Man") {

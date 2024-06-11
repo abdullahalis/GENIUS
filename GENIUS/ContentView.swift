@@ -11,11 +11,7 @@ import RealityKitContent
 import GestureKit
 import Speech
 
-
-
 struct ContentView: View {
-    
-    
     @State private var handsTogether = false
     @State private var prompt = ""
     @State private var showImmersiveSpace = true
@@ -28,18 +24,15 @@ struct ContentView: View {
     let speechSynthesizer = AVSpeechSynthesizer()
 //    @ObservedObject var updatingTextHolder = UpdatingTextHolder()
     var updatingTextHolder: UpdatingTextHolder
+    let frameDuration = 1.0 / 30.0 // 30 fps
     
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
-    
     @Environment(\.openWindow) var openWindow
     
-    
-
     var body: some View {
         NavigationStack {
             ZStack {
-                
                 Circle()
                     .fill(
                         RadialGradient(
@@ -58,7 +51,12 @@ struct ContentView: View {
                             openWindow(id: "volume", value: "Earth")
                         }
                         Button("Mars") {
-                            openWindow(id: "volume", value: "Mars")
+                            //openWindow(id: "volume", value: "Mars")
+                            Task {
+                                print("loadign mars")
+                                let mars = try await sketchFabSearch(q: "Mars")
+                                print("mars result:", mars)
+                            }
                         }
                     }
                     
@@ -72,9 +70,7 @@ struct ContentView: View {
                         }
                         Button("Stop Recording") {
                             Recorder().stopRecording()
-                            Task {
-                                await Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
-                            }
+                            Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
                         }
                     }
                     Text("Mode: \(updatingTextHolder.mode)")
@@ -96,13 +92,15 @@ struct ContentView: View {
                                 .padding()
                         }
                         .navigationTitle("Main View")
+                        VStack {
+                            NavigationLink("History", destination: ConvoView())
+                                .padding()
+                        }
+                        .navigationTitle("Main View")
                     }
                 }
             }
         }
-                
-    
-        
         .padding()
         .onAppear {
             Task {
@@ -130,14 +128,50 @@ struct mainMenuItems: View {
         VStack {
             Text("Welcome to GENIUS")
                 .font(.system(size: 30, weight: .medium))
-            Image(systemName: "brain.head.profile.fill")
-                .renderingMode(.original)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 90, height: 90)
+//            Image(systemName: "brain.head.profile.fill")
+//                .renderingMode(.original)
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 90, height: 90)
+            GeniusAnimView()
+                .frame(width: 200, height: 200)
+            
         }
         .padding(.bottom, 40)
 
+    }
+}
+
+
+
+struct ImageSequenceView: View {
+    let imageNames: [String]
+    let frameDuration: Double
+    
+    @State private var currentFrame = 0
+    @State private var timer: Timer? = nil
+    
+    var body: some View {
+        Image(imageNames[currentFrame])
+            .resizable()
+            .scaledToFit()
+            .onAppear {
+                startTimer()
+            }
+            .onDisappear {
+                stopTimer()
+            }
+    }
+    
+    private func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: frameDuration, repeats: true) { _ in
+            currentFrame = (currentFrame + 1) % imageNames.count
+        }
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 

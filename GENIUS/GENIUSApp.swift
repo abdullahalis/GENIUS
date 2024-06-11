@@ -23,6 +23,13 @@ struct GENIUSApp: App {
 
         }
         
+        // Window to open Sketchfab Viewer API
+        WindowGroup(id: "model", for: String.self) { $uid in
+            if let uid {
+                ModelView(uid: uid)
+            }
+        }
+        
         WindowGroup(id: "volume", for: String.self) { $modelName in
             if let modelName {
                 VolumeView(modelName: modelName)

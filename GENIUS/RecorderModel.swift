@@ -51,13 +51,12 @@ class Recorder: ObservableObject {
                 finalTranscription = result.bestTranscription.formattedString
                 print("transcribe:", finalTranscription.lowercased())
                 updatingTextHolder.recongnizedText = finalTranscription.lowercased()
-
-        }
-      
-        if error != nil || result?.isFinal == true {
-            self.audioEngine.stop()
-            inputNode.removeTap(onBus: 0)
-        }
+            }
+          
+            if error != nil || result?.isFinal == true {
+                self.audioEngine.stop()
+                inputNode.removeTap(onBus: 0)
+            }
         }
     
         let recordingFormat = inputNode.outputFormat(forBus: 0)
@@ -84,7 +83,5 @@ class Recorder: ObservableObject {
       } catch let error {
           print("error deactivating audio session after finishing recording:", error.localizedDescription)
       }
-      
   }
-  
 }
