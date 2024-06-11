@@ -53,9 +53,9 @@ class Network: ObservableObject {
                 
             // Assign random position to each protein within the bounding box of parent window
             // Bounds configured based on default window size
-            proteinObject.position = SIMD3<Float>(Float.random(in: -0.8 ... 0.8),
-                                                  Float.random(in: 1 ... 2),
-                                                  Float.random(in: -1 ... -0.1))
+            proteinObject.position = SIMD3<Float>(Float.random(in: -0.3 ... 0.3),
+                                                  Float.random(in: -0.15 ... 0.15),
+                                                  Float.random(in: 0 ... 0.2))
                 
             proteinObject.name = p.getPreferredName()
                 
