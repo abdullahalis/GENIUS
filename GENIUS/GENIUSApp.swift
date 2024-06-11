@@ -14,8 +14,6 @@ import UmainSpatialGestures
 struct GENIUSApp: App {
     @ObservedObject var updatingTextHolder = UpdatingTextHolder()
     
-    
-    
     var body: some SwiftUI.Scene {
         WindowGroup {
             ContentView(updatingTextHolder: updatingTextHolder).environmentObject(ConversationManager.shared)
@@ -23,6 +21,13 @@ struct GENIUSApp: App {
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView(updatingTextHolder: updatingTextHolder)
 
+        }
+        
+        // Window to open Sketchfab Viewer API
+        WindowGroup(id: "model", for: String.self) { $uid in
+            if let uid {
+                ModelView(uid: uid)
+            }
         }
         
         WindowGroup(id: "volume", for: String.self) { $modelName in
@@ -36,6 +41,12 @@ struct GENIUSApp: App {
     
         WindowGroup(id: "Proteins") {
             ProteinView(updatingTextHolder: updatingTextHolder)
+                .environmentObject(Network.shared)
+        }
+        
+        ImmersiveSpace(id: "ProteinSpace") {
+            ProteinSpace()
+                .environmentObject(Network.shared)
         }
     }
 }
