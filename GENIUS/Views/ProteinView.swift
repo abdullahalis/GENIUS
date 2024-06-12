@@ -89,7 +89,7 @@ struct ProteinView: View {
                     }
                 }
             }
-        }.onAppear{ // Dismiss existing immersive space from main menu
+        }.onAppear{ // Dismiss existing immersive space created in main menu
             Task {
                 await dismissImmersiveSpace()
             }

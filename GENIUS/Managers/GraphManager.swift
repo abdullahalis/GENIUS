@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import ForceSimulation
 
 // Class to model protein graph objects
 class Graph: ObservableObject {
@@ -14,7 +15,17 @@ class Graph: ObservableObject {
     private var interactions: [Interaction] = []
     private var nodes: [ModelEntity] = []
     private var edges: [ModelEntity] = []
-    private var layout: GraphLayout = FRA91()
+    
+    // Define force component
+    private struct My3DForce: ForceField3D {
+        typealias Vector = SIMD3<Float>
+        
+        var force = CompositedForce<Vector, _, _> {
+            Kinetics3D.CenterForce(center: .zero, strength: 1)
+            Kinetics3D.ManyBodyForce(strength: -1)
+            Kinetics3D.LinkForce(stiffness: .constant(0.5))
+        }
+    }
     
     // Declare singleton instance of Graph
     static let shared = Graph()
@@ -24,15 +35,60 @@ class Graph: ObservableObject {
     func setInteractions(i: [Interaction]) {self.interactions = i}
     func getNodes() -> [ModelEntity] {return self.nodes}
     func getEdges() -> [ModelEntity] {return self.edges}
+    
+    // Build and run simulation to obtain optimal positions
+    private func buildSim() -> Simulation3D<My3DForce> {
         
-    func createModel() {
-        createNodes()
-        createEdges()
+        let links = self.interactions.map { i in
+            let fromID = self.proteins.firstIndex { mn in
+                mn.getPreferredName() == i.getProteinA()
+            }!
+            let toID = self.proteins.firstIndex { mn in
+                mn.getPreferredName() == i.getProteinB()
+            }!
+            return EdgeID(source: fromID, target: toID)
+        }
+        
+        let sim = Simulation(
+            nodeCount: self.proteins.count,
+            links: links,
+            forceField: My3DForce()
+        )
+        
+        for _ in 0..<720 {
+            sim.tick()
+        }
+        return sim
     }
     
-    private func createNodes() {
-        let colors: [UIColor] = [.black, .blue, .brown, .cyan, .darkGray, .gray, .green, .lightGray, .magenta, .orange, .purple, .red, .white, .yellow]
+    func createNodes(_ devicePos: simd_float3) {
+        let materialColors: [UIColor] = [
+            UIColor(red: 17.0/255, green: 181.0/255, blue: 174.0/255, alpha: 1.0),
+            UIColor(red: 64.0/255, green: 70.0/255, blue: 201.0/255, alpha: 1.0),
+            UIColor(red: 246.0/255, green: 133.0/255, blue: 18.0/255, alpha: 1.0),
+            UIColor(red: 222.0/255, green: 60.0/255, blue: 130.0/255, alpha: 1.0),
+            UIColor(red: 17.0/255, green: 181.0/255, blue: 174.0/255, alpha: 1.0),
+            UIColor(red: 114.0/255, green: 224.0/255, blue: 106.0/255, alpha: 1.0),
+            UIColor(red: 22.0/255, green: 124.0/255, blue: 243.0/255, alpha: 1.0),
+            UIColor(red: 115.0/255, green: 38.0/255, blue: 211.0/255, alpha: 1.0),
+            UIColor(red: 232.0/255, green: 198.0/255, blue: 0.0/255, alpha: 1.0),
+            UIColor(red: 203.0/255, green: 93.0/255, blue: 2.0/255, alpha: 1.0),
+            UIColor(red: 0.0/255, green: 143.0/255, blue: 93.0/255, alpha: 1.0),
+            UIColor(red: 188.0/255, green: 233.0/255, blue: 49.0/255, alpha: 1.0),
+        ]
+        
+        // Define an array of node materials
+        let nodeMaterials = materialColors.map { c in
+            var material = PhysicallyBasedMaterial()
+            material.baseColor = PhysicallyBasedMaterial.BaseColor(tint: c)
+            material.roughness = PhysicallyBasedMaterial.Roughness(floatLiteral: 1.0)
+            material.metallic = PhysicallyBasedMaterial.Metallic(floatLiteral: 0.01)
             
+            material.emissiveColor = PhysicallyBasedMaterial.EmissiveColor(color: c)
+            material.emissiveIntensity = 0.4
+            return material
+        }
+        
         // Create a template entity for protein descriptions
         let descTemplate = ModelEntity(mesh: MeshResource.generateText(""),
                                        materials: [UnlitMaterial(color: .black)])
@@ -45,19 +101,25 @@ class Graph: ObservableObject {
         windowTemplate.name = "descWindow"
         windowTemplate.addChild(descTemplate)
         windowTemplate.isEnabled = false
-            
+        
+        // Build and run simulation to retrieve final positions
+        let sim = buildSim()
+        let scaleRatio: Float = 0.0081
+        let positions = sim.kinetics.position.asArray().map { pos in
+            simd_float3(
+                (pos[1]) * scaleRatio,
+                -(pos[0]) * scaleRatio,
+                (pos[2]) * scaleRatio + 0.25
+        )}
+
+        
+        let sphereMesh = MeshResource.generateSphere(radius: 0.01)
+
         // Create entities for proteins
-        for p in proteins {
-            let sphere = MeshResource.generateSphere(radius: 0.01)
-            let sphereMaterial = SimpleMaterial(color: colors.randomElement()!, isMetallic: false)
-            let proteinObject = ModelEntity(mesh: sphere, materials: [sphereMaterial])
-                
-            // Assign random position to each protein within the bounding box of parent window
-            // Bounds configured based on default window size
-            proteinObject.position = SIMD3<Float>(Float.random(in: -0.8 ... 0.8),
-                                                  Float.random(in: 1 ... 2),
-                                                  Float.random(in: -1 ... -0.1))
-                
+        for (index, p) in proteins.enumerated() {
+            let proteinObject = ModelEntity(mesh: sphereMesh, materials: [nodeMaterials[index%nodeMaterials.count]])
+                            
+            proteinObject.position = devicePos + positions[index]
             proteinObject.name = p.getPreferredName()
                 
             // Set interactivity
@@ -97,7 +159,7 @@ class Graph: ObservableObject {
         }
     }
     
-    private func createEdges() {
+    func createEdges() {
         // Create a template entity for edge descriptions
         let descTemplate = ModelEntity(mesh: MeshResource.generateText(""),
                                        materials: [UnlitMaterial(color: .black)])
@@ -110,7 +172,9 @@ class Graph: ObservableObject {
         windowTemplate.name = "descWindow"
         windowTemplate.addChild(descTemplate)
         windowTemplate.isEnabled = false
-            
+                
+        let lineMaterial = SimpleMaterial(color: UIColor(white: 1.0, alpha: 0.5), isMetallic: false)
+        
         // Create entities for edges
         for i in interactions {
                 
@@ -128,7 +192,6 @@ class Graph: ObservableObject {
             let rotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(dir))
             let line = MeshResource.generateCylinder(height: dist, radius: 0.001)
             
-            let lineMaterial = SimpleMaterial(color: .white, isMetallic: false)
             let lineEntity = ModelEntity(mesh: line, materials: [lineMaterial])
             lineEntity.position = midPos
             lineEntity.orientation = rotation
@@ -196,17 +259,5 @@ class Graph: ObservableObject {
             edge.orientation = rotation
             edge.children.first?.orientation = simd_conjugate(rotation)
         }
-    }
-}
-
-// Generic superclass for graph layout algorithms
-class GraphLayout {
-    func performIteration(){}
-}
-
-// Fruchter-Reingold Algorithm (1991)
-class FRA91: GraphLayout {
-    override func performIteration() {
-        print("Hello world!")
     }
 }
