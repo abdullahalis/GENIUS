@@ -143,6 +143,9 @@
 		2FE827D22C067DEB007AA006 /* ConvoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE827D12C067DEB007AA006 /* ConvoView.swift */; };
 		450441222BFF94DE0034F730 /* ProteinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441212BFF94DE0034F730 /* ProteinView.swift */; };
 		450441242BFF9A5D0034F730 /* ProteinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* ProteinManager.swift */; };
+		4516FB502C19ED6200D0F913 /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4516FB4F2C19ED6200D0F913 /* GraphManager.swift */; };
+		4516FB532C1A01AA00D0F913 /* ForceSimulation in Frameworks */ = {isa = PBXBuildFile; productRef = 4516FB522C1A01AA00D0F913 /* ForceSimulation */; };
+		4516FB552C1A01AA00D0F913 /* Grape in Frameworks */ = {isa = PBXBuildFile; productRef = 4516FB542C1A01AA00D0F913 /* Grape */; };
 		452DB3932C17965200FD161A /* ProteinSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DB3922C17965200FD161A /* ProteinSpace.swift */; };
 		AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F03C52C06778D00F4D500 /* MeetingView.swift */; };
 		AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = AC81CABA2BED259700933492 /* RealityKitContent */; };
@@ -306,6 +309,7 @@
 		2FE827D12C067DEB007AA006 /* ConvoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoView.swift; sourceTree = "<group>"; };
 		450441212BFF94DE0034F730 /* ProteinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinView.swift; sourceTree = "<group>"; };
 		450441232BFF9A5D0034F730 /* ProteinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinManager.swift; sourceTree = "<group>"; };
+		4516FB4F2C19ED6200D0F913 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		452DB3922C17965200FD161A /* ProteinSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinSpace.swift; sourceTree = "<group>"; };
 		AC1F03C52C06778D00F4D500 /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
 		AC81CAB52BED259700933492 /* GENIUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENIUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -335,6 +339,8 @@
 				2FE827CE2C066FE6007AA006 /* UmainSpatialGestures in Frameworks */,
 				2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */,
 				AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */,
+				4516FB552C1A01AA00D0F913 /* Grape in Frameworks */,
+				4516FB532C1A01AA00D0F913 /* ForceSimulation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,6 +503,7 @@
 				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
 				2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */,
 				2FD48ED22C0E438A002DBC5D /* Functions.swift */,
+				4516FB4F2C19ED6200D0F913 /* GraphManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -615,6 +622,8 @@
 				AC81CABA2BED259700933492 /* RealityKitContent */,
 				2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */,
 				2FE827CF2C066FEB007AA006 /* GestureKit */,
+				4516FB522C1A01AA00D0F913 /* ForceSimulation */,
+				4516FB542C1A01AA00D0F913 /* Grape */,
 			);
 			productName = GENIUS;
 			productReference = AC81CAB52BED259700933492 /* GENIUS.app */;
@@ -670,6 +679,7 @@
 			packageReferences = (
 				ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */,
 				ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */,
+				4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */,
 			);
 			productRefGroup = AC81CAB62BED259700933492 /* Products */;
 			projectDirPath = "";
@@ -837,6 +847,7 @@
 				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
 				ACDC9C782BFE72A9008C5B21 /* MeetingManager.swift in Sources */,
 				2FD48ED32C0E438B002DBC5D /* Functions.swift in Sources */,
+				4516FB502C19ED6200D0F913 /* GraphManager.swift in Sources */,
 				ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */,
 				2FD48ED12C0E3E50002DBC5D /* GeniusAnimView.swift in Sources */,
 				2FD48ECF2C0E3E06002DBC5D /* AnimationManager.swift in Sources */,
@@ -1130,6 +1141,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/li3zhen1/Grape";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.3;
+			};
+		};
 		ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Umain-Vision-Pro/UmainSpatialGestures";
@@ -1158,6 +1177,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */;
 			productName = GestureKit;
+		};
+		4516FB522C1A01AA00D0F913 /* ForceSimulation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */;
+			productName = ForceSimulation;
+		};
+		4516FB542C1A01AA00D0F913 /* Grape */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */;
+			productName = Grape;
 		};
 		AC81CABA2BED259700933492 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;

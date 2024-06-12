@@ -10,14 +10,14 @@ import RealityKit
 
 // Immersive Space to view protein networks
 struct ProteinSpace: View {
-    @EnvironmentObject var network: Network
+    @EnvironmentObject var graph: Graph
     var body: some View {
         RealityView { content in
-            network.createModel()
-            for node in network.getNodes() {
+            graph.createModel()
+            for node in graph.getNodes() {
                 content.add(node)
             }
-            for edge in network.getEdges() {
+            for edge in graph.getEdges() {
                 content.add(edge)
             }
         } // Show description when object is clicked
@@ -41,11 +41,11 @@ struct ProteinSpace: View {
             let nodeObject = value.entity
             nodeObject.position = value.convert(value.location3D, from: .local, to: nodeObject.parent!)
             // Update edges to reflect new positions of proteins
-            network.updateEdges(entity: nodeObject)
+            graph.updateEdges(entity: nodeObject)
         })
     }
 }
 
 #Preview {
-    ProteinSpace().environmentObject(Network.shared)
+    ProteinSpace().environmentObject(Graph.shared)
 }

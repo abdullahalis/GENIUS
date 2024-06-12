@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "grape",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/li3zhen1/Grape",
+      "state" : {
+        "revision" : "fdae2ebfabcc10fe5530946d9b5ff9fb8f76dd8f",
+        "version" : "0.7.3"
+      }
+    },
+    {
       "identity" : "umainspatialgestures",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Umain-Vision-Pro/UmainSpatialGestures",

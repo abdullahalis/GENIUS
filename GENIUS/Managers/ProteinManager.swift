@@ -1,5 +1,5 @@
 //
-//  Protein.swift
+//  ProteinManager.swift
 //  GENIUS
 //
 //  Created by Aaqel Shaik on 5/23/24.

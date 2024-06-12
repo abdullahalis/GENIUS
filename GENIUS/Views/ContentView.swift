@@ -88,7 +88,7 @@ struct ContentView: View {
                         }
                         .navigationTitle("Main View")
                         VStack {
-                            NavigationLink("Protein", destination: ProteinView(updatingTextHolder: updatingTextHolder).environmentObject(Network.shared))
+                            NavigationLink("Protein", destination: ProteinView(updatingTextHolder: updatingTextHolder).environmentObject(Graph.shared))
                                 .padding()
                         }
                         .navigationTitle("Main View")
