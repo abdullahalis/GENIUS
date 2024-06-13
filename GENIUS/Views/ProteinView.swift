@@ -9,13 +9,12 @@ import SwiftUI
 import RealityKit
 
 struct ProteinView: View {
-    @EnvironmentObject var graph: Graph
+    @ObservedObject var graph: Graph = Graph.shared
     @ObservedObject var updatingTextHolder: UpdatingTextHolder
     @State private var names: String = ""
     @State private var species: String = ""
     @FocusState private var TextFieldIsFocused: Bool
     @State private var buttonText = " Search database "
-    
     @State private var showImmersiveSpace = false
     @State private var immersiveSpaceIsShown = true
     
@@ -45,19 +44,32 @@ struct ProteinView: View {
                     .disableAutocorrection(true)
                     .fixedSize()
                     Button(buttonText) {
-                        getData(proteins: names, species: species) { (p,i) in
-                            graph.setProteins(p: p)
-                            graph.setInteractions(i: i)
-                            if buttonText == " Search database " {
-                                buttonText = "            Clear            "
-                            } else {buttonText = " Search database "}
+                        if !graph.getIsShown() {
+                            getData(proteins: names, species: species) { (p,i) in
+                                graph.setProteins(p: p)
+                                graph.setInteractions(i: i)
+                                DispatchQueue.main.async {
+                                    graph.createNodes()
+                                    graph.createEdges()
+                                }
+                            }
+                            print("isLoading was: ", graph.getIsLoading())
+                            graph.toggleIsLoading()
+                            print("isLoading is: ", graph.getIsLoading())
+                            buttonText = "            Clear            "
+                        } else {
+                            graph.clear()
+                            graph.toggleIsShown()
+                            buttonText = " Search database "
                         }
+                        
                     }.padding()
-                    Toggle("Show model", isOn: $showImmersiveSpace)
-                        .font(.system(size: 18, weight: .medium))
-                        .frame(width: 170)
-                        .padding(15)
-                        .glassBackgroundEffect()
+                    if graph.getIsLoading() {
+                        HStack {
+                            Text("Loading: \(graph.getIsLoading()) ")
+                            ProgressView()
+                        }.padding()
+                    }
                     HStack {
                         Button("Record") {
                             Recorder().startRecording(updatingTextHolder: updatingTextHolder)
@@ -70,28 +82,11 @@ struct ProteinView: View {
                 }
                 .textFieldStyle(.roundedBorder)
                 .navigationTitle("Protein View")
-                .onChange(of: showImmersiveSpace) { _, newValue in
-                    Task {
-                        if newValue {
-                            switch await openImmersiveSpace(id: "ProteinSpace") {
-                            case .opened:
-                                immersiveSpaceIsShown = true
-                            case .error, .userCancelled:
-                                fallthrough
-                            @unknown default:
-                                immersiveSpaceIsShown = false
-                                showImmersiveSpace = false
-                            }
-                        } else if immersiveSpaceIsShown {
-                            await dismissImmersiveSpace()
-                            immersiveSpaceIsShown = false
-                        }
-                    }
-                }
             }
-        }.onAppear{ // Dismiss existing immersive space created in main menu
+        }.onAppear{
             Task {
                 await dismissImmersiveSpace()
+                await openImmersiveSpace(id: "ProteinSpace")
             }
         }
     }

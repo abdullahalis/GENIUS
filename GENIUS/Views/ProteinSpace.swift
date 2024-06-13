@@ -11,7 +11,7 @@ import ARKit
 
 // Immersive Space to view protein networks
 struct ProteinSpace: View {
-    @EnvironmentObject var graph: Graph
+    @ObservedObject var graph: Graph = Graph.shared
     let session = ARKitSession()
     let worldInfo = WorldTrackingProvider()
     
@@ -20,17 +20,26 @@ struct ProteinSpace: View {
             try? await session.run([worldInfo])
             // Retrieve headeset position
             let pose = worldInfo.queryDeviceAnchor(atTimestamp: CACurrentMediaTime())
-            let devicePos = pose?.originFromAnchorTransform.translation ?? simd_float3(0,0,0)
+            let devicePos = (pose?.originFromAnchorTransform.translation ?? simd_float3(0,0,0)) + simd_float3(0, 0, -0.7)
             
             // Position graph in front of headset with devicePos
-            graph.createNodes(devicePos + simd_float3(x:0, y:0, z:-0.7))
-            for node in graph.getNodes() {
-                content.add(node)
-            }
+            graph.setDevicePos(pos: devicePos)
             
-            graph.createEdges()
-            for edge in graph.getEdges() {
-                content.add(edge)
+        } update: { content in
+            content.entities.removeAll()
+            if !graph.getNodes().isEmpty && !graph.getEdges().isEmpty {
+                for node in graph.getNodes() {
+                    content.add(node)
+                }
+                
+                for edge in graph.getEdges() {
+                    content.add(edge)
+                }
+                print("Inside proteinSpace")
+                print("isLoading was: ", graph.getIsLoading())
+                graph.toggleIsLoading()
+                print("isLoading is: ", graph.getIsLoading())
+                graph.toggleIsShown()
             }
         } // Show description when object is clicked
         .gesture(TapGesture().targetedToAnyEntity().onEnded { value in

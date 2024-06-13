@@ -13,8 +13,13 @@ import ForceSimulation
 class Graph: ObservableObject {
     private var proteins: [Protein] = []
     private var interactions: [Interaction] = []
-    private var nodes: [ModelEntity] = []
-    private var edges: [ModelEntity] = []
+    @Published private var nodes: [ModelEntity] = []
+    @Published private var edges: [ModelEntity] = []
+
+    private var devicePos = simd_float3(0, 0, 0)
+     var isLoading: Bool = false
+    private var isShown: Bool = false
+
     
     // Define force component
     private struct My3DForce: ForceField3D {
@@ -33,8 +38,21 @@ class Graph: ObservableObject {
     
     func setProteins(p: [Protein]) {self.proteins = p}
     func setInteractions(i: [Interaction]) {self.interactions = i}
+    func setDevicePos(pos: simd_float3) {self.devicePos = pos}
     func getNodes() -> [ModelEntity] {return self.nodes}
     func getEdges() -> [ModelEntity] {return self.edges}
+    func getProteins() -> [Protein] {return self.proteins}
+    func getInteractions() -> [Interaction] {return self.interactions}
+    func getIsLoading() -> Bool {return self.isLoading}
+    func toggleIsLoading() {self.isLoading.toggle()}
+    func getIsShown() -> Bool {return self.isShown}
+    func toggleIsShown() {self.isShown.toggle()}
+    func clear() {
+        self.proteins = []
+        self.interactions = []
+        self.nodes = []
+        self.edges = []
+    }
     
     // Build and run simulation to obtain optimal positions
     private func buildSim() -> Simulation3D<My3DForce> {
@@ -61,7 +79,7 @@ class Graph: ObservableObject {
         return sim
     }
     
-    func createNodes(_ devicePos: simd_float3) {
+    func createNodes() {
         let materialColors: [UIColor] = [
             UIColor(red: 17.0/255, green: 181.0/255, blue: 174.0/255, alpha: 1.0),
             UIColor(red: 64.0/255, green: 70.0/255, blue: 201.0/255, alpha: 1.0),
