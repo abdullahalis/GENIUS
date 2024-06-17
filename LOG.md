@@ -27,8 +27,12 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
 * Finished tooltip-style description boxes for protein objects that appear when clicked on.
 * Added edges to protein network
 * Able to connect to Polaris via sending HTTP request to a server
+* Working on GENIUS animation
 
 # June 10 - June 14
+* Setup "show me" command to use Sketchfab API to search for and choose a 3D model to open using Argo for decision-making
+* Made single gesture to use while recording instead of seperate gestures for start and stop
+
 # June 17 - June 21
 # June 24 - June 28
 # July 01 - July 05
