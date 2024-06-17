@@ -32,6 +32,8 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
 # June 10 - June 14
 * Setup "show me" command to use Sketchfab API to search for and choose a 3D model to open using Argo for decision-making
 * Made single gesture to use while recording instead of seperate gestures for start and stop
+* Made a working terminal in the app
+* Began working on integrating Argo with the terminal
 
 # June 17 - June 21
 # June 24 - June 28
