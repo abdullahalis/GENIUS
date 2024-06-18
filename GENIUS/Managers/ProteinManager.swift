@@ -30,7 +30,7 @@ class Protein: CustomStringConvertible {
         self.taxonName = taxonName
         self.preferredName = preferredName
         // Truncate annotation with trailing ellipsis
-        self.annotation = String(annotation.prefix(265)) + " [...]"
+        self.annotation = String(annotation.prefix(350)) + " [...]"
     }
     
     func getStringId() -> String      {return self.stringId}

@@ -14,6 +14,7 @@ struct ProteinView: View {
     @State private var names: String = ""
     @State private var species: String = ""
     @FocusState private var TextFieldIsFocused: Bool
+    @State private var debugMode: Bool = true
     @State private var buttonText = " Search database "
     @State private var showImmersiveSpace = false
     @State private var immersiveSpaceIsShown = true
@@ -27,49 +28,75 @@ struct ProteinView: View {
             VStack {
                 proteinMenuItems()
                 VStack {
-                    TextField(
-                        "  Enter protein name(s)  ",
-                        text: $names
-                    )
-                    .focused($TextFieldIsFocused)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .fixedSize()
-                    TextField(
-                        "Enter NCBI taxonomyID",
-                        text: $species
-                    )
-                    .focused($TextFieldIsFocused)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .fixedSize()
-                    Button(buttonText) {
-                        if !graph.getIsShown() {
-                            getData(proteins: names, species: species) { (p,i) in
-                                graph.setProteins(p: p)
-                                graph.setInteractions(i: i)
-                                DispatchQueue.main.async {
-                                    graph.createNodes()
-                                    graph.createEdges()
+                    if !debugMode {
+                        TextField(
+                            "  Enter protein name(s)  ",
+                            text: $names
+                        )
+                        .focused($TextFieldIsFocused)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .fixedSize()
+                        TextField(
+                            "Enter NCBI taxonomyID",
+                            text: $species
+                        )
+                        .focused($TextFieldIsFocused)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .fixedSize()
+                        Button(buttonText) {
+                            if !graph.getIsShown() {
+                                graph.toggleIsShown()
+                                getData(proteins: names, species: species) { (p,i) in
+                                    graph.setData(p: p, i: i)
+                                    DispatchQueue.main.async {
+                                        graph.createModel()
+                                    }
+                                }
+                                buttonText = "            Clear            "
+                            } else {
+                                graph.clear()
+                                graph.toggleIsShown()
+                                buttonText = " Search database "
+                            }
+                            
+                        }.padding()
+                    } else {
+                        HStack {
+                            Button("P53") {
+                                if !graph.getIsShown() {
+                                    graph.toggleIsShown()
+                                    getData(proteins: "p53", species: "9606") { (p,i) in
+                                        graph.setData(p: p, i: i)
+                                        DispatchQueue.main.async {
+                                            graph.createModel()
+                                        }
+                                    }
+
+                                } else {
+                                    graph.clear()
+                                    graph.toggleIsShown()
                                 }
                             }
-                            print("isLoading was: ", graph.getIsLoading())
-                            graph.toggleIsLoading()
-                            print("isLoading is: ", graph.getIsLoading())
-                            buttonText = "            Clear            "
-                        } else {
-                            graph.clear()
-                            graph.toggleIsShown()
-                            buttonText = " Search database "
+                            Button("CDK1 & PLK1") {
+                                if !graph.getIsShown() {
+                                    graph.toggleIsShown()
+                                    getData(proteins: "cdk1 plk1", species: "9606") { (p,i) in
+                                        graph.setData(p: p, i: i)
+                                        DispatchQueue.main.async {
+                                            graph.createModel()
+                                        }
+                                    }
+
+                                } else {
+                                    graph.clear()
+                                    graph.toggleIsShown()
+                                }
+                            }
                         }
-                        
-                    }.padding()
-                    if graph.getIsLoading() {
-                        HStack {
-                            Text("Loading: \(graph.getIsLoading()) ")
-                            ProgressView()
-                        }.padding()
                     }
+                    
                     HStack {
                         Button("Record") {
                             Recorder().startRecording(updatingTextHolder: updatingTextHolder)

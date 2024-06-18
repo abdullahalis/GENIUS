@@ -27,19 +27,8 @@ struct ProteinSpace: View {
             
         } update: { content in
             content.entities.removeAll()
-            if !graph.getNodes().isEmpty && !graph.getEdges().isEmpty {
-                for node in graph.getNodes() {
-                    content.add(node)
-                }
-                
-                for edge in graph.getEdges() {
-                    content.add(edge)
-                }
-                print("Inside proteinSpace")
-                print("isLoading was: ", graph.getIsLoading())
-                graph.toggleIsLoading()
-                print("isLoading is: ", graph.getIsLoading())
-                graph.toggleIsShown()
+            for entity in graph.getNodes() + graph.getEdges() {
+                content.add(entity)
             }
         } // Show description when object is clicked
         .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
