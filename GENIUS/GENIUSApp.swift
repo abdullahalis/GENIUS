@@ -16,8 +16,38 @@ struct GENIUSApp: App {
     
     var body: some SwiftUI.Scene {
         WindowGroup {
-            ContentView(updatingTextHolder: updatingTextHolder).environmentObject(ConversationManager.shared)
+            TabView {
+                ContentView(updatingTextHolder: updatingTextHolder)
+                    .environmentObject(ConversationManager.shared)
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                
+                HelpView()
+                    .tabItem {
+                        Label("Info", systemImage: "info.circle")
+                    }
+                ConvoView()
+                    .tabItem {
+                        Label("Conversation", systemImage: "message")
+                    }
+                MeetingView(updatingTextHolder: updatingTextHolder)
+                    .tabItem {
+                        Label("Meetings", systemImage: "person.3")
+                    }
+                ProteinView(updatingTextHolder: updatingTextHolder)
+                    .tabItem {
+                        Label("Protein", systemImage: "atom")
+                    }
+            }
         }
+        WindowGroup {
+            ContentView(updatingTextHolder: updatingTextHolder)
+                .environmentObject(ConversationManager.shared)
+        }
+//        WindowGroup {
+//            NavView(updatingTextHolder: updatingTextHolder)
+//        }
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView(updatingTextHolder: updatingTextHolder)
 
@@ -41,12 +71,10 @@ struct GENIUSApp: App {
     
         WindowGroup(id: "Proteins") {
             ProteinView(updatingTextHolder: updatingTextHolder)
-                .environmentObject(Network.shared)
         }
         
         ImmersiveSpace(id: "ProteinSpace") {
             ProteinSpace()
-                .environmentObject(Network.shared)
         }
     }
 }

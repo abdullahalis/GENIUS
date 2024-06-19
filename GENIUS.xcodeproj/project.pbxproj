@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F5F907E2C208D780064AFE1 /* spread.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = 2F5F907D2C208D780064AFE1 /* spread.gesturecomposer */; };
 		2F714BC52C175B8300F309F1 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F714BC42C175B8300F309F1 /* index.html */; };
 		2F714BC62C18B31700F309F1 /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED62C10F3BB002DBC5D /* ModelView.swift */; };
+		2F714BC82C19FD8200F309F1 /* NavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F714BC72C19FD8200F309F1 /* NavView.swift */; };
+		2FA6E8302C1B8288004C7088 /* halo_hud.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA6E82F2C1B8288004C7088 /* halo_hud.png */; };
 		2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */; };
 		2FB3AB872BF6521E002F09E9 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB862BF6521E002F09E9 /* Earth.usdz */; };
 		2FB3AB892BF67D7E002F09E9 /* Mars.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB882BF67D7E002F09E9 /* Mars.usdz */; };
@@ -142,7 +145,10 @@
 		2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CF2C066FEB007AA006 /* GestureKit */; };
 		2FE827D22C067DEB007AA006 /* ConvoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE827D12C067DEB007AA006 /* ConvoView.swift */; };
 		450441222BFF94DE0034F730 /* ProteinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441212BFF94DE0034F730 /* ProteinView.swift */; };
-		450441242BFF9A5D0034F730 /* Protein.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* Protein.swift */; };
+		450441242BFF9A5D0034F730 /* ProteinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450441232BFF9A5D0034F730 /* ProteinManager.swift */; };
+		4516FB502C19ED6200D0F913 /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4516FB4F2C19ED6200D0F913 /* GraphManager.swift */; };
+		4516FB532C1A01AA00D0F913 /* ForceSimulation in Frameworks */ = {isa = PBXBuildFile; productRef = 4516FB522C1A01AA00D0F913 /* ForceSimulation */; };
+		4516FB552C1A01AA00D0F913 /* Grape in Frameworks */ = {isa = PBXBuildFile; productRef = 4516FB542C1A01AA00D0F913 /* Grape */; };
 		452DB3932C17965200FD161A /* ProteinSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DB3922C17965200FD161A /* ProteinSpace.swift */; };
 		AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F03C52C06778D00F4D500 /* MeetingView.swift */; };
 		AC43085E2C19EC230089EC65 /* PolarisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC43085D2C19EC230089EC65 /* PolarisView.swift */; };
@@ -174,7 +180,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F5F907D2C208D780064AFE1 /* spread.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spread.gesturecomposer; sourceTree = "<group>"; };
 		2F714BC42C175B8300F309F1 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		2F714BC72C19FD8200F309F1 /* NavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavView.swift; sourceTree = "<group>"; };
+		2FA6E82F2C1B8288004C7088 /* halo_hud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = halo_hud.png; sourceTree = "<group>"; };
 		2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 		2FB3AB862BF6521E002F09E9 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Earth.usdz; path = GENIUS/Models/Earth.usdz; sourceTree = SOURCE_ROOT; };
 		2FB3AB882BF67D7E002F09E9 /* Mars.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Mars.usdz; path = GENIUS/Models/Mars.usdz; sourceTree = SOURCE_ROOT; };
@@ -307,7 +316,8 @@
 		2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketchfab.swift; sourceTree = "<group>"; };
 		2FE827D12C067DEB007AA006 /* ConvoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoView.swift; sourceTree = "<group>"; };
 		450441212BFF94DE0034F730 /* ProteinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinView.swift; sourceTree = "<group>"; };
-		450441232BFF9A5D0034F730 /* Protein.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protein.swift; sourceTree = "<group>"; };
+		450441232BFF9A5D0034F730 /* ProteinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinManager.swift; sourceTree = "<group>"; };
+		4516FB4F2C19ED6200D0F913 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		452DB3922C17965200FD161A /* ProteinSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinSpace.swift; sourceTree = "<group>"; };
 		AC1F03C52C06778D00F4D500 /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
 		AC43085D2C19EC230089EC65 /* PolarisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarisView.swift; sourceTree = "<group>"; };
@@ -339,6 +349,8 @@
 				2FE827CE2C066FE6007AA006 /* UmainSpatialGestures in Frameworks */,
 				2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */,
 				AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */,
+				4516FB552C1A01AA00D0F913 /* Grape in Frameworks */,
+				4516FB532C1A01AA00D0F913 /* ForceSimulation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +364,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FA6E82E2C1B825C004C7088 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2FA6E82F2C1B8288004C7088 /* halo_hud.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		2FD48DDD2C0E2751002DBC5D /* GeniusAnimation */ = {
 			isa = PBXGroup;
 			children = (
@@ -495,12 +515,13 @@
 				ACDC9C6B2BFD2206008C5B21 /* ConversationManager.swift */,
 				ACDC9C772BFE72A9008C5B21 /* MeetingManager.swift */,
 				2FD48ECE2C0E3E06002DBC5D /* AnimationManager.swift */,
-				450441232BFF9A5D0034F730 /* Protein.swift */,
+				450441232BFF9A5D0034F730 /* ProteinManager.swift */,
 				ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */,
 				ACDC9C692BFD21E4008C5B21 /* Argo.swift */,
 				2FD48ED42C0E4812002DBC5D /* Speaker.swift */,
 				2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */,
 				2FD48ED22C0E438A002DBC5D /* Functions.swift */,
+				4516FB4F2C19ED6200D0F913 /* GraphManager.swift */,
 				AC43085F2C19EC430089EC65 /* PolarisManager.swift */,
 			);
 			path = Managers;
@@ -519,6 +540,7 @@
 				2FD48ED02C0E3E50002DBC5D /* GeniusAnimView.swift */,
 				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
 				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
+				2F714BC72C19FD8200F309F1 /* NavView.swift */,
 				AC43085D2C19EC230089EC65 /* PolarisView.swift */,
 			);
 			path = Views;
@@ -547,6 +569,7 @@
 		AC81CAB72BED259700933492 /* GENIUS */ = {
 			isa = PBXGroup;
 			children = (
+				2FA6E82E2C1B825C004C7088 /* Images */,
 				45783F342C18F9C4009BC5BE /* Views */,
 				45783F332C18F996009BC5BE /* Managers */,
 				2FD48DDD2C0E2751002DBC5D /* GeniusAnimation */,
@@ -595,6 +618,7 @@
 		ACDC9C622BFD1579008C5B21 /* HandGestures */ = {
 			isa = PBXGroup;
 			children = (
+				2F5F907D2C208D780064AFE1 /* spread.gesturecomposer */,
 				ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */,
 				ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */,
 			);
@@ -621,6 +645,8 @@
 				AC81CABA2BED259700933492 /* RealityKitContent */,
 				2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */,
 				2FE827CF2C066FEB007AA006 /* GestureKit */,
+				4516FB522C1A01AA00D0F913 /* ForceSimulation */,
+				4516FB542C1A01AA00D0F913 /* Grape */,
 			);
 			productName = GENIUS;
 			productReference = AC81CAB52BED259700933492 /* GENIUS.app */;
@@ -676,6 +702,7 @@
 			packageReferences = (
 				ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */,
 				ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */,
+				4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */,
 			);
 			productRefGroup = AC81CAB62BED259700933492 /* Products */;
 			projectDirPath = "";
@@ -746,6 +773,7 @@
 				2FD48E832C0E2786002DBC5D /* 0051.png in Resources */,
 				2FD48ECB2C0E2786002DBC5D /* 0032.png in Resources */,
 				2F714BC52C175B8300F309F1 /* index.html in Resources */,
+				2F5F907E2C208D780064AFE1 /* spread.gesturecomposer in Resources */,
 				2FD48E9D2C0E2786002DBC5D /* 0091.png in Resources */,
 				2FD48E692C0E2786002DBC5D /* 0046.png in Resources */,
 				2FD48E852C0E2786002DBC5D /* 0021.png in Resources */,
@@ -776,6 +804,7 @@
 				2FD48E942C0E2786002DBC5D /* 0097.png in Resources */,
 				2FD48E5C2C0E2786002DBC5D /* 0065.png in Resources */,
 				2FD48EAD2C0E2786002DBC5D /* 0052.png in Resources */,
+				2FA6E8302C1B8288004C7088 /* halo_hud.png in Resources */,
 				2FD48EC62C0E2786002DBC5D /* 0070.png in Resources */,
 				2FD48EC72C0E2786002DBC5D /* 0112.png in Resources */,
 				2FD48ECC2C0E2786002DBC5D /* 0066.png in Resources */,
@@ -844,6 +873,7 @@
 				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
 				ACDC9C782BFE72A9008C5B21 /* MeetingManager.swift in Sources */,
 				2FD48ED32C0E438B002DBC5D /* Functions.swift in Sources */,
+				4516FB502C19ED6200D0F913 /* GraphManager.swift in Sources */,
 				ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */,
 				2FD48ED12C0E3E50002DBC5D /* GeniusAnimView.swift in Sources */,
 				2FD48ECF2C0E3E06002DBC5D /* AnimationManager.swift in Sources */,
@@ -858,7 +888,7 @@
 				ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */,
 				2FD48EDB2C1252F1002DBC5D /* Sketchfab.swift in Sources */,
 				ACDC9C6A2BFD21E4008C5B21 /* Argo.swift in Sources */,
-				450441242BFF9A5D0034F730 /* Protein.swift in Sources */,
+				450441242BFF9A5D0034F730 /* ProteinManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,6 +1168,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/li3zhen1/Grape";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.3;
+			};
+		};
 		ACDC9C742BFE536F008C5B21 /* XCRemoteSwiftPackageReference "UmainSpatialGestures" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Umain-Vision-Pro/UmainSpatialGestures";
@@ -1166,6 +1204,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ACDC9C812BFFD7A5008C5B21 /* XCRemoteSwiftPackageReference "GestureKit" */;
 			productName = GestureKit;
+		};
+		4516FB522C1A01AA00D0F913 /* ForceSimulation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */;
+			productName = ForceSimulation;
+		};
+		4516FB542C1A01AA00D0F913 /* Grape */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4516FB512C1A01AA00D0F913 /* XCRemoteSwiftPackageReference "Grape" */;
+			productName = Grape;
 		};
 		AC81CABA2BED259700933492 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
