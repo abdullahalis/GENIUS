@@ -7,8 +7,8 @@ struct PolarisCommands {
 }
 
 func sendPostRequest(command: [String], directory: String, completion: @escaping (PolarisCommands) -> Void ) {
-    guard let url = URL(string: "http://IP:5000/polaris")
-    else {  //127.0.0.1:5000
+    guard let url = URL(string: "http://" + Login().getIP() + ":5000/polaris")
+    else {
         print("Invalid URL")
         completion(PolarisCommands(inputs: ["error"], outputs: ["error"], directory: ""))
         return
@@ -18,12 +18,9 @@ func sendPostRequest(command: [String], directory: String, completion: @escaping
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
-    let username = ""
-    let password = ""
-    
     let parameters: [String: Any] = [
-        "user": username,
-        "password": password,
+        "user": Login().getUser(),
+        "password": Login().getPass(),
         "command": command,
         "directory": directory
     ]
@@ -76,7 +73,7 @@ func sendPostRequest(command: [String], directory: String, completion: @escaping
 
 
 func codeRequest(command: String, completion: @escaping (String) -> Void ) {
-    guard let url = URL(string: "http://IP:5000/code") else {  //127.0.0.1:5000
+    guard let url = URL(string: "http://" + Login().getIP() + ":5000/code") else {  //127.0.0.1:5000
         print("Invalid URL")
         completion("error")
         return
@@ -86,12 +83,9 @@ func codeRequest(command: String, completion: @escaping (String) -> Void ) {
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
-    let username = ""
-    let password = ""
-    
     let parameters: [String: Any] = [
-        "user": username,
-        "password": password,
+        "user": Login().getUser(),
+        "password": Login().getPass(),
         "command": command,
     ]
     
@@ -158,7 +152,7 @@ func codeRequest(command: String, completion: @escaping (String) -> Void ) {
 //            prompt = "Respond with only a terminal command: "
 //        }
 //        return codeRequest(command: prompt, completion: <#(String) -> Void#>) {
-//            
+//
 //        }
 //    }
 //    return ""
