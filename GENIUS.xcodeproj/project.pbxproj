@@ -10,7 +10,6 @@
 		2F5F907E2C208D780064AFE1 /* spread.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = 2F5F907D2C208D780064AFE1 /* spread.gesturecomposer */; };
 		2F714BC52C175B8300F309F1 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F714BC42C175B8300F309F1 /* index.html */; };
 		2F714BC62C18B31700F309F1 /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED62C10F3BB002DBC5D /* ModelView.swift */; };
-		2F714BC82C19FD8200F309F1 /* NavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F714BC72C19FD8200F309F1 /* NavView.swift */; };
 		2FA6E8302C1B8288004C7088 /* halo_hud.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA6E82F2C1B8288004C7088 /* halo_hud.png */; };
 		2FB3AB852BF64EC6002F09E9 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */; };
 		2FB3AB872BF6521E002F09E9 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FB3AB862BF6521E002F09E9 /* Earth.usdz */; };
@@ -182,7 +181,6 @@
 /* Begin PBXFileReference section */
 		2F5F907D2C208D780064AFE1 /* spread.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spread.gesturecomposer; sourceTree = "<group>"; };
 		2F714BC42C175B8300F309F1 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		2F714BC72C19FD8200F309F1 /* NavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavView.swift; sourceTree = "<group>"; };
 		2FA6E82F2C1B8288004C7088 /* halo_hud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = halo_hud.png; sourceTree = "<group>"; };
 		2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 		2FB3AB862BF6521E002F09E9 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Earth.usdz; path = GENIUS/Models/Earth.usdz; sourceTree = SOURCE_ROOT; };
@@ -540,7 +538,6 @@
 				2FD48ED02C0E3E50002DBC5D /* GeniusAnimView.swift */,
 				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
 				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
-				2F714BC72C19FD8200F309F1 /* NavView.swift */,
 				AC43085D2C19EC230089EC65 /* PolarisView.swift */,
 			);
 			path = Views;

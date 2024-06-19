@@ -39,6 +39,10 @@ struct GENIUSApp: App {
                     .tabItem {
                         Label("Protein", systemImage: "atom")
                     }
+                PolarisView(updatingTextHolder: updatingTextHolder)
+                    .tabItem {
+                        Label("Polaris", systemImage: "apple.terminal")
+                    }
             }
         }
         WindowGroup {
