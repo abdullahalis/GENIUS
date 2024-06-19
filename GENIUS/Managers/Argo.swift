@@ -66,10 +66,11 @@ class Argo {
         // Convert paramaters to JSON
         let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
         request.httpBody = jsonData
-        
+        let start = Date()
         // Send request
         let (data, response) = try await URLSession.shared.data(for: request)
-        
+        let end = Date()
+        print("Time: ", end.timeIntervalSince(start))
         // Check if response is valid
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {
@@ -83,6 +84,54 @@ class Argo {
         if let responseString = jsonResponse?["response"] as? String {
             print("responseString in do:", responseString)
             return responseString
+        }
+        else {
+            print("Response does not contain 'response' field or it's not a string")
+            return "Error"
+        }
+    }
+    
+    func getLlamaResponse(prompt: String) async throws -> String {
+        // add context with prompt
+        let fullPrompt = conversationManager.getContext() + "Using this context (if applicable or if it exists) to answer the following prompt:" + prompt
+
+        // Access Argo API
+        let url = URL(string: "https://arcade.evl.uic.edu/llama/generate")!
+        
+        // Form HTTP request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let parameters = [
+          "inputs": """
+          <|begin_of_text|> <|start_header_id|>system<|end_header_id|> You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You will record all interactions, transcribe them, and offer functionalities like meeting summaries, knowledge extraction, and replaying discussions. <| eot_id|> <|start_header_id|>user<|end_header_id|> \(prompt) <|eot_id|> <|start_header_id|>assistant<|end_header_id|>
+          """,
+          "parameters": [
+            "max_new_tokens": 300
+          ]
+        ] as [String : Any]
+        
+        // Convert paramaters to JSON
+        let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+        request.httpBody = jsonData
+        let start = Date()
+        // Send request
+        let (data, response) = try await URLSession.shared.data(for: request)
+        let end = Date()
+        print("Time: ", end.timeIntervalSince(start))
+        // Check if response is valid
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            print("Invalid Response")
+            return "Invalid Response"
+        }
+
+        // Extract response string from JSON response
+        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        
+        if let responseString = jsonResponse?["generated_text"] as? String {
+            let startIndex = responseString.index(responseString.startIndex, offsetBy: 2)
+            return String(responseString[startIndex...])
         }
         else {
             print("Response does not contain 'response' field or it's not a string")
@@ -134,14 +183,13 @@ class Argo {
     // Sends prompt straight to Argo
     func handlePrompt(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
         // extract prompt from recognized speech
-        if let range = updatingTextHolder.recongnizedText.range(of: "tell me ") {
+        if let range = updatingTextHolder.recongnizedText.range(of: "tell me") {
             
-            let question = String(updatingTextHolder.recongnizedText[(range.upperBound...)])
-            
+            let question = String(updatingTextHolder.recongnizedText[(range.lowerBound...)])
             do {
                 Task {
                     // call Argo API to get response to prompt
-                    let response = try await getResponse(prompt: question)
+                    let response = try await getLlamaResponse(prompt: question)
                     print("response:", response)
                     
                     // call text to speech function with the response from Argo
@@ -162,36 +210,42 @@ class Argo {
     func handleModel(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
         updatingTextHolder.mode = "model"
         
-        Task {
-            // generate a search query based on user input
-            var prompt = "I need to display a 3d model. I am using an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(updatingTextHolder.recongnizedText)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
+        // extract prompt from recognized speech
+        if let range = updatingTextHolder.recongnizedText.range(of: "show me") {
             
-            let modelSearch = try await getResponse(prompt: prompt)
-            print("searching for:", modelSearch)
-            // search Sketchfab API for models relating to the search query
-            let results = try await sketchFabSearch(q: modelSearch)
+            let userPrompt = String(updatingTextHolder.recongnizedText[(range.lowerBound...)])
             
-            // Construct dictionary from the result struct
-            var models = [String:String]()
-            for result in results {
-                models[result.uid] = result.name
-            }
-            
-            // Use the names of models to pick the one to open
-            prompt = "Your response must be one phrase with no spaces or punctuation: You have previously created a search query for a 3D model. That search has been ran and now I have the results as a dictionary of models in the form (uid, name). Here is the dictionary of models: \(models). Based on the search: '\(modelSearch)' and our previous discussion, decide which model's name best matches. Please provide ONLY the uid of the matching model. Your response must only include the uid."
-            let modelToOpen = try await getResponse(prompt: prompt)
-            print("model to open:", modelToOpen)
-            
-            // check if model is valid
-            if (models.keys.contains(modelToOpen)) {
-                // open it using the main thread
-                DispatchQueue.main.async {
-                    self.openWindow(id: "model", value: modelToOpen)
-                    print("openeed")
+            Task {
+                // generate a search query based on user input
+                var prompt = "I need to display a 3d model. I am using an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(userPrompt)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
+                
+                let modelSearch = try await getLlamaResponse(prompt: prompt)
+                print("searching for:", modelSearch)
+                // search Sketchfab API for models relating to the search query
+                let results = try await sketchFabSearch(q: modelSearch)
+                
+                // Construct dictionary from the result struct
+                var models = [String:String]()
+                for result in results {
+                    models[result.uid] = result.name
                 }
-            }
-            else {
-                print("Error generating model to open")
+                
+                // Use the names of models to pick the one to open
+                prompt = "Your response must be one phrase with no spaces or punctuation: You have previously created a search query for a 3D model. That search has been ran and now I have the results as a dictionary of models in the form (uid, name). Here is the dictionary of models: \(models). Based on the search: '\(modelSearch)' and our previous discussion, decide which model's name best matches. Please provide ONLY the uid of the matching model. Your response must only include the uid."
+                let modelToOpen = try await getLlamaResponse(prompt: prompt)
+                print("model to open:", modelToOpen)
+                
+                // check if model is valid
+                if (models.keys.contains(modelToOpen)) {
+                    // open it using the main thread
+                    DispatchQueue.main.async {
+                        self.openWindow(id: "model", value: modelToOpen)
+                        print("openeed")
+                    }
+                }
+                else {
+                    print("Error generating model to open")
+                }
             }
         }
     }

@@ -11,6 +11,8 @@ import RealityKitContent
 import GestureKit
 import Speech
 
+
+
 struct ContentView: View {
     @State private var handsTogether = false
     @State private var prompt = ""
@@ -36,7 +38,7 @@ struct ContentView: View {
                 Circle()
                     .fill(
                         RadialGradient(
-                            gradient: Gradient(colors: updatingTextHolder.nightMode ? [Color.red, Color.clear] : [Color.blue, Color.clear]),
+                            gradient: Gradient(colors: [Color.blue, Color.clear]),
                             center: .center,
                             startRadius: 0,
                             endRadius: 400
@@ -45,78 +47,65 @@ struct ContentView: View {
                     .frame(width: 2000, height: 2000)
                 VStack {
                     mainMenuItems()
-                    HStack {
-                        
-                        Button("Earth") {
-                            openWindow(id: "volume", value: "Earth")
-                        }
-                        Button("Mars") {
-                            //openWindow(id: "volume", value: "Mars")
-                            Task {
-                                print("loadign mars")
-                                let mars = try await sketchFabSearch(q: "Mars")
-                                print("mars result:", mars)
-                            }
+                        .onAppear {
+                        Task {
+                            
+                            await openImmersiveSpace(id: "ImmersiveSpace")
+                            print("opened space from content")
+                            
+                            
                         }
                     }
+//                    HStack {
+//                        
+//                        Button("Earth") {
+//                            openWindow(id: "volume", value: "Earth")
+//                        }
+//                        Button("Mars") {
+//                            //openWindow(id: "volume", value: "Mars")
+//                            Task {
+//                                print("loadign mars")
+//                                let mars = try await sketchFabSearch(q: "Mars")
+//                                print("mars result:", mars)
+//                            }
+//                        }
+//                    }
                     
-                    TextField("Ask Genius something", text: $prompt)
-                    //                    Button("Ask GENIUS") {
-                    //                        Argo().getResponse(prompt: prompt, updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
-                    //                    }
-                    HStack {
-                        Button("Record") {
+                    Text("Mode: \(updatingTextHolder.mode)")
+                    ScrollView {
+                        Text(updatingTextHolder.recongnizedText)
+                            .frame(width: 1000)
+                            .multilineTextAlignment(.center)
+                    }.frame(height: 60)
+                    ScrollView {
+                        Text(updatingTextHolder.responseText)
+                            .frame(width: 1000)
+                            .multilineTextAlignment(.center)
+                    }.frame(height: 60)
+                    
+                    Button(action: {
+                        updatingTextHolder.isRecording.toggle()
+                        if updatingTextHolder.isRecording {
                             Recorder().startRecording(updatingTextHolder: updatingTextHolder)
-                        }
-                        Button("Stop Recording") {
+                        } else {
                             Recorder().stopRecording()
                             Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
                         }
-                    }
-                    Text("Mode: \(updatingTextHolder.mode)")
-                    Text(updatingTextHolder.responseText)
-                    Text("\(updatingTextHolder.recongnizedText)")
-                    HStack {
-                        VStack {
-                            NavigationLink("Go to Help", destination: HelpView())
-                                .padding()
-                        }
-                        .navigationTitle("Main View")
-                        VStack {
-                            NavigationLink("Meetings", destination: MeetingView(updatingTextHolder: updatingTextHolder))
-                                .padding()
-                        }
-                        .navigationTitle("Main View")
-                        VStack {
-                            NavigationLink("Protein", destination: ProteinView(updatingTextHolder: updatingTextHolder).environmentObject(Network.shared))
-                                .padding()
-                        }
-                        .navigationTitle("Main View")
-                        VStack {
-                            NavigationLink("History", destination: ConvoView())
-                                .padding()
-                        }
-                        .navigationTitle("Main View")
-                    }
+                    }) {
+                        Image(systemName: updatingTextHolder.isRecording ? "stop.circle" : "record.circle")
+                            .resizable()
+                            .frame(width: 75, height: 75)
+                            .foregroundColor(updatingTextHolder.isRecording ? .red : .primary)
+                    }.frame(width: 75, height: 75)
+                    .padding()
+                    .navigationTitle("GENIUS")
+                    .textFieldStyle(.roundedBorder)
                 }
             }
         }
         .padding()
-        .onAppear {
-            Task {
-                await openImmersiveSpace(id: "ImmersiveSpace")
-            }
-        }
     };
-    
-    func getTextHolder() -> UpdatingTextHolder {
-        return updatingTextHolder
-    }
-    
 }
-
-
-
 
 #Preview(windowStyle: .automatic) {
     ContentView(updatingTextHolder: UpdatingTextHolder())
@@ -126,18 +115,10 @@ struct mainMenuItems: View {
     var body: some View {
         
         VStack {
-            Text("Welcome to GENIUS")
-                .font(.system(size: 30, weight: .medium))
-//            Image(systemName: "brain.head.profile.fill")
-//                .renderingMode(.original)
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 90, height: 90)
             GeniusAnimView()
                 .frame(width: 200, height: 200)
             
         }
-        .padding(.bottom, 40)
 
     }
 }
@@ -179,7 +160,7 @@ struct ImageSequenceView: View {
 class UpdatingTextHolder: ObservableObject {
     @Published var responseText: String = ""
     @Published var recongnizedText: String = ""
-    @Published var nightMode: Bool = false
+    @Published var isRecording: Bool = false
     @Published var mode: String = "none"
     @Published var meetingManagers: [MeetingManager] = []
 }

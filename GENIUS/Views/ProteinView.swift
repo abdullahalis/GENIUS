@@ -265,6 +265,7 @@ struct ProteinView: View {
                         if newValue {
                             switch await openImmersiveSpace(id: "ProteinSpace") {
                             case .opened:
+                                print("open from protein")
                                 immersiveSpaceIsShown = true
                             case .error, .userCancelled:
                                 fallthrough
@@ -273,6 +274,7 @@ struct ProteinView: View {
                                 showImmersiveSpace = false
                             }
                         } else if immersiveSpaceIsShown {
+                            print("dissmissing from protein")
                             await dismissImmersiveSpace()
                             immersiveSpaceIsShown = false
                         }
@@ -281,6 +283,7 @@ struct ProteinView: View {
             }
         }.onAppear{ // Dismiss existing immersive space from main menu
             Task {
+                print("dissmissing from protein")
                 await dismissImmersiveSpace()
             }
         }
