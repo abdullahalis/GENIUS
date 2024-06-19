@@ -7,18 +7,28 @@
 
 import SwiftUI
 import RealityKit
+import ARKit
 
 // Immersive Space to view protein networks
 struct ProteinSpace: View {
-    @EnvironmentObject var network: Network
+    @ObservedObject var graph: Graph = Graph.shared
+    let session = ARKitSession()
+    let worldInfo = WorldTrackingProvider()
+    
     var body: some View {
         RealityView { content in
-            network.createModel()
-            for node in network.getNodes() {
-                content.add(node)
-            }
-            for edge in network.getEdges() {
-                content.add(edge)
+            try? await session.run([worldInfo])
+            // Retrieve headeset position
+            let pose = worldInfo.queryDeviceAnchor(atTimestamp: CACurrentMediaTime())
+            let devicePos = (pose?.originFromAnchorTransform.translation ?? simd_float3(0,0,0)) + simd_float3(0, 0, -0.7)
+            
+            // Position graph in front of headset with devicePos
+            graph.setDevicePos(pos: devicePos)
+            
+        } update: { content in
+            content.entities.removeAll()
+            for entity in graph.getNodes() + graph.getEdges() {
+                content.add(entity)
             }
         } // Show description when object is clicked
         .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
@@ -29,9 +39,9 @@ struct ProteinSpace: View {
                     // If object is an edge, highlight it in green
                     if object.name.contains("->"){
                         if descEntity.isEnabled{
-                            object.model?.materials = [SimpleMaterial(color: .green, isMetallic: false)]
+                            object.model?.materials = [SimpleMaterial(color: UIColor(white: 1.0, alpha: 1.0), isMetallic: false)]
                         } else {
-                            object.model?.materials = [SimpleMaterial(color: .white, isMetallic: false)]
+                            object.model?.materials = [SimpleMaterial(color: UIColor(white: 1.0, alpha: 0.5), isMetallic: false)]
                         }
                     }
                 }
@@ -41,11 +51,16 @@ struct ProteinSpace: View {
             let nodeObject = value.entity
             nodeObject.position = value.convert(value.location3D, from: .local, to: nodeObject.parent!)
             // Update edges to reflect new positions of proteins
-            network.updateEdges(entity: nodeObject)
+            graph.updateEdges(entity: nodeObject)
         })
     }
 }
 
+// Add attribute to retrieve headset position
+extension simd_float4x4 {
+    var translation: simd_float3 { return simd_float3(columns.3.x, columns.3.y, columns.3.z)}
+}
+
 #Preview {
-    ProteinSpace().environmentObject(Network.shared)
+    ProteinSpace().environmentObject(Graph.shared)
 }
