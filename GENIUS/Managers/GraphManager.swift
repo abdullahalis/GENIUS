@@ -13,10 +13,10 @@ import ForceSimulation
 class Graph: ObservableObject {
     private var proteins: [Protein] = []
     private var interactions: [Interaction] = []
-    @Published private var nodes: [ModelEntity] = []
-    @Published private var edges: [ModelEntity] = []
+    @Published var nodes: [ModelEntity] = []
+    @Published var edges: [ModelEntity] = []
+    @Published var positions: [SIMD3<Float>] = []
     private var sim: Simulation3D<My3DForce> = Simulation(nodeCount: 0, links: [], forceField: My3DForce())
-    private var devicePos = simd_float3(0, 0, 0)
     private var isShown: Bool = false
     private var isLoading: Bool = false
     
@@ -103,7 +103,6 @@ class Graph: ObservableObject {
         buildSim()
     }
     
-    func setDevicePos(pos: simd_float3) {self.devicePos = pos}
     func getNodes() -> [ModelEntity] {return self.nodes}
     func getEdges() -> [ModelEntity] {return self.edges}
     func getProteins() -> [Protein] {return self.proteins}
@@ -136,36 +135,43 @@ class Graph: ObservableObject {
             links: links,
             forceField: My3DForce()
         )
+        
+        tickSim()
     }
     
-    // Run simulation to obtain optimal positions
-    private func runSim() -> [SIMD3<Float>] {
-        for _ in 0..<720 {
-            sim.tick()
-        }
+    private func tickSim() {
+        sim.tick()
         let scaleRatio: Float = 0.0081
-        let positions = sim.kinetics.position.asArray().map { pos in
+        self.positions = sim.kinetics.position.asArray().map { pos in
             simd_float3(
                 (pos[1]) * scaleRatio,
                 -(pos[0]) * scaleRatio,
                 (pos[2]) * scaleRatio + 0.25
         )}
-        return positions
+    }
+    
+    // Run simulation to obtain optimal positions
+    private func runSim() {
+        for i in 1..<720 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1) {
+                self.tickSim()
+                self.updateEdges(edgesToChange: self.edges)
+            }
+        }
     }
     
     func createModel() {
         createNodes()
         createEdges()
+        runSim()
     }
     
     private func createNodes() {
-        let positions = runSim()
-        
         // Create entities for proteins
         for (index, p) in proteins.enumerated() {
             let proteinObject = ModelEntity(mesh: sphereMesh, materials: [nodeMaterials[index%nodeMaterials.count]])
                             
-            proteinObject.position = devicePos + positions[index]
+            proteinObject.position = positions[index]
             proteinObject.name = p.getPreferredName()
                 
             // Set interactivity
@@ -263,9 +269,11 @@ class Graph: ObservableObject {
         }
     }
     
-    func updateEdges(entity: Entity) {
-        let edgesToChange = edges.filter {$0.name.contains(entity.name)}
-                    
+    func updateEdges(edgesToChange: [ModelEntity]) {
+        var scl: [SIMD3<Float>] = []
+        var pos: [SIMD3<Float>] = []
+        var rot: [simd_quatf] = []
+        
         for edge in edgesToChange {
             let edgeNodes = edge.name.components(separatedBy: " -> ")
                 
@@ -278,15 +286,25 @@ class Graph: ObservableObject {
             let midPos = (startPos + endPos) / 2
                 
             // Recalculate orientation and length of edge
-            let dist = simd_distance(startPos, endPos)
-            let dir = endPos - startPos
-            let rotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(dir))
-            let newLine = MeshResource.generateCylinder(height: dist, radius: 0.001)
-                
-            edge.model?.mesh = newLine
-            edge.position = midPos
-            edge.orientation = rotation
-            edge.children.first?.orientation = simd_conjugate(rotation)
+            let distance = simd_distance(startPos, endPos)
+            let direction = simd_normalize(endPos - startPos)
+            let rotation = simd_quatf(from: [0, 1, 0], to: direction)
+            let scale = SIMD3<Float>(1.0, 1.0, distance/edge.scale.z)
+            
+            scl.append(scale)
+            pos.append(midPos)
+            rot.append(rotation)
+        }
+        
+        // Batch update
+        for (index, edge) in edgesToChange.enumerated() {
+            //let newLine = MeshResource.generateCylinder(height: dist[index], radius: 0.001)
+            //edge.model?.mesh = newLine
+            //edge.position = pos[index]
+            edge.move(to: Transform(scale: scl[index], rotation: rot[index], translation: pos[index]), relativeTo: edge.parent, duration: 1)
+            //edge.setOrientation(rot[index], relativeTo: nil)
+            //edge.orientation = rot[index]
+            //edge.children.first?.orientation = simd_conjugate(rot[index])
         }
     }
 }
