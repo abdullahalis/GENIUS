@@ -22,7 +22,6 @@ struct ProteinView: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     
-    
     var body: some View {
         NavigationStack {
             VStack {

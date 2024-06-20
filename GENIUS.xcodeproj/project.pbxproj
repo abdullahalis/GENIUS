@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2F5F907E2C208D780064AFE1 /* spread.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = 2F5F907D2C208D780064AFE1 /* spread.gesturecomposer */; };
+		2F5F90802C2340AC0064AFE1 /* login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5F907F2C2340AC0064AFE1 /* login.swift */; };
+		2F5F90822C2370A80064AFE1 /* SimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5F90812C2370A80064AFE1 /* SimView.swift */; };
 		2F714BC52C175B8300F309F1 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 2F714BC42C175B8300F309F1 /* index.html */; };
 		2F714BC62C18B31700F309F1 /* ModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED62C10F3BB002DBC5D /* ModelView.swift */; };
 		2FA6E8302C1B8288004C7088 /* halo_hud.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FA6E82F2C1B8288004C7088 /* halo_hud.png */; };
@@ -150,7 +152,6 @@
 		4516FB552C1A01AA00D0F913 /* Grape in Frameworks */ = {isa = PBXBuildFile; productRef = 4516FB542C1A01AA00D0F913 /* Grape */; };
 		452DB3932C17965200FD161A /* ProteinSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DB3922C17965200FD161A /* ProteinSpace.swift */; };
 		AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F03C52C06778D00F4D500 /* MeetingView.swift */; };
-		AC3828032C233172007EB78F /* login.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3828022C233172007EB78F /* login.swift */; };
 		AC43085E2C19EC230089EC65 /* PolarisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC43085D2C19EC230089EC65 /* PolarisView.swift */; };
 		AC4308602C19EC430089EC65 /* PolarisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC43085F2C19EC430089EC65 /* PolarisManager.swift */; };
 		AC81CABB2BED259700933492 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = AC81CABA2BED259700933492 /* RealityKitContent */; };
@@ -181,6 +182,8 @@
 
 /* Begin PBXFileReference section */
 		2F5F907D2C208D780064AFE1 /* spread.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spread.gesturecomposer; sourceTree = "<group>"; };
+		2F5F907F2C2340AC0064AFE1 /* login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login.swift; sourceTree = "<group>"; };
+		2F5F90812C2370A80064AFE1 /* SimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimView.swift; sourceTree = "<group>"; };
 		2F714BC42C175B8300F309F1 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		2FA6E82F2C1B8288004C7088 /* halo_hud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = halo_hud.png; sourceTree = "<group>"; };
 		2FB3AB842BF64EC6002F09E9 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
@@ -319,7 +322,6 @@
 		4516FB4F2C19ED6200D0F913 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		452DB3922C17965200FD161A /* ProteinSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinSpace.swift; sourceTree = "<group>"; };
 		AC1F03C52C06778D00F4D500 /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
-		AC3828022C233172007EB78F /* login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login.swift; sourceTree = "<group>"; };
 		AC43085D2C19EC230089EC65 /* PolarisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarisView.swift; sourceTree = "<group>"; };
 		AC43085F2C19EC430089EC65 /* PolarisManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarisManager.swift; sourceTree = "<group>"; };
 		AC81CAB52BED259700933492 /* GENIUS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GENIUS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -541,6 +543,7 @@
 				AC81CAC02BED259700933492 /* ImmersiveView.swift */,
 				ACDC9C722BFE51FE008C5B21 /* HelpView.swift */,
 				AC43085D2C19EC230089EC65 /* PolarisView.swift */,
+				2F5F90812C2370A80064AFE1 /* SimView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -568,7 +571,6 @@
 		AC81CAB72BED259700933492 /* GENIUS */ = {
 			isa = PBXGroup;
 			children = (
-				AC3828022C233172007EB78F /* login.swift */,
 				2FA6E82E2C1B825C004C7088 /* Images */,
 				45783F342C18F9C4009BC5BE /* Views */,
 				45783F332C18F996009BC5BE /* Managers */,
@@ -580,6 +582,7 @@
 				AC81CAC72BED259800933492 /* Info.plist */,
 				AC81CAC42BED259800933492 /* Preview Content */,
 				2F714BC42C175B8300F309F1 /* index.html */,
+				2F5F907F2C2340AC0064AFE1 /* login.swift */,
 			);
 			path = GENIUS;
 			sourceTree = "<group>";
@@ -873,10 +876,11 @@
 				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
 				ACDC9C782BFE72A9008C5B21 /* MeetingManager.swift in Sources */,
 				2FD48ED32C0E438B002DBC5D /* Functions.swift in Sources */,
-				AC3828032C233172007EB78F /* login.swift in Sources */,
+				2F5F90802C2340AC0064AFE1 /* login.swift in Sources */,
 				4516FB502C19ED6200D0F913 /* GraphManager.swift in Sources */,
 				ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */,
 				2FD48ED12C0E3E50002DBC5D /* GeniusAnimView.swift in Sources */,
+				2F5F90822C2370A80064AFE1 /* SimView.swift in Sources */,
 				2FD48ECF2C0E3E06002DBC5D /* AnimationManager.swift in Sources */,
 				AC4308602C19EC430089EC65 /* PolarisManager.swift in Sources */,
 				AC81CAC12BED259700933492 /* ImmersiveView.swift in Sources */,

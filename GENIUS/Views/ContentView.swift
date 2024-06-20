@@ -56,22 +56,8 @@ struct ContentView: View {
                             
                         }
                     }
-//                    HStack {
-//                        
-//                        Button("Earth") {
-//                            openWindow(id: "volume", value: "Earth")
-//                        }
-//                        Button("Mars") {
-//                            //openWindow(id: "volume", value: "Mars")
-//                            Task {
-//                                print("loadign mars")
-//                                let mars = try await sketchFabSearch(q: "Mars")
-//                                print("mars result:", mars)
-//                            }
-//                        }
-//                    }
                     
-                    Text("Mode: \(updatingTextHolder.mode)")
+                    Text("\(updatingTextHolder.mode)")
                     ScrollView {
                         Text(updatingTextHolder.recongnizedText)
                             .frame(width: 1000)
@@ -82,7 +68,9 @@ struct ContentView: View {
                             .frame(width: 1000)
                             .multilineTextAlignment(.center)
                     }.frame(height: 60)
-                    
+                    Button("Video") {
+                        openWindow(id: "sim", value: "https://www.w3schools.com/html/mov_bbb.mp4")
+                    }
                     Button(action: {
                         updatingTextHolder.isRecording.toggle()
                         if updatingTextHolder.isRecording {
@@ -119,7 +107,6 @@ struct mainMenuItems: View {
                 .frame(width: 200, height: 200)
             
         }
-
     }
 }
 

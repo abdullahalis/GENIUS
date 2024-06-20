@@ -64,6 +64,13 @@ struct GENIUSApp: App {
             }
         }
         
+        // Window to open Sketchfab Viewer API
+        WindowGroup(id: "sim", for: String.self) { $url in
+            if let url {
+                SimView(url: url)
+            }
+        }
+        
         WindowGroup(id: "volume", for: String.self) { $modelName in
             if let modelName {
                 VolumeView(modelName: modelName)
