@@ -20,6 +20,7 @@ struct ImmersiveView: View {
     @State private var blasting = false
     @State private var startCount = 0;
     @State private var stopCount = 0;
+    @State private var spidermanActive = false
     let speechSynthesizer = AVSpeechSynthesizer()
     
     let detector: GestureDetector
@@ -33,12 +34,16 @@ struct ImmersiveView: View {
         guard let spreadURL = Bundle.main.url(forResource: "spread", withExtension: "gesturecomposer") else {
             fatalError("spread.gesturecomposer not found in bundle")
         }
+        
+        guard let spidermanURL = Bundle.main.url(forResource: "spiderman", withExtension: "gesturecomposer") else {
+                    fatalError("spiderman.gesturecomposer not found in bundle")
+        }
 
 //            // Initialize the configuration with the URL
 //            let configuration = GestureDetectorConfiguration(packages: [handsTogetherURL, thumbsUpURL])
     
         // Initialize the configuration with the URL
-        let configuration = GestureDetectorConfiguration(packages: [handsTogetherURL, spreadURL])
+        let configuration = GestureDetectorConfiguration(packages: [handsTogetherURL, spreadURL, spidermanURL])
         
         // Initialize the detector with the configuration
         detector = GestureDetector(configuration: configuration)
@@ -165,9 +170,40 @@ struct ImmersiveView: View {
                    blasting = false
                    updatingTextHolder.mode = "Stop blasting"
                }
+               
+               
+               if !spidermanActive && detectStart(gestureWanted: "Spider-Man ", detectedGesture: detectedGesture) {
+                   
+                    print("loading")
+                    loadSpidermanScene()
+                    spidermanActive = true
+                    }
+               else if spidermanActive && detectStop(gestureWanted: "Spider-Man ", detectedGesture: detectedGesture) {
+                    spidermanActive = false
+                    removeSpidermanScene()
+                }
            }
        }
     }
+    private func loadSpidermanScene() {
+        guard let spidermanURL = Bundle.main.url(forResource: "SpiderMan", withExtension: "usda") else {
+            print("Error: SpiderMan.usda not found in bundle")
+            return
+        }
+        
+        do {
+            let spidermanEntity = try Entity.loadModel(contentsOf: spidermanURL)
+            spidermanEntity.name = "Spiderman"
+            headTrackedEntity.addChild(spidermanEntity)
+            print("Spiderman scene loaded successfully")
+        } catch {
+            print("Error loading Spiderman scene: \(error)")
+        }
+    }
+        
+    private func removeSpidermanScene() {
+        headTrackedEntity.findEntity(named: "Spiderman")?.removeFromParent()
+        }
     
     func showEntity(name:String) {
         scene.findEntity(named: name)?.isEnabled = true

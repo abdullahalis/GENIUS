@@ -166,6 +166,7 @@ class Graph: ObservableObject {
             let proteinObject = ModelEntity(mesh: sphereMesh, materials: [nodeMaterials[index%nodeMaterials.count]])
                             
             proteinObject.position = devicePos + positions[index]
+            print(devicePos)
             proteinObject.name = p.getPreferredName()
                 
             // Set interactivity
