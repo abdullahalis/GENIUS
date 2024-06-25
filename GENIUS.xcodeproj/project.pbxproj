@@ -151,7 +151,6 @@
 		4516FB532C1A01AA00D0F913 /* ForceSimulation in Frameworks */ = {isa = PBXBuildFile; productRef = 4516FB522C1A01AA00D0F913 /* ForceSimulation */; };
 		4516FB552C1A01AA00D0F913 /* Grape in Frameworks */ = {isa = PBXBuildFile; productRef = 4516FB542C1A01AA00D0F913 /* Grape */; };
 		452DB3932C17965200FD161A /* ProteinSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452DB3922C17965200FD161A /* ProteinSpace.swift */; };
-		459A6E542C23894400E6EB9E /* login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459A6E532C23894400E6EB9E /* login.swift */; };
 		AC1F03C62C06778D00F4D500 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F03C52C06778D00F4D500 /* MeetingView.swift */; };
 		AC43085E2C19EC230089EC65 /* PolarisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC43085D2C19EC230089EC65 /* PolarisView.swift */; };
 		AC4308602C19EC430089EC65 /* PolarisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC43085F2C19EC430089EC65 /* PolarisManager.swift */; };
@@ -322,7 +321,6 @@
 		450441232BFF9A5D0034F730 /* ProteinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinManager.swift; sourceTree = "<group>"; };
 		4516FB4F2C19ED6200D0F913 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		452DB3922C17965200FD161A /* ProteinSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinSpace.swift; sourceTree = "<group>"; };
-		459A6E532C23894400E6EB9E /* login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login.swift; sourceTree = "<group>"; };
 		AC1F03C52C06778D00F4D500 /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
 		AC43085D2C19EC230089EC65 /* PolarisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarisView.swift; sourceTree = "<group>"; };
 		AC43085F2C19EC430089EC65 /* PolarisManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarisManager.swift; sourceTree = "<group>"; };
@@ -584,11 +582,7 @@
 				AC81CAC72BED259800933492 /* Info.plist */,
 				AC81CAC42BED259800933492 /* Preview Content */,
 				2F714BC42C175B8300F309F1 /* index.html */,
-<<<<<<< Updated upstream
 				2F5F907F2C2340AC0064AFE1 /* login.swift */,
-=======
-				459A6E532C23894400E6EB9E /* login.swift */,
->>>>>>> Stashed changes
 			);
 			path = GENIUS;
 			sourceTree = "<group>";
@@ -882,11 +876,7 @@
 				AC81CABD2BED259700933492 /* GENIUSApp.swift in Sources */,
 				ACDC9C782BFE72A9008C5B21 /* MeetingManager.swift in Sources */,
 				2FD48ED32C0E438B002DBC5D /* Functions.swift in Sources */,
-<<<<<<< Updated upstream
 				2F5F90802C2340AC0064AFE1 /* login.swift in Sources */,
-=======
-				459A6E542C23894400E6EB9E /* login.swift in Sources */,
->>>>>>> Stashed changes
 				4516FB502C19ED6200D0F913 /* GraphManager.swift in Sources */,
 				ACDC9C6C2BFD2206008C5B21 /* ConversationManager.swift in Sources */,
 				2FD48ED12C0E3E50002DBC5D /* GeniusAnimView.swift in Sources */,
