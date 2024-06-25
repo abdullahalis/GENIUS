@@ -26,8 +26,9 @@ struct ProteinSpace: View {
             // Position graph in front of headset with devicePos
             root.position = devicePos
             content.add(root)
-        
-        }.onChange(of: graph.nodes) { oldNodes, newNodes in
+        }
+        // Add/remove nodes when internal array updates
+        .onChange(of: graph.nodes) { oldNodes, newNodes in
             let nodesToAdd = newNodes.filter {n in !oldNodes.contains(n)}
             for node in nodesToAdd {
                 root.addChild(node)
@@ -38,6 +39,7 @@ struct ProteinSpace: View {
                 root.removeChild(node)
             }
         }
+        // Add/remove edges when internal array updates
         .onChange(of: graph.edges) { oldEdges, newEdges in
             let edgesToAdd = newEdges.filter {e in !oldEdges.contains(e)}
             for edge in edgesToAdd {
@@ -49,6 +51,7 @@ struct ProteinSpace: View {
                 root.removeChild(edge)
             }
         }
+        // Update node positions when internal array updates
         .onChange(of: graph.positions) { oldPos, newPos in
             for (index, pos) in newPos.enumerated() {
                 if graph.nodes.count == graph.positions.count {
@@ -73,13 +76,19 @@ struct ProteinSpace: View {
                     }
                 }
             }
-        }) // Enable drag gestures on protein objects
+        }) 
+        // Enable drag gestures on protein objects
         .gesture(DragGesture().targetedToAnyEntity().onChanged { value in
-            let nodeObject = value.entity
-            nodeObject.position = value.convert(value.location3D, from: .local, to: nodeObject.parent!)
-            // Update edges to reflect new positions of proteins
-            let edges = graph.edges.filter {$0.name.contains(nodeObject.name)}
-            graph.updateEdges(edgesToChange: edges)
+            let object = value.entity
+            // Ensure edges cannot be dragged
+            if !object.name.contains("->") {
+                object.position = value.convert(value.location3D, from: .local, to: object.parent!)
+                
+                // Update edges to reflect new positions of proteins
+                let edges = graph.edges.filter {$0.name.contains(object.name)}
+                graph.updateEdges(edgesToChange: edges)
+            }
+            
         })
     }
 }
@@ -90,5 +99,5 @@ extension simd_float4x4 {
 }
 
 #Preview {
-    ProteinSpace().environmentObject(Graph.shared)
+    ProteinSpace()
 }
