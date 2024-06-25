@@ -36,11 +36,6 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
 * Began working on integrating Argo with the terminal
 
 # June 17 - June 21
-* Made window for displaying simulation video
-* Ran benchmarks to compare Argo/GPT 3.5 vs Llama 3
-    * Argo runs faster
-    * Llama response is easier to manipulate (can tell it how to start or end response)
-    
 # June 24 - June 28
 # July 01 - July 05
 # July 08 - July 12
