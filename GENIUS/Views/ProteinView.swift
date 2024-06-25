@@ -139,5 +139,5 @@ struct proteinMenuItems: View {
 }
 
 #Preview {
-    ProteinView(updatingTextHolder: UpdatingTextHolder()).environmentObject(Graph.shared)
+    ProteinView(updatingTextHolder: UpdatingTextHolder())
 }
