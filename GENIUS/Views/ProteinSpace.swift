@@ -57,6 +57,10 @@ struct ProteinSpace: View {
                 if graph.nodes.count == graph.positions.count {
                     let node = graph.nodes[index]
                     node.move(to: Transform(translation: pos), relativeTo: node.parent, duration: 1)
+                    
+                    // Update edges to reflect new positions of proteins
+                    let edges = graph.edges.filter {$0.name.contains(node.name)}
+                    graph.updateEdges(edgesToChange: edges)
                 }
             }
         }

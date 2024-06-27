@@ -9,6 +9,36 @@ import SwiftUI
 import RealityKit
 import ForceSimulation
 
+class Node {
+    private var model: ModelEntity
+    private var edges: [Edge] = []
+    
+    init(_ m: ModelEntity) {
+        self.model = m
+    }
+    
+    func addEdge(edge: Edge) {edges.append(edge)}
+    
+    func getModel() -> ModelEntity  {return model}
+    func getEdges() -> [Edge]       {return edges}
+}
+
+class Edge {
+    private var model: ModelEntity
+    private var nodeA: Node
+    private var nodeB: Node
+    
+    init(_ m: ModelEntity, from: Node, to: Node) {
+        self.model = m
+        self.nodeA = from
+        self.nodeB = to
+    }
+    
+    func getModel() -> ModelEntity  {return model}
+    func getNodeA() -> Node         {return nodeA}
+    func getNodeB() -> Node         {return nodeB}
+}
+
 // Class to model protein graph objects
 class Graph: ObservableObject {
     private var proteins: [Protein] = []
@@ -159,7 +189,6 @@ class Graph: ObservableObject {
         for i in 1..<720 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1) {
                 self.tickSim()
-                self.updateEdges(edgesToChange: self.edges)
             }
         }
     }
@@ -276,10 +305,11 @@ class Graph: ObservableObject {
             let newPosition = (startPos + endPos) / 2
             let newRotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(endPos - startPos))
             let newScale = SIMD3<Float>(1.0, simd_distance(startPos, endPos) / 0.1, 1.0)
-
+            
             // Move edge
-            let newTransform = Transform(scale: newScale, rotation: newRotation, translation: newPosition)
-            edge.move(to: newTransform, relativeTo: edge.parent, duration: 1)
+            edge.scale = newScale
+            edge.position = newPosition
+            edge.orientation = newRotation
         }
     }
 }
