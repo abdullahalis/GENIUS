@@ -142,6 +142,7 @@
 		2FD48ED52C0E4812002DBC5D /* Speaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48ED42C0E4812002DBC5D /* Speaker.swift */; };
 		2FD48ED92C10F6E3002DBC5D /* Bananas.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 2FD48ED82C10F6E2002DBC5D /* Bananas.usdz */; };
 		2FD48EDB2C1252F1002DBC5D /* Sketchfab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */; };
+		2FD8BFAC2C3336D500D8E481 /* Dune_Rise.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2FD8BFAB2C3336D500D8E481 /* Dune_Rise.otf */; };
 		2FE827CE2C066FE6007AA006 /* UmainSpatialGestures in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CD2C066FE6007AA006 /* UmainSpatialGestures */; };
 		2FE827D02C066FEB007AA006 /* GestureKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE827CF2C066FEB007AA006 /* GestureKit */; };
 		2FE827D22C067DEB007AA006 /* ConvoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE827D12C067DEB007AA006 /* ConvoView.swift */; };
@@ -316,6 +317,7 @@
 		2FD48ED62C10F3BB002DBC5D /* ModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelView.swift; sourceTree = "<group>"; };
 		2FD48ED82C10F6E2002DBC5D /* Bananas.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Bananas.usdz; sourceTree = "<group>"; };
 		2FD48EDA2C1252F1002DBC5D /* Sketchfab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketchfab.swift; sourceTree = "<group>"; };
+		2FD8BFAB2C3336D500D8E481 /* Dune_Rise.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dune_Rise.otf; sourceTree = "<group>"; };
 		2FE827D12C067DEB007AA006 /* ConvoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoView.swift; sourceTree = "<group>"; };
 		450441212BFF94DE0034F730 /* ProteinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinView.swift; sourceTree = "<group>"; };
 		450441232BFF9A5D0034F730 /* ProteinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinManager.swift; sourceTree = "<group>"; };
@@ -501,6 +503,14 @@
 			path = GeniusAnimation;
 			sourceTree = "<group>";
 		};
+		2FD8BFAE2C33371900D8E481 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2FD8BFAB2C3336D500D8E481 /* Dune_Rise.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		2FE827C82BFFD525007AA006 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,6 +581,7 @@
 		AC81CAB72BED259700933492 /* GENIUS */ = {
 			isa = PBXGroup;
 			children = (
+				2FD8BFAE2C33371900D8E481 /* Fonts */,
 				2FA6E82E2C1B825C004C7088 /* Images */,
 				45783F342C18F9C4009BC5BE /* Views */,
 				45783F332C18F996009BC5BE /* Managers */,
@@ -782,6 +793,7 @@
 				2FD48E852C0E2786002DBC5D /* 0021.png in Resources */,
 				2FD48E952C0E2786002DBC5D /* 0009.png in Resources */,
 				2FD48EA12C0E2786002DBC5D /* 0115.png in Resources */,
+				2FD8BFAC2C3336D500D8E481 /* Dune_Rise.otf in Resources */,
 				2FD48E712C0E2786002DBC5D /* 0087.png in Resources */,
 				2FD48EB32C0E2786002DBC5D /* 0118.png in Resources */,
 				2FD48EB92C0E2786002DBC5D /* 0096.png in Resources */,
@@ -1044,7 +1056,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
-				DEVELOPMENT_TEAM = 5W26799MY8;
+				DEVELOPMENT_TEAM = AUTL8SCRXA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -1056,7 +1068,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1076,7 +1088,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
-				DEVELOPMENT_TEAM = 5W26799MY8;
+				DEVELOPMENT_TEAM = AUTL8SCRXA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -1088,7 +1100,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;

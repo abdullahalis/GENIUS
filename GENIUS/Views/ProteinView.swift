@@ -10,7 +10,7 @@ import RealityKit
 
 struct ProteinView: View {
     @ObservedObject var graph: Graph = Graph.shared
-    @ObservedObject var updatingTextHolder: UpdatingTextHolder
+    var updatingTextHolder = UpdatingTextHolder.shared
     @State private var names: String = ""
     @State private var species: String = ""
     @FocusState private var TextFieldIsFocused: Bool
@@ -98,7 +98,7 @@ struct ProteinView: View {
                     
                     HStack {
                         Button("Record") {
-                            Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                            Recorder().startRecording()
                         }
                         Button("Stop") {
                             Recorder().stopRecording()
@@ -109,7 +109,8 @@ struct ProteinView: View {
                 .textFieldStyle(.roundedBorder)
                 .navigationTitle("Protein View")
             }
-        }.onAppear{
+        }.background(Color(.systemGray6))
+        .onAppear{
             Task {
                 await dismissImmersiveSpace()
                 await openImmersiveSpace(id: "ProteinSpace")
@@ -139,5 +140,5 @@ struct proteinMenuItems: View {
 }
 
 #Preview {
-    ProteinView(updatingTextHolder: UpdatingTextHolder()).environmentObject(Graph.shared)
+    ProteinView().environmentObject(Graph.shared)
 }

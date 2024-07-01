@@ -9,27 +9,29 @@ import SwiftUI
 
 struct HelpView: View {
     var body: some View {
-        ScrollView() {
-            GENIUSDescription()
-            Text("All Hand Gestures")
-                .font(.system(size: 40, weight: .bold))
-            VStack(alignment: .leading){
-                HandGestureDescriptions(description: "Used to start recording audio in order to talk to Argo", imageName: "hands-together", gestureName: "Hands Together")
-                HandGestureDescriptions(description: "Used to stop recording audio", imageName: "spiderman", gestureName: "Spiderman")
+        NavigationStack {
+            ScrollView() {
+                GENIUSDescription()
+                Text("All Hand Gestures")
+                    .font(.system(size: 40, weight: .bold))
+                VStack(alignment: .leading){
+                    HandGestureDescriptions(description: "Used to start recording audio in order to talk to Argo", imageName: "hands-together", gestureName: "Hands Together")
+                    HandGestureDescriptions(description: "Used to stop recording audio", imageName: "spiderman", gestureName: "Spiderman")
+                }
+                .padding()
+                Text("All Voice Commands")
+                    .font(.system(size: 40, weight: .bold))
+                VStack(alignment: .leading){
+                    VoiceCommand(command: "Tell me", description: "Used to indicated you are asking a questions")
+                    VoiceCommand(command: "Show me", description: "Used to indicated you want to pull up a model")
+                    VoiceCommand(command: "Record meeting", description: "Used to indicated you want to record a meeting")
+                }
+                Text("Meeting Voice Commands")
+                    .font(.system(size: 30, weight: .bold))
+                VoiceCommand(command: "Replay meeting", description: "Reads the meeting transcript to you")
+                VoiceCommand(command: "Summary", description: "Reads a summary of the meeting to you")
             }
-            .padding()
-            Text("All Voice Commands")
-                .font(.system(size: 40, weight: .bold))
-            VStack(alignment: .leading){
-                VoiceCommand(command: "Tell me", description: "Used to indicated you are asking a questions")
-                VoiceCommand(command: "Show me", description: "Used to indicated you want to pull up a model")
-                VoiceCommand(command: "Record meeting", description: "Used to indicated you want to record a meeting")
-            }
-            Text("Meeting Voice Commands")
-                .font(.system(size: 30, weight: .bold))
-            VoiceCommand(command: "Replay meeting", description: "Reads the meeting transcript to you")
-            VoiceCommand(command: "Summary", description: "Reads a summary of the meeting to you")
-        }
+        }.background(Color(.systemGray6))
     }
 }
 
@@ -56,20 +58,20 @@ struct HandGestureDescriptions: View {
     
     var body: some View {
         
-        HStack(alignment: .top) {
-            Image(imageName)
-                .renderingMode(.original)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 180, height: 180)
-                .padding(.trailing, 10)
-            VStack(alignment: .leading) {
-                Text("\(gestureName)")
-                    .font(.system(size: 30, weight: .medium))
-                Text("\(description)")
-                    .font(.system(size: 20, weight: .medium))
+            HStack(alignment: .top) {
+                Image(imageName)
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 180, height: 180)
+                    .padding(.trailing, 10)
+                VStack(alignment: .leading) {
+                    Text("\(gestureName)")
+                        .font(.system(size: 30, weight: .medium))
+                    Text("\(description)")
+                        .font(.system(size: 20, weight: .medium))
+                }
             }
-        }
     }
 }
 

@@ -21,6 +21,11 @@
 	<string>For Handtracking</string>
 	<key>NSWorldSensingUsageDescription</key>
 	<string>For handtracking</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Dune_Rise.otf</string>
+		<string>NYXERIN.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationPreferredDefaultSceneSessionRole</key>

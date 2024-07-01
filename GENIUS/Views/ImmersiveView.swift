@@ -12,10 +12,11 @@ import RealityKitContent
 import GestureKit
 import Speech
 
-
-
 struct ImmersiveView: View {
-    var updatingTextHolder: UpdatingTextHolder
+    @EnvironmentObject var recorder: Recorder
+    @EnvironmentObject var argo: Argo
+    
+    var updatingTextHolder = UpdatingTextHolder.shared
     @State private var recording = false
     @State private var blasting = false
     @State private var startCount = 0;
@@ -24,7 +25,7 @@ struct ImmersiveView: View {
     
     let detector: GestureDetector
       
-    init(updatingTextHolder: UpdatingTextHolder) {
+    init() {
         // Attempt to find the URL for the resource
         guard let handsTogetherURL = Bundle.main.url(forResource: "hands-together", withExtension: "gesturecomposer") else {
             fatalError("hands-together.gesturecomposer not found in bundle")
@@ -42,7 +43,6 @@ struct ImmersiveView: View {
         
         // Initialize the detector with the configuration
         detector = GestureDetector(configuration: configuration)
-        self.updatingTextHolder = updatingTextHolder
         }
     
     
@@ -54,8 +54,8 @@ struct ImmersiveView: View {
         }()
     
     var body: some View {
+        // Displays Halo HUD
         RealityView { content in
-            
             let mesh: MeshResource = .generatePlane(width: 0.83, height: 0.6)
                     
             var material = SimpleMaterial()
@@ -65,50 +65,13 @@ struct ImmersiveView: View {
             material.roughness = .float(0.0)
 
             let planeEntity = ModelEntity(mesh: mesh, materials: [material])
-//            // Load the transparent PNG image as a texture
-//                    guard let imageURL = Bundle.main.url(forResource: "halo_hud", withExtension: "png"),
-//                          let image = UIImage(contentsOfFile: imageURL.path),
-//                          let cgImage = image.cgImage else {
-//                        fatalError("Failed to load image")
-//                    }
-//                    
-//            let texture = try! TextureResource.generate(from: cgImage, options: .init(semantic: .color))
-//
-//            // Create a material with the texture and enable transparency
-//                   var material = UnlitMaterial()
-//                  
-//            material.color = MaterialColorParameter.color(.white.withAlphaComponent(0)) // Transparent white base color
-//                    //material.baseColor.texture = MaterialTextureResource(texture) // Assign the texture with transparency
-//
-//                   material.blending = .transparent(opacity: .init(floatLiteral: 1.0))
-//
-//                    // Create a plane mesh with the material
-//            let planeMesh = MeshResource.generatePlane(width: 0.5, height: 0.5)
-//                    let planeEntity = ModelEntity(mesh: planeMesh, materials: [material])
-//
-//                    // Create a box entity
-//                    let boxEntity = ModelEntity(
-//                        mesh: .generateBox(size: 0.1),
-//                        materials: [UnlitMaterial()]
-//                    )
-
-                    // Add the plane entity and box entity to the head-tracked entity
-                    //headTrackedEntity.addChild(boxEntity)
-                    headTrackedEntity.addChild(planeEntity)
+            headTrackedEntity.addChild(planeEntity)
             
             content.add(headTrackedEntity)
-                    
         }
-//        RealityView { content in
-//            scene = try! await Entity(named: "Immersive", in: realityKitContentBundle)
-//            content.add(scene)
-//
-//
-//        }
         .task {
             await detectGestures()
         }
-        
     }
     
     private func detectStart(gestureWanted: String, detectedGesture: String) -> Bool {
@@ -141,29 +104,28 @@ struct ImmersiveView: View {
        do {
            for try await gesture in detector.detectedGestures {
                let detectedGesture = gesture.description
-               print(detectedGesture)
                
                // Check recording gesture
                if !recording && detectStart(gestureWanted: "All fingers then thumb", detectedGesture: detectedGesture) {
                    recording = true
-                   Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                   recorder.startRecording()
                    updatingTextHolder.isRecording = true
                }
                else if recording && detectStop(gestureWanted: "All fingers then thumb", detectedGesture: detectedGesture) {
                    recording = false
-                   Recorder().stopRecording()
+                   recorder.stopRecording()
                    updatingTextHolder.isRecording = false
-                    Argo().handleRecording(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                    argo.handleRecording()
                }
                
                // Check blaster gesture
                if !blasting && detectStart(gestureWanted: "Spread", detectedGesture: detectedGesture) {
                    blasting = true
-                   updatingTextHolder.mode = "Start blasting"
+                   //updatingTextHolder.mode = "Start blasting"
                }
                else if recording && detectStop(gestureWanted: "Spread", detectedGesture: detectedGesture) {
                    blasting = false
-                   updatingTextHolder.mode = "Stop blasting"
+                   //updatingTextHolder.mode = "Stop blasting"
                }
            }
        }
@@ -179,5 +141,5 @@ struct ImmersiveView: View {
 }
 
 #Preview(immersionStyle: .mixed) {
-    ImmersiveView(updatingTextHolder: UpdatingTextHolder())
+    ImmersiveView()
 }
