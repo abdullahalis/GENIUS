@@ -52,6 +52,10 @@ struct GENIUSApp: App {
                     .tabItem {
                         Label("Polaris", systemImage: "apple.terminal")
                     }
+                SimulationsView()
+                    .tabItem {
+                        Label("Sims", systemImage: "tv.circle")
+                    }
             }
         }
 //        WindowGroup {
@@ -78,7 +82,7 @@ struct GENIUSApp: App {
         // Window to open Sketchfab Viewer API
         WindowGroup(id: "sim", for: String.self) { $url in
             if let url {
-                SimView(url: url)
+                SimView()
             }
         }
         
