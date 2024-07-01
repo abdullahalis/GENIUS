@@ -16,7 +16,7 @@ struct SimView: View {
         }
         .padding()
         .onAppear {
-            downloader.downloadVideo()
+            downloader.downloadVideo(density: "1000", speed: "1.0", length: "2.5", viscosity: "1.3806", time: "8.0", freq: "0.04")
         }
     }
 }
@@ -26,8 +26,18 @@ class VideoDownloader: ObservableObject {
     @Published var videoURL: URL?
     var cancellables = Set<AnyCancellable>()
     
-    func downloadVideo() {
-        guard let url = URL(string: "http://" + Login().getIP() + ":5000/video") else { return }
+    func downloadVideo(density: String, speed: String, length: String, viscosity: String, time: String, freq: String) {
+        var urlComponents = URLComponents(string: "http://" + Login().getIP() + ":5000/video")
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "density", value: density),
+            URLQueryItem(name: "speed", value: speed),
+            URLQueryItem(name: "length", value: length),
+            URLQueryItem(name: "viscosity", value: viscosity),
+            URLQueryItem(name: "time", value: time),
+            URLQueryItem(name: "freq", value: freq)
+        ]
+        
+        guard let url = urlComponents?.url else { return }
         
         isLoading = true
         
