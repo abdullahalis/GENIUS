@@ -68,9 +68,6 @@ struct ContentView: View {
                             .frame(width: 1000)
                             .multilineTextAlignment(.center)
                     }.frame(height: 60)
-                    Button("Video") {
-                        openWindow(id: "sim", value: "https://www.w3schools.com/html/mov_bbb.mp4")
-                    }
                     Button(action: {
                         updatingTextHolder.isRecording.toggle()
                         if updatingTextHolder.isRecording {

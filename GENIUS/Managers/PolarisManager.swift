@@ -135,6 +135,80 @@ func codeRequest(command: String, completion: @escaping (String) -> Void ) {
     task.resume()
 }
 
+
+//func videoRequest(command: String, completion: @escaping (String) -> Void) {
+//    guard let url = URL(string: "http://" + Login().getIP() + ":5000/video") else {
+//        print("Invalid URL")
+//        completion("error")
+//        return
+//    }
+//    
+//    var request = URLRequest(url: url)
+//    request.httpMethod = "POST"
+//    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//    
+//    let parameters: [String: Any] = [
+//        "user": Login().getUser(),
+//        "password": Login().getPass(),
+//        "command": command,
+//    ]
+//    
+//    do {
+//        request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+//    } catch {
+//        print("Failed to serialize JSON: \(error)")
+//        completion("error")
+//        return
+//    }
+//    
+//    let task = URLSession.shared.downloadTask(with: request) { location, response, error in
+//        if let error = error {
+//            print("Error: \(error)")
+//            completion("error")
+//            return
+//        }
+//        
+//        guard let httpResponse = response as? HTTPURLResponse,
+//              (200...299).contains(httpResponse.statusCode) else {
+//            print("Invalid response")
+//            completion("error")
+//            return
+//        }
+//        
+//        guard let location = location else {
+//            print("No file location")
+//            completion("error")
+//            return
+//        }
+//        
+//        do {
+//            let fileManager = FileManager.default
+//            let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//            let destinationURL = documentsURL.appendingPathComponent("output.mp4")
+//            
+//            // Remove existing file if it exists
+//            if fileManager.fileExists(atPath: destinationURL.path) {
+//                try fileManager.removeItem(at: destinationURL)
+//            }
+//            
+//            try fileManager.moveItem(at: location, to: destinationURL)
+//            
+//            // Verify that the file exists at the destination path
+//            if fileManager.fileExists(atPath: destinationURL.path) {
+//                completion(destinationURL.path)
+//            } else {
+//                print("File does not exist at the destination path")
+//                completion("error")
+//            }
+//        } catch {
+//            print("Failed to move file: \(error)")
+//            completion("error")
+//        }
+//    }
+//    
+//    task.resume()
+//}
+
 //func handlePolarisCommand(updatingTextHolder: UpdatingTextHolder, command: String) -> String {
 //    let recording = updatingTextHolder.recongnizedText
 //

@@ -7,9 +7,25 @@
 
 import SwiftUI
 
+
+
 struct SimulationsView: View {
+    
+    @State private var density = ""
+    @State private var speed = ""
+    @State private var length = ""
+    @State private var viscosity = ""
+    @State private var time = ""
+    @State private var freq = ""
+    
+    @Environment(\.openWindow) var openWindow
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack{
+            Button("LBM-CFD Sim") {
+                openWindow(id: "sim", value: "LBM-CFD")
+            }
+        }
     }
 }
 
