@@ -27,6 +27,7 @@ struct ProteinSpace: View {
             root.position = devicePos
             content.add(root)
         }
+         ///*
         // Add/remove nodes when internal array updates
         .onChange(of: graph.nodes) { oldNodes, newNodes in
             let nodesToAdd = newNodes.filter {n in !oldNodes.contains(n)}
@@ -51,48 +52,45 @@ struct ProteinSpace: View {
                 root.removeChild(edge)
             }
         }
+        // */
         // Update node positions when internal array updates
         .onChange(of: graph.positions) { oldPos, newPos in
             for (index, pos) in newPos.enumerated() {
                 if graph.nodes.count == graph.positions.count {
                     let node = graph.nodes[index]
-                    node.move(to: Transform(translation: pos), relativeTo: node.parent, duration: 1)
-                    
-                    // Update edges to reflect new positions of proteins
-                    let edges = graph.edges.filter {$0.name.contains(node.name)}
-                    graph.updateEdges(edgesToChange: edges)
+                    node.move(to: pos, duration: 1)
                 }
             }
         }
+        //*/
         // Show description when object is clicked
         .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
-            if let object = value.entity as? ModelEntity {
-                if let descEntity = object.children.first(where: { $0.name == "descWindow"}) {
-                    descEntity.isEnabled.toggle()
+            let object = value.entity
+            if let descEntity = object.children.first(where: { $0.name == "descWindow"}) {
+                descEntity.isEnabled.toggle()
                     
-                    // If object is an edge, highlight it in green
-                    if object.name.contains("->"){
-                        if descEntity.isEnabled{
-                            object.model?.materials = [SimpleMaterial(color: UIColor(white: 1.0, alpha: 1.0), isMetallic: false)]
-                        } else {
-                            object.model?.materials = [SimpleMaterial(color: UIColor(white: 1.0, alpha: 0.5), isMetallic: false)]
-                        }
+                // If object is an edge, highlight it
+                if let edge = object as? Edge {
+                    if descEntity.isEnabled{
+                        edge.model?.materials = [SimpleMaterial(color: UIColor(white: 1.0, alpha: 1.0), isMetallic: false)]
+                    } else {
+                        edge.model?.materials = [SimpleMaterial(color: UIColor(white: 1.0, alpha: 0.5), isMetallic: false)]
                     }
                 }
             }
         }) 
         // Enable drag gestures on protein objects
         .gesture(DragGesture().targetedToAnyEntity().onChanged { value in
-            let object = value.entity
-            // Ensure edges cannot be dragged
-            if !object.name.contains("->") {
-                object.position = value.convert(value.location3D, from: .local, to: object.parent!)
-                
-                // Update edges to reflect new positions of proteins
-                let edges = graph.edges.filter {$0.name.contains(object.name)}
-                graph.updateEdges(edgesToChange: edges)
+            if let node = value.entity as? Node {
+                node.isDragging = true
+                node.position = value.convert(value.location3D, from: .local, to: node.parent!)
             }
-            
+        }
+        .onEnded { value in
+            if let node = value.entity as? Node {
+                node.isDragging = false
+                
+            }
         })
     }
 }
