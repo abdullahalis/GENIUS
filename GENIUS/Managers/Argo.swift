@@ -240,16 +240,24 @@ class Argo : ObservableObject{
     
     // Run simulation on Polaris supercomputer based on user input
     func handleSimulation() {
-        let prompt = "Respond only in code. This shell script runs a simulation of fluid dynamics: Modify the parameters of this shell script according to the user input. User input: "
+        // Generate the parameters for the simulation
+        let prompt = "Respond only in a comma seperated string. The user would like to run a simulation of fluid dynamics. The parameters and their defaults are the following: density: 1000, speed: 1.0, length: 2.5, viscosity: 1.3806, time: 8.0, freq: 0.04. Your job is to generate the parameters for the simulation given the user prompt. If the user says to simply run the simulation, return the default values. Otherwise adjust the parameters using the numbers from previous parameters you provided and as needed to fullfill the user's request. Return the parameters as a string of numbers seperated by commas with no spaces in the order: density, speed, length, viscosity, time, freq. Here is the user's prompt: \(updatingTextHolder.recongnizedText)"
         Task {
-            // Generate the script based on user input
-            let script = try await getResponse(prompt: prompt, model: "CodeLlama")
             
-            // Run script on Polaris
+            let parameters = try await getResponse(prompt: prompt, model: "Llama")
+            
+            // update context and UI
+            conversationManager.addEntry(prompt: updatingTextHolder.recongnizedText, response: "*Ran simulation with parameters: \(parameters)*")
+            updatingTextHolder.responseText = parameters
+            
+            // Open window to show simulation
+            DispatchQueue.main.async {
+                self.openWindow(id: "sim", value: parameters)
+            }
             
             
             // Display returned video of simulation
-            openWindow(id: "sim", value: "http://" + Login().getIP() + ":5000/video")
+            //openWindow(id: "sim", value: "http://" + Login().getIP() + ":5000/video")
         }
     }
 }

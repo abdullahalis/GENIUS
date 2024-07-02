@@ -3,21 +3,43 @@ import AVKit
 import Combine
 
 struct SimView: View {
+    let parameters: String
     @ObservedObject var downloader = VideoDownloader()
     
     var body: some View {
-        VStack {
-            if downloader.isLoading {
-                ProgressView("Running sim...")
-            } else if let videoURL = downloader.videoURL {
-                VideoPlayer(player: AVPlayer(url: videoURL))
-                    .frame(height: 700)
+        NavigationStack {
+            VStack {
+                if downloader.isLoading {
+                    ProgressView("Running sim...")
+                } else if let videoURL = downloader.videoURL {
+                    VideoPlayer(player: AVPlayer(url: videoURL))
+                        .frame(height: 700)
+                }
             }
-        }
-        .padding()
-        .onAppear {
-            downloader.downloadVideo(density: "1000", speed: "1.0", length: "2.5", viscosity: "1.3806", time: "8.0", freq: "0.04")
-        }
+            .padding()
+            .onAppear {
+                // Parse parameters into variables and download sim using those numbers
+                if let (d, s, l, v, t, f) = parseParams(from: parameters) {
+                    print("successful simulation running")
+                    downloader.downloadVideo(density: d, speed: s, length: l, viscosity: v, time: t, freq: f)
+                }
+                else {
+                    print("Couldn't parse parameters")
+                    UpdatingTextHolder.shared.responseText = "Sorry, an error occured when parsing the paramaters"
+                }
+            }
+        }.background(Color(.systemGray6))
+    }
+    
+    func parseParams(from input: String) -> (String, String, String, String, String, String)? {
+        // Split the input string by commas
+        let components = input.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
+        
+        // Ensure we have exactly 6 components
+        guard components.count == 6 else { return nil }
+        
+        // Return the parsed values as a tuple
+        return (components[0], components[1], components[2], components[3], components[4], components[5])
     }
 }
 

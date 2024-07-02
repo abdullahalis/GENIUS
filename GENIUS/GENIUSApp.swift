@@ -80,9 +80,9 @@ struct GENIUSApp: App {
         }
         
         // Window to open Sketchfab Viewer API
-        WindowGroup(id: "sim", for: String.self) { $url in
-            if let url {
-                SimView()
+        WindowGroup(id: "sim", for: String.self) { $parameters in
+            if let parameters {
+                SimView(parameters: parameters)
             }
         }
         
