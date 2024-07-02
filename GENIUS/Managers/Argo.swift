@@ -135,7 +135,7 @@ class Argo : ObservableObject{
             return
         }
         print("recording in Argo", recording)
-        let prompt = "You will decide what type of action that needs to be taken based on user input. Respond with one of the following options with no punctuation or spaces: meeting, prompt, model, or simulation. Choose meeting if based on the user input, the user wants to start recording a meeting. Choose prompt if the user wants information about something. Choose model if the user wants to see a representation of something. Choose simulation if the user wants to run a simulation of something. Your response must be one word. The user said: \(recording)."
+        let prompt = "You will decide what type of action that needs to be taken based on user input. Respond with one of the following options with no punctuation or spaces: meeting, prompt, model, or simulation. Choose meeting if based on the user input, the user wants to start recording a meeting. Choose prompt if the user wants information about something. Choose model if the user wants to see a representation of something. Choose simulation if the user wants to run a simulation of something. Choose protein if the user wants to visualize protein interactions. Your response must be one word. The user said: \(recording)."
         Task {
             let mode = try await getResponse(prompt: prompt, model: "Llama")
             print("Mode:", mode)
@@ -150,6 +150,9 @@ class Argo : ObservableObject{
             }
             else if mode.contains("simulation") {
                 self.handleSimulation()
+            }
+            else if mode.contains("protein") {
+                self.handleProtein()
             }
             else {
                 self.speak(text: "No response possible")
@@ -253,6 +256,23 @@ class Argo : ObservableObject{
             // Open window to show simulation
             DispatchQueue.main.async {
                 self.openWindow(id: "sim", value: parameters)
+            }
+        }
+    }
+    
+    func handleProtein() {
+        updatingTextHolder.mode = "Retrieving data..."
+        let graph = Graph.shared
+        let userPrompt = updatingTextHolder.recongnizedText
+        Task {
+            var prompt = "Respond only in a space-separated string of protein names. The user wishes to visualize a graph of protein interactions. You must parse the user's prompt and return the names of any proteins you recognize. Do not add any proteins of your own volition. Any proteins you return must be valid proteins, so do your best to match the user's words to protein names. Assume all proteins are human-specific. If unable to find any proteins, respond with 'Not found'. Here is the user's prompt: \(userPrompt)"
+            let names = try await getResponse(prompt: prompt, model: "Llama")
+            getData(proteins: names, species: "9606") { (p,i) in
+                self.updatingTextHolder.mode = "Building model..."
+                graph.setData(p: p, i: i)
+                DispatchQueue.main.async {
+                    graph.createModel()
+                }
             }
         }
     }
