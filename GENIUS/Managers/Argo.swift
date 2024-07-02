@@ -254,10 +254,6 @@ class Argo : ObservableObject{
             DispatchQueue.main.async {
                 self.openWindow(id: "sim", value: parameters)
             }
-            
-            
-            // Display returned video of simulation
-            //openWindow(id: "sim", value: "http://" + Login().getIP() + ":5000/video")
         }
     }
 }
