@@ -9,12 +9,14 @@ import SwiftUI
 import AVFAudio
 import Combine
 
-class Argo {
+class Argo : ObservableObject{
     var conversationManager: ConversationManager
     @State private var mode: String = "none"
     private var modelsAvailable: [String] = []
     private var modelsAvailableStr: String = "none"
     private let speaker: Speaker
+    private let speechSynthesizer = SpeechSynthesizer.shared.synthesizer
+    let updatingTextHolder = UpdatingTextHolder.shared
     
     @Environment(\.openWindow) var openWindow
 
@@ -24,14 +26,20 @@ class Argo {
     }
     
     // Text to Speech function
-    func speak(text: String, speechSynthesizer: AVSpeechSynthesizer) {
-        let audioSession = AVAudioSession() // 2) handle audio session first, before trying to read the text
-        do {
-            try audioSession.setCategory(.playback, mode: .default, options: .duckOthers)
-            try audioSession.setActive(false)
-        } catch let error {
-            print(":question:", error.localizedDescription)
+    func speak(text: String) {
+//        let audioSession = AVAudioSession() // 2) handle audio session first, before trying to read the text
+//        do {
+//            try audioSession.setCategory(.playback, mode: .default)
+//            try audioSession.setActive(true)
+//        } catch let error {
+//            print(":question:", error.localizedDescription)
+//        }
+        
+        // Stop any ongoing speech synthesis
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
         }
+
         // Create an utterance.
         let utterance = AVSpeechUtterance(string: text)
         // Retrieve the British English voice.
@@ -42,27 +50,51 @@ class Argo {
         speechSynthesizer.speak(utterance)
     }
     
-    func getResponse(prompt: String) async throws -> String {
-        
+    func getResponse(prompt: String, model: String) async throws -> String {
         // add context with prompt
         let fullPrompt = conversationManager.getContext() + "Using this context (if applicable or if it exists) to answer the following prompt:" + prompt
-
-        // Access Argo API
-        let url = URL(string: "https://apps-dev.inside.anl.gov/argoapi/api/v1/resource/chat/")!
+        var request: URLRequest
+        var parameters: [String: Any]
         
-        // Form HTTP request
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let parameters: [String: Any] = [
-            "user": "syed.ali",
-            "model": "gpt35",
-            "system": "You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You will record all interactions, transcribe them, and offer functionalities like meeting summaries, knowledge extraction, and replaying discussions.",
-            "stop": [],
-            "temperature": 0.1,
-            "top_p": 0.9,
-            "prompt": [fullPrompt]
-        ]
+        // Call API based on model selected
+        if (model == "Argo") {
+            // Access Argo API
+            let url = URL(string: "https://apps-dev.inside.anl.gov/argoapi/api/v1/resource/chat/")!
+            
+            // Form HTTP request
+            request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            parameters = [
+                "user": "syed.ali",
+                "model": "gpt35",
+                "system": "You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You will record all interactions, transcribe them, and offer functionalities like meeting summaries, knowledge extraction, and replaying discussions.",
+                "stop": [],
+                "temperature": 0.1,
+                "top_p": 0.9,
+                "prompt": [fullPrompt]
+            ]
+        }
+        else if (model == "Llama") {
+            // Access Argo API
+            let url = URL(string: "https://arcade.evl.uic.edu/llama/generate")!
+            
+            // Form HTTP request
+            request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            parameters = [
+              "inputs": """
+              <|begin_of_text|> <|start_header_id|>system<|end_header_id|> You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You will record all interactions, transcribe them, and offer functionalities like meeting summaries, knowledge extraction, and replaying discussions. <| eot_id|> <|start_header_id|>user<|end_header_id|> \(fullPrompt) <|eot_id|> <|start_header_id|>assistant<|end_header_id|>
+              """,
+              "parameters": [
+                "max_new_tokens": 300
+              ]
+            ]
+        }
+        else {
+            return "Error: Model not found."
+        }
         
         // Convert paramaters to JSON
         let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
@@ -83,56 +115,9 @@ class Argo {
         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
         
         if let responseString = jsonResponse?["response"] as? String {
-            print("responseString in do:", responseString)
             return responseString
         }
-        else {
-            print("Response does not contain 'response' field or it's not a string")
-            return "Error"
-        }
-    }
-    
-    func getLlamaResponse(prompt: String) async throws -> String {
-        // add context with prompt
-        let fullPrompt = conversationManager.getContext() + "Using this context (if applicable or if it exists) to answer the following prompt:" + prompt
-        
-        print("Prompt:", fullPrompt)
-
-        // Access Argo API
-        let url = URL(string: "https://arcade.evl.uic.edu/llama/generate")!
-        
-        // Form HTTP request
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let parameters = [
-          "inputs": """
-          <|begin_of_text|> <|start_header_id|>system<|end_header_id|> You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You will record all interactions, transcribe them, and offer functionalities like meeting summaries, knowledge extraction, and replaying discussions. <| eot_id|> <|start_header_id|>user<|end_header_id|> \(prompt) <|eot_id|> <|start_header_id|>assistant<|end_header_id|>
-          """,
-          "parameters": [
-            "max_new_tokens": 300
-          ]
-        ] as [String : Any]
-        
-        // Convert paramaters to JSON
-        let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-        request.httpBody = jsonData
-        let start = Date()
-        // Send request
-        let (data, response) = try await URLSession.shared.data(for: request)
-        let end = Date()
-        print("Time: ", end.timeIntervalSince(start))
-        // Check if response is valid
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            print("Invalid Response")
-            return "Invalid Response"
-        }
-
-        // Extract response string from JSON response
-        let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        
-        if let responseString = jsonResponse?["generated_text"] as? String {
+        else if let responseString = jsonResponse?["generated_text"] as? String {
             let startIndex = responseString.index(responseString.startIndex, offsetBy: 2)
             return String(responseString[startIndex...])
         }
@@ -143,40 +128,45 @@ class Argo {
     }
     
     // Extract mode needed based on user's recognized text
-    func handleRecording(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
+    func handleRecording() {
         let recording = updatingTextHolder.recongnizedText
+        if recording == " " {
+            self.speak(text: "Sorry I didn't get that")
+            return
+        }
+        print("recording in Argo", recording)
         let prompt = "You will decide what type of action that needs to be taken based on user input. Respond with one of the following options with no punctuation or spaces: meeting, prompt, model, or simulation. Choose meeting if based on the user input, the user wants to start recording a meeting. Choose prompt if the user wants information about something. Choose model if the user wants to see a representation of something. Choose simulation if the user wants to run a simulation of something. Your response must be one word. The user said: \(recording)."
         Task {
-            let mode = try await getLlamaResponse(prompt: prompt)
+            let mode = try await getResponse(prompt: prompt, model: "Llama")
             print("Mode:", mode)
             if mode.contains("meeting") {
-                self.handleMeeting(updatingTextHolder: updatingTextHolder)
+                self.handleMeeting()
             }
             else if mode.contains("prompt") {
-                self.handlePrompt(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                self.handlePrompt()
             }
             else if mode.contains("model") {
-                self.handleModel(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                self.handleModel()
             }
             else if mode.contains("simulation") {
-                self.handleSimulation(updatingTextHolder: updatingTextHolder, speechSynthesizer: speechSynthesizer)
+                self.handleSimulation()
             }
             else {
-                self.speak(text: "No response possible", speechSynthesizer: speechSynthesizer)
+                self.speak(text: "No response possible")
             }
         }
     }
     
     // Summarize and punctutate recorded meeting
-    func handleMeeting(updatingTextHolder: UpdatingTextHolder) {
+    func handleMeeting() {
         updatingTextHolder.mode = "meeting"
         if let range = updatingTextHolder.recongnizedText.range(of: "record meeting ") {
             do{
                 Task {
-                    let meeting =  try await getResponse(prompt: "Added proper punctuation and fix any spelling or grammar errors you find: " + String(updatingTextHolder.recongnizedText[(range.upperBound...)]))
-                    let meetingName = try await getResponse(prompt: "Come up with a short name to describe this meeting: " + meeting)
+                    let meeting =  try await getResponse(prompt: "Added proper punctuation and fix any spelling or grammar errors you find: " + String(updatingTextHolder.recongnizedText[(range.upperBound...)]), model: "Argo")
+                    let meetingName = try await getResponse(prompt: "Come up with a short name to describe this meeting: " + meeting, model: "Argo")
                     let newMeeting = MeetingManager(meetingText: meeting, meetingName: meetingName)
-                    newMeeting.summarizeMeeting(updatingTextHolder: updatingTextHolder)
+                    newMeeting.summarizeMeeting()
                     updatingTextHolder.meetingManagers.append(newMeeting)
                     updatingTextHolder.responseText = "Meeting added"
                     print("Meeting added")
@@ -186,37 +176,37 @@ class Argo {
     }
     
     // Sends prompt straight to Argo
-    func handlePrompt(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
+    func handlePrompt() {
         updatingTextHolder.mode = "Loading response..."
         let question = updatingTextHolder.recongnizedText
         do {
             Task {
                 // call Argo API to get response to prompt
-                let response = try await getResponse(prompt: question)
+                let response = try await getResponse(prompt: question, model: "Argo")
                 print("response:", response)
                 
                 // call text to speech function with the response from Argo
-                self.speak(text: response, speechSynthesizer: speechSynthesizer)
+                self.speak(text: response)
                 
                 // add converation entry
                 self.conversationManager.addEntry(prompt: question, response: response)
                 
                 // update UI
-                updatingTextHolder.mode = ""
+                updatingTextHolder.mode = " "
                 updatingTextHolder.responseText = response
             }
         }
     }
     
     // Opens a 3D model based on user input
-    func handleModel(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
+    func handleModel() {
         updatingTextHolder.mode = "Loading model..."
         let userPrompt = updatingTextHolder.recongnizedText
         
         Task {
             // generate a search query based on user input
             var prompt = "I need to display a 3d model. I want to use an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(userPrompt)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
-            let modelSearch = try await getResponse(prompt: prompt)
+            let modelSearch = try await getResponse(prompt: prompt, model: "Llama")
 
             // search Sketchfab API for models relating to the search query
             let results = try await sketchFabSearch(q: modelSearch)
@@ -229,7 +219,7 @@ class Argo {
             
             // Use the names of models to pick the one to open
             prompt = "Your response must be one phrase with no spaces or punctuation: You have previously created a search query for a 3D model. That search has been ran and now I have the results as a dictionary of models in the form (uid, name). Here is the dictionary of models: \(models). Based on the search: '\(modelSearch)' and our previous discussion, decide which model's name best matches. Please provide ONLY the uid of the matching model. Your response must only include the uid."
-            let modelToOpen = try await getLlamaResponse(prompt: prompt)
+            let modelToOpen = try await getResponse(prompt: prompt, model: "Llama")
             print("model to open:", modelToOpen)
             
             // check if model is valid
@@ -239,8 +229,8 @@ class Argo {
                     self.openWindow(id: "model", value: modelToOpen)
                 }
                 
-                updatingTextHolder.mode = ""
-                conversationManager.addEntry(prompt: updatingTextHolder.recongnizedText, response: "*Displays '\(models[modelToOpen] ?? "model")'*")
+                updatingTextHolder.mode = " "
+                conversationManager.addEntry(prompt: updatingTextHolder.recongnizedText, response: "*Displays '\(models[modelToOpen] ?? "model")'*", modelId: modelToOpen)
             }
             else {
                 print("Error generating model to open")
@@ -248,7 +238,18 @@ class Argo {
         }
     }
     
-    func handleSimulation(updatingTextHolder: UpdatingTextHolder, speechSynthesizer: AVSpeechSynthesizer) {
-        openWindow(id: "sim", value: "http://" + Login().getIP() + ":5000/video")
+    // Run simulation on Polaris supercomputer based on user input
+    func handleSimulation() {
+        let prompt = "Respond only in code. This shell script runs a simulation of fluid dynamics: Modify the parameters of this shell script according to the user input. User input: "
+        Task {
+            // Generate the script based on user input
+            let script = try await getResponse(prompt: prompt, model: "CodeLlama")
+            
+            // Run script on Polaris
+            
+            
+            // Display returned video of simulation
+            openWindow(id: "sim", value: "http://" + Login().getIP() + ":5000/video")
+        }
     }
 }

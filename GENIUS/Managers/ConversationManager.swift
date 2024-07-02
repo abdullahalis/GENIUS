@@ -11,6 +11,7 @@ class ConversationManager: ObservableObject {
         let id = UUID()
         let prompt: String
         let response: String
+        var modelId: String = ""
     }
 
     @Published private(set) var conversationHistory: [ConversationEntry] = []
@@ -20,8 +21,8 @@ class ConversationManager: ObservableObject {
 
     private init() { }
 
-    func addEntry(prompt: String, response: String) {
-        let entry = ConversationEntry(prompt: prompt, response: response)
+    func addEntry(prompt: String, response: String, modelId: String = "") {
+        let entry = ConversationEntry(prompt: prompt, response: response, modelId: modelId)
         conversationHistory.append(entry)
     }
 

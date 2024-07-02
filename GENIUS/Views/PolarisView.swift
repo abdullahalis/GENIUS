@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PolarisView: View {
     
-    var updatingTextHolder: UpdatingTextHolder
+    var updatingTextHolder = UpdatingTextHolder.shared
     @State private var recording = false
     @State private var directory = ""
     @State var outputs: [String] = []
@@ -18,6 +18,7 @@ struct PolarisView: View {
     @State private var command = ""
     
     var body: some View {
+        NavigationStack {
             VStack {
                 Text("Polaris")
                     .font(.system(size: 30, weight: .medium))
@@ -26,11 +27,11 @@ struct PolarisView: View {
                     LazyVStack(alignment: .leading) {
                         ForEach(outputs, id: \.self) { line in
                             Text(line)
-                            .font(.system(.body, design: .monospaced))
-                            .padding(.horizontal)
-                            .padding(.vertical, 2)
-                            .foregroundColor(.green)
-                            .cornerRadius(4)
+                                .font(.system(.body, design: .monospaced))
+                                .padding(.horizontal)
+                                .padding(.vertical, 2)
+                                .foregroundColor(.green)
+                                .cornerRadius(4)
                         }
                     }
                     .padding()
@@ -40,14 +41,14 @@ struct PolarisView: View {
                 .cornerRadius(8)
                 .padding()
                 
-//                HStack {
-//                    TextField("username", text: $username)
-//                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                    SecureField("password", text: $password)
-//                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                }
-//                .padding()
-//                
+                //                HStack {
+                //                    TextField("username", text: $username)
+                //                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                //                    SecureField("password", text: $password)
+                //                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                //                }
+                //                .padding()
+                //
                 TextField("command", text: $command)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
@@ -72,7 +73,7 @@ struct PolarisView: View {
                     password = ""
                 }
                 .padding()
-                Button("Ask GENIUS") {
+                Button(action: {
                     if(recording) {
                         Task {
                             codeRequest(command: "Test") { results in
@@ -83,15 +84,18 @@ struct PolarisView: View {
                         }
                     }
                     else {
-                        Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                        Recorder().startRecording()
                         recording = true
                     }
-                }
+                }, label: {
+                    Text("Ask GENIUS")
+                })
             }
             .padding()
-        }
+        }.background(Color(.systemGray6))
+    }
 }
 
 #Preview {
-    PolarisView(updatingTextHolder: UpdatingTextHolder())
+    PolarisView()
 }

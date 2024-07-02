@@ -8,17 +8,26 @@
 import SwiftUI
 import RealityKit
 import UmainSpatialGestures
+import AVFAudio
 
 
 @main
 struct GENIUSApp: App {
-    @ObservedObject var updatingTextHolder = UpdatingTextHolder()
+    
+    @StateObject private var recorder = Recorder()
+    @StateObject private var argo = Argo()
+
+    
+    // Create a shared instance of AVSpeechSynthesizer
+    let synthesizer = SpeechSynthesizer.shared
     
     var body: some SwiftUI.Scene {
         WindowGroup {
             TabView {
-                ContentView(updatingTextHolder: updatingTextHolder)
-                    .environmentObject(ConversationManager.shared)
+                ContentView()
+                    .environmentObject(recorder)
+                    .environmentObject(argo)
+                    
                     .tabItem {
                         Label("Home", systemImage: "house")
                     }
@@ -31,29 +40,35 @@ struct GENIUSApp: App {
                     .tabItem {
                         Label("Conversation", systemImage: "message")
                     }
-                MeetingView(updatingTextHolder: updatingTextHolder)
+                MeetingView()
                     .tabItem {
                         Label("Meetings", systemImage: "person.3")
                     }
-                ProteinView(updatingTextHolder: updatingTextHolder)
+                ProteinView()
                     .tabItem {
                         Label("Protein", systemImage: "atom")
                     }
-                PolarisView(updatingTextHolder: updatingTextHolder)
+                PolarisView()
                     .tabItem {
                         Label("Polaris", systemImage: "apple.terminal")
                     }
+                SimulationsView()
+                    .tabItem {
+                        Label("Sims", systemImage: "tv.circle")
+                    }
             }
         }
-        WindowGroup {
-            ContentView(updatingTextHolder: updatingTextHolder)
-                .environmentObject(ConversationManager.shared)
-        }
+//        WindowGroup {
+//            ContentView()
+//                .environmentObject(ConversationManager.shared)
+//        }
 //        WindowGroup {
 //            NavView(updatingTextHolder: updatingTextHolder)
 //        }
         ImmersiveSpace(id: "ImmersiveSpace") {
-            ImmersiveView(updatingTextHolder: updatingTextHolder)
+            ImmersiveView()
+            .environmentObject(recorder)
+            .environmentObject(argo)
 
         }
         
@@ -67,7 +82,7 @@ struct GENIUSApp: App {
         // Window to open Sketchfab Viewer API
         WindowGroup(id: "sim", for: String.self) { $url in
             if let url {
-                SimView(url: url)
+                SimView()
             }
         }
         
@@ -81,7 +96,7 @@ struct GENIUSApp: App {
         }.windowStyle(.volumetric)
     
         WindowGroup(id: "Proteins") {
-            ProteinView(updatingTextHolder: updatingTextHolder)
+            ProteinView()
         }
         
         ImmersiveSpace(id: "ProteinSpace") {

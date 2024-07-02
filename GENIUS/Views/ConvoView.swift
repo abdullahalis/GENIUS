@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ConvoView: View {
     @ObservedObject var conversationManager: ConversationManager = ConversationManager.shared
+    @Environment(\.openWindow) var openWindow
     
     var body: some View {
         NavigationStack {
@@ -38,6 +39,22 @@ struct ConvoView: View {
                                         .frame(maxWidth: 300, alignment: .leading)
                                     Spacer()
                                 }
+                                HStack {
+                                    if entry.modelId != "" {
+                                        Button(action: {
+                                            DispatchQueue.main.async {
+                                                self.openWindow(id: "model", value: entry.modelId)
+                                            }
+                                        }) {
+                                            Text("Display Model")
+                                                .padding(10)
+//                                                .background(Color.green)
+//                                                .foregroundColor(.white)
+                                                
+                                                .cornerRadius(10)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -46,7 +63,8 @@ struct ConvoView: View {
             }
             .navigationTitle("History")
             .textFieldStyle(.roundedBorder)
-        }
+        }.padding()
+         .background(Color(.systemGray6))
     }
 }
 

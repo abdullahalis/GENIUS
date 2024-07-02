@@ -12,7 +12,7 @@ import AVFAudio
 struct MeetingView: View {
     
     
-    @ObservedObject var updatingTextHolder: UpdatingTextHolder
+    var updatingTextHolder = UpdatingTextHolder.shared
     @State private var prompt = ""
     @State private var recording = false
     
@@ -38,16 +38,19 @@ struct MeetingView: View {
                             .font(.system(size: 30, weight: .bold))
                         Text(manager.getMeeting())
                             .font(.headline)
-                        Button("") {
+                        Button(action: {
                             if(recording) {
-                                manager.voiceCommands(updatingTextHolder: updatingTextHolder)
+                                manager.voiceCommands()
                                 recording = false
                             }
                             else {
-                                Recorder().startRecording(updatingTextHolder: updatingTextHolder)
+                                Recorder().startRecording()
                                 recording = true
                             }
-                        }
+                        }, label: {
+                            Text("")
+                        })
+                            
                         
                     }
                 }
@@ -56,12 +59,12 @@ struct MeetingView: View {
                 let testMeet = MeetingManager(meetingText: "Testing the meeting", meetingName: "test")
                 updatingTextHolder.meetingManagers.append(testMeet)
             }.padding()
-        }
+        }.background(Color(.systemGray6))
         
 
     }
 }
 
 #Preview {
-    MeetingView(updatingTextHolder: UpdatingTextHolder())
+    MeetingView()
 }

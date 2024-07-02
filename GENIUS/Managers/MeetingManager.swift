@@ -9,12 +9,14 @@ import Foundation
 import AVFAudio
 
 class MeetingManager : Identifiable {
-    let speechSynthesizer = AVSpeechSynthesizer()
     var id: UUID
     private var meetingText : String
     private var meetingName : String
     private var summary = ""
     private var request = ""
+    
+    let updatingTextHolder = UpdatingTextHolder.shared
+    
     
     init(meetingText : String, meetingName : String) {
         self.id = UUID()
@@ -22,10 +24,10 @@ class MeetingManager : Identifiable {
         self.meetingText = meetingText
     }
     
-    func summarizeMeeting(updatingTextHolder: UpdatingTextHolder) {
+    func summarizeMeeting() {
         do {
             Task {
-                summary = try await Argo().getResponse(prompt: "Summarize this information all of this " + self.meetingText)
+                summary = try await Argo().getResponse(prompt: "Summarize this information all of this " + self.meetingText, model: "Argo")
 
             }
         }
@@ -36,7 +38,7 @@ class MeetingManager : Identifiable {
 //        return updatingTextHolder.responseText
 //    }
     func replayMeeting() {
-        Argo().speak(text: self.meetingText, speechSynthesizer: speechSynthesizer)
+        Argo().speak(text: self.meetingText)
     }
     func getName() -> String {
        return meetingName
@@ -48,12 +50,12 @@ class MeetingManager : Identifiable {
        return summary
     }
     
-    func voiceCommands(updatingTextHolder: UpdatingTextHolder) {
+    func voiceCommands() {
         Recorder().stopRecording()
-        handleCommands(updatingTextHolder: updatingTextHolder)
+        handleCommands()
     }
     
-    func handleCommands(updatingTextHolder: UpdatingTextHolder) {
+    func handleCommands() {
         let recording = updatingTextHolder.recongnizedText
         
         // get first 10 words to extract the desired functionality
@@ -62,16 +64,16 @@ class MeetingManager : Identifiable {
         let firstTenWordsString = firstTenWords.joined(separator: " ")
         
         if firstTenWordsString.contains("replay meeting") {
-            Argo().speak(text: meetingText, speechSynthesizer: speechSynthesizer)
+            Argo().speak(text: meetingText)
         }
         else if firstTenWordsString.contains("summary") {
-            Argo().speak(text: summary, speechSynthesizer: speechSynthesizer)
+            Argo().speak(text: summary)
         }
         else {
             do {
                 Task {
-                    let response = try await Argo().getResponse(prompt: "Using this info '" + meetingText + "' " + recording)
-                    Argo().speak(text: response, speechSynthesizer: speechSynthesizer)
+                    let response = try await Argo().getResponse(prompt: "Using this info '" + meetingText + "' " + recording, model: "Argo")
+                    Argo().speak(text: response)
                     Argo().conversationManager.addEntry(prompt: recording, response: response)
                 }
             }
