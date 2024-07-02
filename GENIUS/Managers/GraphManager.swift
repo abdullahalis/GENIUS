@@ -8,47 +8,118 @@
 import SwiftUI
 import RealityKit
 import ForceSimulation
+import Combine
 
-class Node {
-    private var model: ModelEntity
-    private var edges: [Edge] = []
+class Node: Entity, HasModel, HasCollision {
+    var edges: [Edge] = []
+    var publisher = PassthroughSubject<SIMD3<Float>, Never>()
+    private var cancellables: [AnyCancellable] = []
+    var isDragging = false
     
-    init(_ m: ModelEntity) {
-        self.model = m
+    var position: SIMD3<Float> {
+        get {super.position}
+        set {
+            super.position = newValue
+            publisher.send(newValue)
+        }
     }
     
-    func addEdge(edge: Edge) {edges.append(edge)}
+    init(name: String, position: SIMD3<Float>, mesh: MeshResource, material: PhysicallyBasedMaterial) {
+        super.init()
+        self.position = position
+        self.model = ModelComponent(mesh: mesh, materials: [material])
+        self.name = name
+        self.components.set(HoverEffectComponent())
+        self.components.set(InputTargetComponent())
+        self.generateCollisionShapes(recursive: true)
+    }
     
-    func getModel() -> ModelEntity  {return model}
-    func getEdges() -> [Edge]       {return edges}
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+    
+    func move(to target: SIMD3<Float>, duration: TimeInterval) {
+
+        let startPos = self.position
+        let startTime = Date()
+                
+        let subscription = scene!.subscribe(to: SceneEvents.Update.self) { [weak self] event in
+            guard let self = self else { return }
+            
+            let elapsed = Date().timeIntervalSince(startTime)
+            let progress = min(Float(elapsed / duration), 1.0)
+            let newPos = startPos + (target - startPos) * progress
+            
+            if !self.isDragging {self.position = newPos}
+            
+            if progress >= 1.0 {
+                self.unsub()
+            }
+        } as! AnyCancellable
+        cancellables.append(subscription)
+
+    }
+    
+    private func unsub() {
+        //cancellables.removeFirst()
+    }
 }
 
-class Edge {
-    private var model: ModelEntity
-    private var nodeA: Node
-    private var nodeB: Node
+class Edge: Entity, HasModel, HasCollision {
+    var nodeA: Node
+    var nodeB: Node
+    private var cancellables: [AnyCancellable] = []
     
-    init(_ m: ModelEntity, from: Node, to: Node) {
-        self.model = m
+    init(from: Node, to: Node, mesh: MeshResource, material: SimpleMaterial) {
         self.nodeA = from
         self.nodeB = to
+        super.init()
+        self.model = ModelComponent(mesh: mesh, materials: [material])
+        self.name = nodeA.name + " -> " + nodeB.name
+        self.components.set(HoverEffectComponent())
+        self.components.set(InputTargetComponent())
+        self.generateCollisionShapes(recursive: true)
+        
+        from.publisher.merge(with: to.publisher)
+        .sink { [weak self] _ in
+            self?.updateEdge(from: from, to: to)
+        }.store(in: &cancellables)
     }
     
-    func getModel() -> ModelEntity  {return model}
-    func getNodeA() -> Node         {return nodeA}
-    func getNodeB() -> Node         {return nodeB}
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+    
+    private func updateEdge(from startNode: Node, to endNode: Node) {
+        let startPos = startNode.position
+        let endPos = endNode.position
+            
+        // Recalculate attributes
+        let newPosition = (startPos + endPos) / 2
+        let newRotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(endPos - startPos))
+        let newScale = SIMD3<Float>(1.0, simd_distance(startPos, endPos) / 0.1, 1.0)
+        
+        // Move edge
+        self.scale = newScale
+        self.position = newPosition
+        self.orientation = newRotation
+        
+        self.children.first?.orientation = simd_conjugate(newRotation)
+        self.children.first?.scale = 1.0 / newScale
+    }
 }
 
 // Class to model protein graph objects
 class Graph: ObservableObject {
     private var proteins: [Protein] = []
     private var interactions: [Interaction] = []
-    @Published var nodes: [ModelEntity] = []
-    @Published var edges: [ModelEntity] = []
+    @Published var nodes: [Node] = []
+    @Published var edges: [Edge] = []
     @Published var positions: [SIMD3<Float>] = []
     private var sim: Simulation3D<My3DForce> = Simulation(nodeCount: 0, links: [], forceField: My3DForce())
     private var isShown: Bool = false
     private var isLoading: Bool = false
+    var cancellables: Set<AnyCancellable> = []
     
     let nodeColors: [UIColor] = [
         UIColor(red: 17.0/255, green: 181.0/255, blue: 174.0/255, alpha: 1.0),
@@ -134,8 +205,8 @@ class Graph: ObservableObject {
         buildSim()
     }
     
-    func getNodes() -> [ModelEntity] {return self.nodes}
-    func getEdges() -> [ModelEntity] {return self.edges}
+    func getNodes() -> [Node] {return self.nodes}
+    func getEdges() -> [Edge] {return self.edges}
     func getProteins() -> [Protein] {return self.proteins}
     func getInteractions() -> [Interaction] {return self.interactions}
     func getIsShown() -> Bool {return self.isShown}
@@ -202,15 +273,10 @@ class Graph: ObservableObject {
     private func createNodes() {
         // Create entities for proteins
         for (index, p) in proteins.enumerated() {
-            let proteinObject = ModelEntity(mesh: sphereMesh, materials: [nodeMaterials[index%nodeMaterials.count]])
-                            
-            proteinObject.position = positions[index]
-            proteinObject.name = p.getPreferredName()
-                
-            // Set interactivity
-            proteinObject.components.set(HoverEffectComponent())
-            proteinObject.components.set(InputTargetComponent())
-            proteinObject.generateCollisionShapes(recursive: true)
+            let proteinObject = Node(name: p.getPreferredName(),
+                                     position: positions[index],
+                                     mesh: sphereMesh,
+                                     material: nodeMaterials[index%nodeMaterials.count])
             
             // Add protein name
             let labelEntity = labelTemplate.clone(recursive: true)
@@ -247,18 +313,12 @@ class Graph: ObservableObject {
         for i in interactions {
                 
             // Retrieve proteins
-            let p1 = nodes.first(where: { $0.name == i.getProteinA()})
-            let p2 = nodes.first(where: { $0.name == i.getProteinB()})
+            let p1 = nodes.first(where: { $0.name == i.getProteinA()})!
+            let p2 = nodes.first(where: { $0.name == i.getProteinB()})!
             
             // Create edge
             let line = MeshResource.generateCylinder(height: 0.1, radius: 0.001)
-            let lineEntity = ModelEntity(mesh: line, materials: [edgeMaterial])
-            lineEntity.name = (p1?.name ?? "Unknown") + " -> " + (p2?.name ?? "Unknown")
-                
-            // Set interactivity
-            lineEntity.components.set(HoverEffectComponent())
-            lineEntity.components.set(InputTargetComponent())
-            lineEntity.generateCollisionShapes(recursive: true)
+            let lineEntity = Edge(from: p1, to: p2, mesh: line, material: edgeMaterial)
                 
             // Clone template and replace mesh
             let edgeDescString = """
@@ -288,28 +348,6 @@ class Graph: ObservableObject {
             
             lineEntity.addChild(windowEntity)
             edges.append(lineEntity)
-        }
-    }
-    
-    func updateEdges(edgesToChange: [ModelEntity]) {
-        for edge in edgesToChange {
-            let edgeNodes = edge.name.components(separatedBy: " -> ")
-            
-            // Retrieve nodes
-            let p1 = nodes.first(where: { $0.name == edgeNodes[0]})
-            let p2 = nodes.first(where: { $0.name == edgeNodes[1]})
-            let startPos = p1?.position ?? SIMD3(0, 0, 0)
-            let endPos = p2?.position ?? SIMD3(1, 1, 1)
-            
-            // Recalculate attributes
-            let newPosition = (startPos + endPos) / 2
-            let newRotation = simd_quatf(from: [0, 1, 0], to: simd_normalize(endPos - startPos))
-            let newScale = SIMD3<Float>(1.0, simd_distance(startPos, endPos) / 0.1, 1.0)
-            
-            // Move edge
-            edge.scale = newScale
-            edge.position = newPosition
-            edge.orientation = newRotation
         }
     }
 }
