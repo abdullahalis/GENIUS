@@ -146,6 +146,7 @@ struct ImmersiveView: View {
         // Enable drag gestures on protein objects
         .gesture(DragGesture().targetedToAnyEntity().onChanged { value in
             if let node = value.entity as? Node {
+                node.unsub()
                 node.isDragging = true
                 node.position = value.convert(value.location3D, from: .local, to: node.parent!)
             }

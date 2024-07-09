@@ -13,7 +13,7 @@ import Combine
 class Node: Entity, HasModel, HasCollision {
     var edges: [Edge] = []
     var publisher = PassthroughSubject<SIMD3<Float>, Never>()
-    private var cancellables: [AnyCancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     var isDragging = false
     
     var position: SIMD3<Float> {
@@ -47,7 +47,7 @@ class Node: Entity, HasModel, HasCollision {
         let startPos = self.position
         let startTime = Date()
                 
-        let subscription = scene.subscribe(to: SceneEvents.Update.self) { [weak self] event in
+        scene.subscribe(to: SceneEvents.Update.self) { [weak self] event in
             guard let self = self else { return }
             
             let elapsed = Date().timeIntervalSince(startTime)
@@ -56,16 +56,18 @@ class Node: Entity, HasModel, HasCollision {
             
             if !self.isDragging {self.position = newPos}
             
+            /*
             if progress >= 1.0 {
                 self.unsub()
             }
-        } as! AnyCancellable
-        cancellables.append(subscription)
+             */
+        }.store(in: &cancellables)
+
 
     }
     
-    private func unsub() {
-        //cancellables.removeFirst()
+    func unsub() {
+        cancellables.removeAll()
     }
 }
 
@@ -261,9 +263,16 @@ class Graph: ObservableObject {
     
     // Run simulation to obtain optimal positions
     private func runSim() {
-        for i in 1..<720 {
+        for i in 1..<450 {
             let workItem = DispatchWorkItem { [weak self] in
-                self?.tickSim()
+                /*
+                if i == 449 {
+                    print("unsub")
+                    for n in self!.nodes {n.unsub()}
+                } else {
+                    print(i)
+                */    self?.tickSim()
+                //}
             }
             workItems.append(workItem)
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1, execute: workItem)
