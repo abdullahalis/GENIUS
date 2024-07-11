@@ -8,72 +8,41 @@
 import Foundation
 import AVFoundation
 
-//class Speaker: NSObject {
-//    let synth = SpeechSynthesizer.shared.synthesizer
-//
-//    override init() {
-//        super.init()
-//        synth.delegate = self
-//    }
-//
-//    func speak(text: String) {
-//        let utterance = AVSpeechUtterance(string: text)
-//        synth.speak(utterance)
-//    }
-//}
-//
-//// Used to find out when Argo is talking so we can set the animation but the AVSpeechSynthesizer doesn't work properly
-//extension Speaker: AVSpeechSynthesizerDelegate {
-//    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
-//        print("start talking")
-//    }
-//    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-//        print("all done")
-//    }
-//}
-
-
+// Handles GENIUS speaking
 class Speaker: NSObject, ObservableObject {
-    internal var errorDescription: String? = nil
-    private let synthesizer: AVSpeechSynthesizer = SpeechSynthesizer.shared.synthesizer
-    @Published var isSpeaking: Bool = false
-    @Published var isShowingSpeakingErrorAlert: Bool = false
+    private let speechSynthesizer: AVSpeechSynthesizer = SpeechSynthesizer.shared.synthesizer
     
-    let geniusAnimation = AnimationManager.geniusShared
-    
+    // Ovveride init to set speech delegate to allow for detecting stopping and starting
     override init() {
         super.init()
-        
-        self.synthesizer.delegate = self
+        self.speechSynthesizer.delegate = self
     }
     
+    // Text to speech function
     func speak(text: String) {
-        do {
-            geniusAnimation.startAnimation()
-            print("speaking")
-            let utterance = AVSpeechUtterance(string: text)
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-            
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            self.synthesizer.speak(utterance)
-        } catch let error {
-            print(error)
-            self.errorDescription = error.localizedDescription
-            isShowingSpeakingErrorAlert.toggle()
+        // Stop any ongoing speech synthesis
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
         }
-    }
-    
-    internal func stop() {
-        self.synthesizer.stopSpeaking(at: .immediate)
+
+        // Create an utterance.
+        let utterance = AVSpeechUtterance(string: text)
+        // Retrieve the British English voice.
+        let voice = AVSpeechSynthesisVoice(language: "en-GB")
+        // Assign the voice to the utterance.
+        utterance.voice = voice
+        // Tell the synthesizer to speak the utterance.
+        speechSynthesizer.speak(utterance)
     }
 }
 
 extension Speaker: AVSpeechSynthesizerDelegate {
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        print("all done")
-    }
+    // Detect when TTS has started
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
-        print("start talking")
+        AnimationManager.shared.speaking = true
+    }
+    // Detect when TTS has finished
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        AnimationManager.shared.speaking = false
     }
 }
