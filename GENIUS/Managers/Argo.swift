@@ -9,13 +9,15 @@ import SwiftUI
 import AVFAudio
 import Combine
 
-class Argo : ObservableObject{
+class Argo : ObservableObject {
     private var question: Bool = false // boolean for whether GENIUS has just asked a question
+    private var lastFunction: String = "" // keeps track of last function called in case a question has been asked
+    
+    // Simulation variables
     private var paramConfirm: Bool = false // boolean for whether the user has confirmed the parameters proposed
     private var simParams: String = "" // holds parameters proposed
-    private var lastFunction: String = "" // keeps track of last function called in case a question has been asked
+    
     private let speaker: Speaker = Speaker()
-
     let updatingTextHolder = UpdatingTextHolder.shared // Object to update UI
     let conversationManager: ConversationManager = ConversationManager.shared // Keeps record of conversation with user
     
@@ -27,7 +29,7 @@ class Argo : ObservableObject{
         
         // add context with prompt
         if context {
-            fullPrompt = conversationManager.getContext() + "Use this context (if applicable or if it exists) to answer the following prompt:" + prompt
+            fullPrompt = conversationManager.getContext() + "Use this context (if applicable or if it exists) to answer the following prompt" + prompt + "(do not mention the context in your response)"
         }
         else {
             fullPrompt = prompt
@@ -48,7 +50,7 @@ class Argo : ObservableObject{
             parameters = [
                 "user": "syed.ali",
                 "model": "gpt35",
-                "system": "You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You will record all interactions, transcribe them, and offer functionalities like meeting summaries, knowledge extraction, and replaying discussions.",
+                "system": "You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You offer functionalities like opening 3D models, recording meetings, running simulations, answering questions, and displaying proteins. Be a helpful assistant with a cheerful tone.",
                 "stop": [],
                 "temperature": 0.1,
                 "top_p": 0.9,
@@ -65,7 +67,7 @@ class Argo : ObservableObject{
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             parameters = [
               "inputs": """
-              <|begin_of_text|> <|start_header_id|>system<|end_header_id|> You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You will record all interactions, transcribe them, and offer functionalities like meeting summaries, knowledge extraction, and replaying discussions. <| eot_id|> <|start_header_id|>user<|end_header_id|> \(fullPrompt) <|eot_id|> <|start_header_id|>assistant<|end_header_id|>
+              <|begin_of_text|> <|start_header_id|>system<|end_header_id|> You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You offer functionalities like opening 3D models, recording meetings, running simulations, answering questions, and displaying proteins. Be a helpful assistant with a cheerful tone. <| eot_id|> <|start_header_id|>user<|end_header_id|> \(fullPrompt) <|eot_id|> <|start_header_id|>assistant<|end_header_id|>
               """,
               "parameters": [
                 "max_new_tokens": 300
@@ -163,11 +165,6 @@ class Argo : ObservableObject{
                 }
             }
         }
-
-        
-        }
-
-        
     }
     
     // Summarize and punctutate recorded meeting
@@ -269,13 +266,19 @@ class Argo : ObservableObject{
                 }
                 
                 // Prompt Llama to give a spoken response on the simulation
-                let prompt2 = "You just provided me with these parameters: \(parameters) for a fluid dynamics simulation in this order: density, speed, length, viscosity, time, frequency. Respond to this sentence using less than 5 sentences in a conversational manner as if you are showing me that simulation: \(updatingTextHolder.recongnizedText)."
+                let prompt2 = "You just provided me with these parameters: \(parameters) for a fluid dynamics simulation in this order: density, speed, length, viscosity, time, frequency. Respond to this sentence using less than 5 sentences in as if you are speaking to me as you show the simulation: \(updatingTextHolder.recongnizedText)."
                 
                 let response = try await getResponse(prompt: prompt2, model: "Llama")
                 
                 // Update UI and speak response
                 updatingTextHolder.responseText = response
                 speaker.speak(text: response)
+                
+                // reset variables
+                simParams = ""
+                question = false
+                paramConfirm = false
+                lastFunction = ""
             }
         }
     }
@@ -341,12 +344,6 @@ class Argo : ObservableObject{
             return ""
         }
         return ""
-    }
-    
-    // Open protein based on user input
-    func handleProtein() {
-        // Generate the parameters for the simulation
-        
     }
     
     func handleProtein() {
