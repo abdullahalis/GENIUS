@@ -13,7 +13,7 @@ import Combine
 class Node: Entity, HasModel, HasCollision {
     var edges: [Edge] = []
     var publisher = PassthroughSubject<SIMD3<Float>, Never>()
-    private var cancellables: [AnyCancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     var isDragging = false
     
     var position: SIMD3<Float> {
@@ -39,11 +39,15 @@ class Node: Entity, HasModel, HasCollision {
     }
     
     func move(to target: SIMD3<Float>, duration: TimeInterval) {
-
+        guard let scene = self.scene else {
+            assertionFailure("Entity must be part of a scene to perform move animation.")
+            return
+        }
+        
         let startPos = self.position
         let startTime = Date()
                 
-        let subscription = scene!.subscribe(to: SceneEvents.Update.self) { [weak self] event in
+        scene.subscribe(to: SceneEvents.Update.self) { [weak self] event in
             guard let self = self else { return }
             
             let elapsed = Date().timeIntervalSince(startTime)
@@ -52,16 +56,18 @@ class Node: Entity, HasModel, HasCollision {
             
             if !self.isDragging {self.position = newPos}
             
+            /*
             if progress >= 1.0 {
                 self.unsub()
             }
-        } as! AnyCancellable
-        cancellables.append(subscription)
+             */
+        }.store(in: &cancellables)
+
 
     }
     
-    private func unsub() {
-        //cancellables.removeFirst()
+    func unsub() {
+        cancellables.removeAll()
     }
 }
 
@@ -103,9 +109,6 @@ class Edge: Entity, HasModel, HasCollision {
         self.scale = newScale
         self.position = newPosition
         self.orientation = newRotation
-        
-        self.children.first?.orientation = simd_conjugate(newRotation)
-        self.children.first?.scale = 1.0 / newScale
     }
 }
 
@@ -117,6 +120,7 @@ class Graph: ObservableObject {
     @Published var edges: [Edge] = []
     @Published var positions: [SIMD3<Float>] = []
     private var sim: Simulation3D<My3DForce> = Simulation(nodeCount: 0, links: [], forceField: My3DForce())
+    private var workItems: [DispatchWorkItem] = []
     private var isShown: Bool = false
     private var isLoading: Bool = false
     var cancellables: Set<AnyCancellable> = []
@@ -219,6 +223,8 @@ class Graph: ObservableObject {
         self.nodes = []
         self.edges = []
         self.positions = []
+        for workItem in workItems { workItem.cancel() }
+        workItems.removeAll()
     }
     
     // Build simulation for force-directed drawing
@@ -257,10 +263,19 @@ class Graph: ObservableObject {
     
     // Run simulation to obtain optimal positions
     private func runSim() {
-        for i in 1..<720 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1) {
-                self.tickSim()
+        for i in 1..<450 {
+            let workItem = DispatchWorkItem { [weak self] in
+                /*
+                if i == 449 {
+                    print("unsub")
+                    for n in self!.nodes {n.unsub()}
+                } else {
+                    print(i)
+                */    self?.tickSim()
+                //}
             }
+            workItems.append(workItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1, execute: workItem)
         }
     }
     
@@ -317,36 +332,9 @@ class Graph: ObservableObject {
             let p2 = nodes.first(where: { $0.name == i.getProteinB()})!
             
             // Create edge
-            let line = MeshResource.generateCylinder(height: 0.1, radius: 0.001)
+            let rad = 0.0005 + (0.0015 - 0.0005) * i.getScore()
+            let line = MeshResource.generateCylinder(height: 0.1, radius: Float(rad))
             let lineEntity = Edge(from: p1, to: p2, mesh: line, material: edgeMaterial)
-                
-            // Clone template and replace mesh
-            let edgeDescString = """
-                \(i.getProteinA()) -> \(i.getProteinB())
-                
-                Combined score:                       \(String(format: "%.2f", i.getScore()))
-                Gene neighborhood score:        \(String(format: "%.2f", i.getNScore()))
-                Gene fusion score:                    \(String(format: "%.2f", i.getFScore()))
-                Phylogenetic profile score:       \(String(format: "%.2f", i.getPScore()))
-                Coexpression score:                 \(String(format: "%.2f", i.getAScore()))
-                Experimental score:                  \(String(format: "%.2f", i.getEScore()))
-                Database score:                       \(String(format: "%.2f", i.getDScore()))
-                Textmining score:                     \(String(format: "%.2f", i.getTScore()))
-            """
-            let windowEntity = windowTemplate.clone(recursive: true)
-            if let descEntity = windowEntity.children.first as? ModelEntity {
-                let newMesh = MeshResource.generateText(edgeDescString,
-                                                        extrusionDepth: 0,
-                                                        font: .systemFont(ofSize: 0.008),
-                                                        containerFrame: CGRect(x: -0.015, y: -0.0075,
-                                                                               width: 0.16,
-                                                                               height: 0.1),
-                                                        alignment: .left,
-                                                        lineBreakMode: .byWordWrapping)
-                descEntity.model?.mesh = newMesh
-            }
-            
-            lineEntity.addChild(windowEntity)
             edges.append(lineEntity)
         }
     }

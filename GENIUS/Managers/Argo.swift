@@ -165,6 +165,9 @@ class Argo : ObservableObject{
         }
 
         
+        }
+
+        
     }
     
     // Summarize and punctutate recorded meeting
@@ -344,5 +347,31 @@ class Argo : ObservableObject{
     func handleProtein() {
         // Generate the parameters for the simulation
         
+    }
+    
+    func handleProtein() {
+        updatingTextHolder.mode = "Retrieving data..."
+        let graph = Graph.shared
+        let userPrompt = updatingTextHolder.recongnizedText
+        Task {
+            let prompt = "Respond only in a space-separated string of protein names. The user wishes to visualize a graph of protein interactions. You must parse the user's prompt and return the names of any proteins you recognize. Do not add any proteins of your own volition. Any proteins you return must be valid proteins, so do your best to match the user's words to protein names. Assume all proteins are human-specific. If unable to find any proteins, respond with 'Not found'. Here is the user's prompt: \(userPrompt)"
+            let names = try await getResponse(prompt: prompt, model: "Llama")
+            getData(proteins: names, species: "9606") { (p,i) in
+                self.updatingTextHolder.mode = "Building model..."
+                graph.setData(p: p, i: i)
+                DispatchQueue.main.async {
+                    graph.createModel()
+                }
+                self.updatingTextHolder.mode = " "
+            }
+        }
+    }
+    
+    func handleClear() {
+        updatingTextHolder.mode = ""
+        let graph = Graph.shared
+        Task {
+            graph.clear()
+        }
     }
 }

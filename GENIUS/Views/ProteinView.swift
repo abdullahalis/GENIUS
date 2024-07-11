@@ -110,12 +110,13 @@ struct ProteinView: View {
                 .navigationTitle("Protein View")
             }
         }.background(Color(.systemGray6))
+        /*
         .onAppear{
             Task {
                 await dismissImmersiveSpace()
                 await openImmersiveSpace(id: "ProteinSpace")
             }
-        }
+        }*/
     }
 }
 
