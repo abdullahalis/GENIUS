@@ -96,9 +96,9 @@ struct ProteinSpace: View {
 }
 
 // Add attribute to retrieve headset position
-extension simd_float4x4 {
-    var translation: simd_float3 { return simd_float3(columns.3.x, columns.3.y, columns.3.z)}
-}
+//extension simd_float4x4 {
+//    var translation: simd_float3 { return simd_float3(columns.3.x, columns.3.y, columns.3.z)}
+//}
 
 #Preview {
     ProteinSpace()
