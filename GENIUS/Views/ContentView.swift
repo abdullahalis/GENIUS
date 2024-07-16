@@ -15,6 +15,7 @@ struct ContentView: View {
     @EnvironmentObject var recorder: Recorder
     @EnvironmentObject var argo: Argo
     @ObservedObject var updatingTextHolder = UpdatingTextHolder.shared
+    @ObservedObject var animation = AnimationManager.shared
     
     @State private var handsTogether = false
     @State private var prompt = ""
@@ -31,7 +32,6 @@ struct ContentView: View {
     
     @State private var textOpacity: Double = 0.0
     @State private var circleScale: CGFloat = 1.0
-    @State private var time: CGFloat = 0.0
     
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
@@ -39,22 +39,24 @@ struct ContentView: View {
     @State private var showAlert = false
     
     var body: some View {
+        
         NavigationStack {
             ZStack {
                 GeometryReader { geometry in
                     Circle()
                         .fill(
                             RadialGradient(
-                                gradient: Gradient(colors: [.blue, .purple, .clear]),
+                                gradient: Gradient(colors: AnimationManager.shared.speaking ? [.pink, .purple, .clear] : [.blue, .purple, .clear]),
                                 center: .center,
                                 startRadius: 100 * circleScale,
-                                endRadius: 500 * circleScale
+                                endRadius: 400 * circleScale
                             )
                         )
                         .frame(width: 600 * circleScale, height: 600 * circleScale)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                         .blur(radius: 50)
                         .opacity(0.6)
+                        .animation(.easeInOut(duration: 1.0), value: AnimationManager.shared.speaking)
                 }
                 .edgesIgnoringSafeArea(.all)
                 .onAppear {
@@ -64,6 +66,14 @@ struct ContentView: View {
                         circleScale = 1.2
                     }
                 }
+//                .onChange(of: sharedTime.time) {
+//                    print("time change")
+//                    withAnimation(
+//                        Animation.easeInOut(duration: sharedTime.time).repeat(while: sharedTime.speaking)
+//                    ) {
+//                        circleScale = 1.2
+//                    }
+//                }
                 
                 VStack {
                     Spacer() // Pushes content to the top
@@ -86,14 +96,14 @@ struct ContentView: View {
                             .frame(width: 1000)
                             .multilineTextAlignment(.trailing)
                     }
-                    .frame(height: 60)
+                    .frame(height: 100)
                     
                     ScrollView {
                         Text(updatingTextHolder.responseText)
                             .frame(width: 1000)
                             .multilineTextAlignment(.leading)
                     }
-                    .frame(height: 60)
+                    .frame(height: 100)
                     
                     Spacer() // Pushes content upwards
                     
@@ -159,50 +169,6 @@ struct ContentView: View {
     ContentView()
 }
 
-struct mainMenuItems: View {
-    var body: some View {
-        
-        VStack {
-            GeniusAnimView()
-                .frame(width: 200, height: 200)
-            
-        }
-    }
-}
-
-
-
-struct ImageSequenceView: View {
-    let imageNames: [String]
-    let frameDuration: Double
-    
-    @State private var currentFrame = 0
-    @State private var timer: Timer? = nil
-    
-    var body: some View {
-        Image(imageNames[currentFrame])
-            .resizable()
-            .scaledToFit()
-            .onAppear {
-                startTimer()
-            }
-            .onDisappear {
-                stopTimer()
-            }
-    }
-    
-    private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: frameDuration, repeats: true) { _ in
-            currentFrame = (currentFrame + 1) % imageNames.count
-        }
-    }
-    
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-    }
-}
-
 struct InfoPopupView: View {
     @Binding var showAlert: Bool
     
@@ -237,26 +203,6 @@ struct InfoPopupView: View {
         }
 }
 
-struct AudioVisualizerView: View {
-    @Binding var audioLevel: Float
-    
-    var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                Spacer()
-                Rectangle()
-                    .fill(Color.green)
-                    .frame(width: geometry.size.width, height: CGFloat(self.audioLevel) * geometry.size.height)
-                    .animation(.linear(duration: 0.1), value: audioLevel)
-            }
-        }
-    }
-}
-
-
-
-
-
 final class UpdatingTextHolder: ObservableObject {
     static let shared = UpdatingTextHolder()
     @Published var responseText: String = ""
@@ -265,7 +211,6 @@ final class UpdatingTextHolder: ObservableObject {
     @Published var mode: String = " "
     @Published var meetingManagers: [MeetingManager] = []
     
-    private init() {
-        
-    }
+    private init() {}
 }
+

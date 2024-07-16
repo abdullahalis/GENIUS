@@ -24,12 +24,13 @@ struct ProteinSpace: View {
             let devicePos = (pose?.originFromAnchorTransform.translation ?? simd_float3(0,1,0)) + simd_float3(0, 0, -0.7)
             
             // Position graph in front of headset with devicePos
+            print(devicePos) //SIMD3<Float>(0.0, 1.6, -0.7)
             root.position = devicePos
             content.add(root)
         }
-         ///*
         // Add/remove nodes when internal array updates
         .onChange(of: graph.nodes) { oldNodes, newNodes in
+            
             let nodesToAdd = newNodes.filter {n in !oldNodes.contains(n)}
             for node in nodesToAdd {
                 root.addChild(node)
@@ -52,17 +53,16 @@ struct ProteinSpace: View {
                 root.removeChild(edge)
             }
         }
-        // */
         // Update node positions when internal array updates
         .onChange(of: graph.positions) { oldPos, newPos in
             for (index, pos) in newPos.enumerated() {
                 if graph.nodes.count == graph.positions.count {
                     let node = graph.nodes[index]
                     node.move(to: pos, duration: 1)
+                    //node.move(to: Transform(translation: pos), relativeTo: node.parent, duration: 1)
                 }
             }
         }
-        //*/
         // Show description when object is clicked
         .gesture(TapGesture().targetedToAnyEntity().onEnded { value in
             let object = value.entity

@@ -6,57 +6,123 @@ struct SimView: View {
     let parameters: String
     @ObservedObject var downloader = VideoDownloader()
     
+    // State variable to hold simulation instance
+    @State private var simulation: FluidSimulation?
+    
     var body: some View {
         NavigationStack {
             VStack {
+                // Display parameters in a table format
+                if let simulation = simulation {
+                    Table([simulation]) {
+                        TableColumn("Density", value: \.density)
+                        TableColumn("Speed", value: \.speed)
+                        TableColumn("Length", value: \.length)
+                        TableColumn("Viscosity", value: \.viscosity)
+                        TableColumn("Time", value: \.time)
+                        TableColumn("Frequency", value: \.frequency)
+                    }.foregroundColor(.white)
+                }
+                
                 if downloader.isLoading {
                     ProgressView("Running sim...")
                 } else if let videoURL = downloader.videoURL {
                     VideoPlayer(player: AVPlayer(url: videoURL))
-                        .frame(height: 700)
+//                        .frame(height: 700)
                 }
+                
+                
+                
+                Spacer()
             }
             .padding()
             .onAppear {
-                // Parse parameters into variables and download sim using those numbers
-                if let (d, s, l, v, t, f) = parseParams(from: parameters) {
-                    print("successful simulation running")
-                    downloader.downloadVideo(density: d, speed: s, length: l, viscosity: v, time: t, freq: f)
-                }
-                else {
+                // Parse parameters into a Simulation instance
+                if let parsedSimulation = parseSimulation(from: parameters) {
+                    self.simulation = parsedSimulation
+                    
+                    downloader.downloadVideo(simulation: parsedSimulation)
+                } else {
                     print("Couldn't parse parameters")
-                    UpdatingTextHolder.shared.responseText = "Sorry, an error occured when parsing the paramaters"
+                    UpdatingTextHolder.shared.responseText = "Sorry, an error occurred when parsing the parameters"
                 }
             }
-        }.background(Color(.systemGray6))
+        }
+        .background(Color(.systemGray6))
     }
     
-    func parseParams(from input: String) -> (String, String, String, String, String, String)? {
+    // Function to parse parameters into a Simulation instance
+    func parseSimulation(from input: String) -> FluidSimulation? {
         // Split the input string by commas
         let components = input.split(separator: ",").map { String($0.trimmingCharacters(in: .whitespaces)) }
         
         // Ensure we have exactly 6 components
         guard components.count == 6 else { return nil }
         
-        // Return the parsed values as a tuple
-        return (components[0], components[1], components[2], components[3], components[4], components[5])
+        // Create and return a Simulation instance
+        return FluidSimulation(density: components[0], speed: components[1], length: components[2], viscosity: components[3], time: components[4], frequency: components[5])
     }
 }
 
+// Simulation struct to hold parameters
+struct FluidSimulation: Identifiable {
+    let id = UUID()
+    let density: String
+    let speed: String
+    let length: String
+    let viscosity: String
+    let time: String
+    let frequency: String
+}
+
+// View to display simulation parameters as a table
+struct SimulationTable: View {
+    var simulation: FluidSimulation
+    
+    var body: some View {
+        List {
+            ParameterRow(name: "Density", value: simulation.density)
+            ParameterRow(name: "Speed", value: simulation.speed)
+            ParameterRow(name: "Length", value: simulation.length)
+            ParameterRow(name: "Viscosity", value: simulation.viscosity)
+            ParameterRow(name: "Time", value: simulation.time)
+            ParameterRow(name: "Frequency", value: simulation.frequency)
+        }
+        .listStyle(PlainListStyle())
+    }
+}
+
+// Helper view for each row in the table
+struct ParameterRow: View {
+    var name: String
+    var value: String
+    
+    var body: some View {
+        HStack {
+            Text(name)
+                .foregroundColor(.primary)
+            Spacer()
+            Text(value)
+                .foregroundColor(.primary)
+        }
+    }
+}
+
+// VideoDownloader class remains the same
 class VideoDownloader: ObservableObject {
     @Published var isLoading = false
     @Published var videoURL: URL?
     var cancellables = Set<AnyCancellable>()
     
-    func downloadVideo(density: String, speed: String, length: String, viscosity: String, time: String, freq: String) {
+    func downloadVideo(simulation: FluidSimulation) {
         var urlComponents = URLComponents(string: "http://" + Login().getIP() + ":5000/video")
         urlComponents?.queryItems = [
-            URLQueryItem(name: "density", value: density),
-            URLQueryItem(name: "speed", value: speed),
-            URLQueryItem(name: "length", value: length),
-            URLQueryItem(name: "viscosity", value: viscosity),
-            URLQueryItem(name: "time", value: time),
-            URLQueryItem(name: "freq", value: freq)
+            URLQueryItem(name: "density", value: simulation.density),
+            URLQueryItem(name: "speed", value: simulation.speed),
+            URLQueryItem(name: "length", value: simulation.length),
+            URLQueryItem(name: "viscosity", value: simulation.viscosity),
+            URLQueryItem(name: "time", value: simulation.time),
+            URLQueryItem(name: "freq", value: simulation.frequency)
         ]
         
         guard let url = urlComponents?.url else { return }
