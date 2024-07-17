@@ -123,7 +123,6 @@ class Graph: ObservableObject {
     @Published var positions: [SIMD3<Float>] = []
     private var workItems: [DispatchWorkItem] = []
     private var sim: Simulation3D<My3DForce> = Simulation(nodeCount: 0, links: [], forceField: My3DForce())
-    private var workItems: [DispatchWorkItem] = []
     private var isShown: Bool = false
     private var isLoading: Bool = false
     var cancellables: Set<AnyCancellable> = []

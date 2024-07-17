@@ -66,12 +66,12 @@ class Argo : ObservableObject {
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             parameters = [
-              "inputs": """
+                "inputs": """
               <|begin_of_text|> <|start_header_id|>system<|end_header_id|> You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You offer functionalities like opening 3D models, recording meetings, running simulations, answering questions, and displaying proteins. Be a helpful assistant with a cheerful tone. <| eot_id|> <|start_header_id|>user<|end_header_id|> \(fullPrompt) <|eot_id|> <|start_header_id|>assistant<|end_header_id|>
               """,
-              "parameters": [
-                "max_new_tokens": 300
-              ]
+                "parameters": [
+                    "max_new_tokens": 300
+                ]
             ]
         }
         else {
@@ -92,7 +92,7 @@ class Argo : ObservableObject {
             print("Invalid Response")
             return "Invalid Response"
         }
-
+        
         // Extract response string from JSON response
         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
         
@@ -137,10 +137,10 @@ class Argo : ObservableObject {
                 self.handleProtein()
             }
             else if mode.contains("clear") {
-                            self.handleClear()
-                        }
+                self.handleClear()
+            }
             else {
-                self.speak(text: "No response possible")
+                speaker.speak(text: "No response possible")
             }
         }
     }
@@ -195,7 +195,7 @@ class Argo : ObservableObject {
             // generate a search query based on user input
             var prompt = "I need to display a 3d model. I want to use an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(userPrompt)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
             let modelSearch = try await getResponse(prompt: prompt, model: "Llama")
-
+            
             // search Sketchfab API for models relating to the search query
             let results = try await sketchFabSearch(q: modelSearch)
             
@@ -342,31 +342,6 @@ class Argo : ObservableObject {
         }
     }
     
-    func handleClear() {
-        updatingTextHolder.mode = ""
-        let graph = Graph.shared
-        Task {
-            graph.clear()
-        }
-    }
-    
-    func handleProtein() {
-        updatingTextHolder.mode = "Retrieving data..."
-        let graph = Graph.shared
-        let userPrompt = updatingTextHolder.recongnizedText
-        Task {
-            let prompt = "Respond only in a space-separated string of protein names. The user wishes to visualize a graph of protein interactions. You must parse the user's prompt and return the names of any proteins you recognize. Do not add any proteins of your own volition. Any proteins you return must be valid proteins, so do your best to match the user's words to protein names. Assume all proteins are human-specific. If unable to find any proteins, respond with 'Not found'. Here is the user's prompt: \(userPrompt)"
-            let names = try await getResponse(prompt: prompt, model: "Llama")
-            getData(proteins: names, species: "9606") { (p,i) in
-                self.updatingTextHolder.mode = "Building model..."
-                graph.setData(p: p, i: i)
-                DispatchQueue.main.async {
-                    graph.createModel()
-                }
-                self.updatingTextHolder.mode = " "
-            }
-        }
-    }
     func handleClear() {
         updatingTextHolder.mode = ""
         let graph = Graph.shared

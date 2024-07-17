@@ -163,6 +163,7 @@
 		AC81CAC32BED259800933492 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC22BED259800933492 /* Assets.xcassets */; };
 		AC81CAC62BED259800933492 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC52BED259800933492 /* Preview Assets.xcassets */; };
 		AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAD02BED259800933492 /* GENIUSTests.swift */; };
+		AC953E962C482813002D8190 /* RealityKitContent in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAB92BED259700933492 /* RealityKitContent */; };
 		ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */; };
 		ACDC9C662BFD15A4008C5B21 /* hands-together.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */; };
 		ACDC9C682BFD1D84008C5B21 /* spiderman.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */; };
@@ -338,6 +339,7 @@
 		AC81CAC72BED259800933492 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC81CACC2BED259800933492 /* GENIUSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GENIUSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC81CAD02BED259800933492 /* GENIUSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GENIUSTests.swift; sourceTree = "<group>"; };
+		AC953E912C48253C002D8190 /* SpiderMan.usda */ = {isa = PBXFileReference; lastKnownFileType = text; name = SpiderMan.usda; path = Packages/RealityKitContent/Sources/RealityKitContent/RealityKitContent.rkassets/SpiderMan.usda; sourceTree = "<group>"; };
 		ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderModel.swift; sourceTree = "<group>"; };
 		ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "hands-together.gesturecomposer"; sourceTree = "<group>"; };
 		ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spiderman.gesturecomposer; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 		AC81CAAC2BED259700933492 = {
 			isa = PBXGroup;
 			children = (
+				AC953E912C48253C002D8190 /* SpiderMan.usda */,
 				AC81CAB72BED259700933492 /* GENIUS */,
 				AC81CAB82BED259700933492 /* Packages */,
 				AC81CACF2BED259800933492 /* GENIUSTests */,
@@ -736,6 +739,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC953E962C482813002D8190 /* RealityKitContent in Resources */,
 				2FD48EA42C0E2786002DBC5D /* 0119.png in Resources */,
 				2FD48E812C0E2786002DBC5D /* 0108.png in Resources */,
 				2FD48E772C0E2786002DBC5D /* 0120.png in Resources */,
@@ -860,13 +864,13 @@
 				2FD48E652C0E2786002DBC5D /* 0064.png in Resources */,
 				2FD48E872C0E2786002DBC5D /* 0036.png in Resources */,
 				2FD48EC02C0E2786002DBC5D /* 0024.png in Resources */,
-				2FD48E902C0E2786002DBC5D /* 0089.png in Resources */,
 				2FD48E6F2C0E2786002DBC5D /* 0047.png in Resources */,
 				AC81CAC32BED259800933492 /* Assets.xcassets in Resources */,
 				2FD48EA92C0E2786002DBC5D /* 0094.png in Resources */,
 				2FD48E7F2C0E2786002DBC5D /* 0020.png in Resources */,
 				2FD48E642C0E2786002DBC5D /* 0092.png in Resources */,
 				2FD48E6A2C0E2786002DBC5D /* 0002.png in Resources */,
+				2FD48E902C0E2786002DBC5D /* 0089.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1060,7 +1064,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
-				DEVELOPMENT_TEAM = AUTL8SCRXA;
+				DEVELOPMENT_TEAM = 5W26799MY8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -1072,7 +1076,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS6;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1092,7 +1096,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GENIUS/Preview Content\"";
-				DEVELOPMENT_TEAM = AUTL8SCRXA;
+				DEVELOPMENT_TEAM = 5W26799MY8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -1104,7 +1108,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS6;
+				PRODUCT_BUNDLE_IDENTIFIER = Arg2024.GENIUS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
