@@ -22,6 +22,7 @@ class Argo : ObservableObject {
     let conversationManager: ConversationManager = ConversationManager.shared // Keeps record of conversation with user
     
     @Environment(\.openWindow) var openWindow
+    @Environment(\.dismissWindow) var dismissWindow
     
     // Calls LLM API and and returns the response as a string
     func getResponse(prompt: String, model: String, context: Bool = true) async throws -> String {
@@ -345,11 +346,16 @@ class Argo : ObservableObject {
         }
     }
     
+    // Clear all extra open windows
     func handleClear() {
         updatingTextHolder.mode = ""
         let graph = Graph.shared
         Task {
             graph.clear()
+        }
+        DispatchQueue.main.async {
+            self.dismissWindow(id: "sim")
+            self.dismissWindow(id: "model")
         }
     }
 }
