@@ -12,28 +12,32 @@ struct SimView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Display parameters in a table format
-                if let simulation = simulation {
-                    Table([simulation]) {
-                        TableColumn("Density", value: \.density)
-                        TableColumn("Speed", value: \.speed)
-                        TableColumn("Length", value: \.length)
-                        TableColumn("Viscosity", value: \.viscosity)
-                        TableColumn("Time", value: \.time)
-                        TableColumn("Frequency", value: \.frequency)
-                    }.foregroundColor(.white)
-                }
-                
+                // Loading Screen
                 if downloader.isLoading {
                     ProgressView("Running sim...")
-                } else if let videoURL = downloader.videoURL {
-                    VideoPlayer(player: AVPlayer(url: videoURL))
-//                        .frame(height: 700)
                 }
-                
-                
-                
-                Spacer()
+                else if let videoURL = downloader.videoURL {
+                    // Display parameters in a table format
+                   if let simulation = simulation {
+                       Table([simulation]) {
+                           TableColumn("Density", value: \.density)
+                           TableColumn("Speed", value: \.speed)
+                           TableColumn("Length", value: \.length)
+                           TableColumn("Viscosity", value: \.viscosity)
+                           TableColumn("Time", value: \.time)
+                           TableColumn("Frequency", value: \.frequency)
+                       }
+                       .foregroundColor(.white)
+                       .padding()
+                       .frame(height: 120)
+                   }
+                    
+                    // Display Simulation video
+                    VideoPlayer(player: AVPlayer(url: videoURL))
+                        .frame(maxWidth: .infinity)
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.top)
+                }
             }
             .padding()
             .onAppear {

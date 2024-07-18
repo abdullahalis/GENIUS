@@ -36,6 +36,7 @@ struct ContentView: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     @Environment(\.openWindow) var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
     @State private var showAlert = false
     
     var body: some View {
@@ -66,14 +67,7 @@ struct ContentView: View {
                         circleScale = 1.2
                     }
                 }
-//                .onChange(of: sharedTime.time) {
-//                    print("time change")
-//                    withAnimation(
-//                        Animation.easeInOut(duration: sharedTime.time).repeat(while: sharedTime.speaking)
-//                    ) {
-//                        circleScale = 1.2
-//                    }
-//                }
+
                 
                 VStack {
                     Spacer() // Pushes content to the top
@@ -108,9 +102,6 @@ struct ContentView: View {
                     Spacer() // Pushes content upwards
                     
                     VStack(spacing: 30) {
-//                        Button("Video") {
-//                            openWindow(id: "sim", value: "https://www.w3schools.com/html/mov_bbb.mp4")
-//                        }
                         
                         Button(action: {
                             updatingTextHolder.isRecording.toggle()

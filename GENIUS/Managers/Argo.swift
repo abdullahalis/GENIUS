@@ -100,8 +100,9 @@ class Argo : ObservableObject {
             return responseString
         }
         else if let responseString = jsonResponse?["generated_text"] as? String {
-            let startIndex = responseString.index(responseString.startIndex, offsetBy: 2)
-            return String(responseString[startIndex...])
+            return responseString.trimmingCharacters(in: .whitespacesAndNewlines)
+//            let startIndex = responseString.index(responseString.startIndex, offsetBy: 2)
+//            return String(responseString[startIndex...])
         }
         else {
             print("Response does not contain 'response' or 'generated_text' field or it's not a string")
@@ -217,6 +218,7 @@ class Argo : ObservableObject {
             // generate a search query based on user input
             var prompt = "I need to display a 3d model. I want to use an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(userPrompt)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
             let modelSearch = try await getResponse(prompt: prompt, model: "Llama")
+            print("Searching for: \(modelSearch)")
 
             // search Sketchfab API for models relating to the search query
             let results = try await sketchFabSearch(q: modelSearch)
@@ -266,7 +268,7 @@ class Argo : ObservableObject {
                 }
                 
                 // Prompt Llama to give a spoken response on the simulation
-                let prompt2 = "You just provided me with these parameters: \(parameters) for a fluid dynamics simulation in this order: density, speed, length, viscosity, time, frequency. Respond to this sentence using less than 5 sentences in as if you are speaking to me as you show the simulation: \(updatingTextHolder.recongnizedText)."
+                let prompt2 = "You just provided me with these parameters: \(parameters) for a fluid dynamics simulation in this order: density, speed, length, viscosity, time, frequency. Respond to this sentence using less than 5 sentences as if you are speaking to me as you show the simulation: \(updatingTextHolder.recongnizedText). Do not use asterisks, you are only speaking."
                 
                 let response = try await getResponse(prompt: prompt2, model: "Llama")
                 
