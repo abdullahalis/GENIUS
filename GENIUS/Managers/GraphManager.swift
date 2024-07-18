@@ -39,11 +39,12 @@ class Node: Entity, HasModel, HasCollision {
     }
     
     func move(to target: SIMD3<Float>, duration: TimeInterval) {
+        
         guard let scene = self.scene else {
             assertionFailure("Entity must be part of a scene to perform move animation.")
             return
         }
-        
+
         let startPos = self.position
         let startTime = Date()
                 
@@ -109,6 +110,7 @@ class Edge: Entity, HasModel, HasCollision {
         self.scale = newScale
         self.position = newPosition
         self.orientation = newRotation
+    
     }
 }
 
@@ -119,8 +121,8 @@ class Graph: ObservableObject {
     @Published var nodes: [Node] = []
     @Published var edges: [Edge] = []
     @Published var positions: [SIMD3<Float>] = []
-    private var sim: Simulation3D<My3DForce> = Simulation(nodeCount: 0, links: [], forceField: My3DForce())
     private var workItems: [DispatchWorkItem] = []
+    private var sim: Simulation3D<My3DForce> = Simulation(nodeCount: 0, links: [], forceField: My3DForce())
     private var isShown: Bool = false
     private var isLoading: Bool = false
     var cancellables: Set<AnyCancellable> = []
@@ -265,14 +267,7 @@ class Graph: ObservableObject {
     private func runSim() {
         for i in 1..<450 {
             let workItem = DispatchWorkItem { [weak self] in
-                /*
-                if i == 449 {
-                    print("unsub")
-                    for n in self!.nodes {n.unsub()}
-                } else {
-                    print(i)
-                */    self?.tickSim()
-                //}
+                self?.tickSim()
             }
             workItems.append(workItem)
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.1, execute: workItem)
@@ -335,6 +330,7 @@ class Graph: ObservableObject {
             let rad = 0.0005 + (0.0015 - 0.0005) * i.getScore()
             let line = MeshResource.generateCylinder(height: 0.1, radius: Float(rad))
             let lineEntity = Edge(from: p1, to: p2, mesh: line, material: edgeMaterial)
+            
             edges.append(lineEntity)
         }
     }

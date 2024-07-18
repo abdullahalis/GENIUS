@@ -66,12 +66,12 @@ class Argo : ObservableObject {
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             parameters = [
-              "inputs": """
+                "inputs": """
               <|begin_of_text|> <|start_header_id|>system<|end_header_id|> You are a large language model with the name Genius. You are a personal assistant specifically tailored for scientists engaged in experimentation and research. You offer functionalities like opening 3D models, recording meetings, running simulations, answering questions, and displaying proteins. Be a helpful assistant with a cheerful tone. <| eot_id|> <|start_header_id|>user<|end_header_id|> \(fullPrompt) <|eot_id|> <|start_header_id|>assistant<|end_header_id|>
               """,
-              "parameters": [
-                "max_new_tokens": 300
-              ]
+                "parameters": [
+                    "max_new_tokens": 300
+                ]
             ]
         }
         else {
@@ -92,7 +92,7 @@ class Argo : ObservableObject {
             print("Invalid Response")
             return "Invalid Response"
         }
-
+        
         // Extract response string from JSON response
         let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
         
@@ -117,53 +117,31 @@ class Argo : ObservableObject {
             speaker.speak(text: "Sorry I didn't get that")
             return
         }
-        
-        // If GENIUS asked a question get an answer and go back to that function
-        if question {
-            // If simulation was the last function ran, then we ask the user to confirm parameters
-            if lastFunction == "simulation" {
-                print("confirming simulation")
-                let prompt = "You asked if the user wanted to confirm the parameters for a simulation. The user said: \(recording). Respond with only the word yes if the user is confirming that the prameters you provided are acceptable. Respond with only the word no if the user does not want to continue or wants a parameter to be adjusted. Your response must be one word lowercase with no punctuation."
-                Task {
-                    let response = try await getResponse(prompt: prompt, model: "Llama", context: false)
-                    print("did user confirm:", response)
-                    if response.contains("yes") {
-                        paramConfirm = true
-                    }
-                    else {
-                        paramConfirm = false
-                    }
-                    
-                    // Go back to the function that asked for confirmation
-                    self.handleSimulation()
-                }
+        print("recording in Argo", recording)
+        let prompt = "You will decide what type of action that needs to be taken based on user input. Respond with one of the following options with no punctuation or spaces: meeting, prompt, model, or simulation. Choose meeting if based on the user input, the user wants to start recording a meeting. Choose prompt if the user wants information about something. Choose model if the user wants to see a representation of something. Choose simulation if the user wants to run a simulation of something. Choose protein if the user wants to visualize protein interactions. Choose clear if the user wants to clear the screen. Your response must be one word. The user said: \(recording)."
+        Task {
+            let mode = try await getResponse(prompt: prompt, model: "Llama")
+            print("Mode:", mode)
+            if mode.contains("meeting") {
+                self.handleMeeting()
             }
-        }
-        else {
-            // Extract the functionality needed based on the user's prompt
-            let prompt = "You will decide what type of action that needs to be taken based on user input. Respond with one of the following options with no punctuation or spaces: meeting, prompt, model, or simulation. Choose meeting if based on the user input, the user wants to start recording a meeting. Choose prompt if the user wants information about something. Choose model if the user wants to see a representation of something. Choose simulation if the user wants to run a simulation or adjust the parameters of a simulation. Choose protein if the user wants to see a protein. Your response must be one word. The user said: \(recording)."
-            
-            Task {
-                let mode = try await getResponse(prompt: prompt, model: "Llama")
-                print("Mode:", mode)
-                if mode.contains("meeting") {
-                    self.handleMeeting()
-                }
-                else if mode.contains("prompt") {
-                    self.handlePrompt()
-                }
-                else if mode.contains("model") {
-                    self.handleModel()
-                }
-                else if mode.contains("simulation") {
-                    self.handleSimulation()
-                }
-                else if mode.contains("protein") {
-                    self.handleProtein()
-                }
-                else {
-                    speaker.speak(text: "No response possible")
-                }
+            else if mode.contains("prompt") {
+                self.handlePrompt()
+            }
+            else if mode.contains("model") {
+                self.handleModel()
+            }
+            else if mode.contains("simulation") {
+                self.handleSimulation()
+            }
+            else if mode.contains("protein") {
+                self.handleProtein()
+            }
+            else if mode.contains("clear") {
+                self.handleClear()
+            }
+            else {
+                speaker.speak(text: "No response possible")
             }
         }
     }
@@ -218,6 +196,7 @@ class Argo : ObservableObject {
             // generate a search query based on user input
             var prompt = "I need to display a 3d model. I want to use an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(userPrompt)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
             let modelSearch = try await getResponse(prompt: prompt, model: "Llama")
+
             print("Searching for: \(modelSearch)")
 
             // search Sketchfab API for models relating to the search query

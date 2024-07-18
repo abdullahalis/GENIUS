@@ -192,8 +192,8 @@ struct ImmersiveView: View {
        do {
            for try await gesture in detector.detectedGestures {
                let detectedGesture = gesture.description
-               
-               // Check recording gesture
+               print(detectedGesture)
+               //Check recording gesture
                if !recording && detectStart(gestureWanted: "All fingers then thumb", detectedGesture: detectedGesture) {
                    recording = true
                    recorder.startRecording()
@@ -217,13 +217,13 @@ struct ImmersiveView: View {
                }
                
                
-               if !spidermanActive && detectStart(gestureWanted: "Spider-Man ", detectedGesture: detectedGesture) {
+               if  detectStart(gestureWanted: "Spider-Man", detectedGesture: detectedGesture) {
                    
                     print("loading")
                     loadSpidermanScene()
                     spidermanActive = true
                     }
-               else if spidermanActive && detectStop(gestureWanted: "Spider-Man ", detectedGesture: detectedGesture) {
+               else if spidermanActive && detectStop(gestureWanted: "Spider-Man", detectedGesture: detectedGesture) {
                     spidermanActive = false
                     removeSpidermanScene()
                 }
@@ -232,7 +232,7 @@ struct ImmersiveView: View {
     }
     private func loadSpidermanScene() {
         guard let spidermanURL = Bundle.main.url(forResource: "SpiderMan", withExtension: "usda") else {
-            print("Error: SpiderMan.usda not found in bundle")
+            //print("Error: SpiderMan.usda not found in bundle")
             return
         }
         
