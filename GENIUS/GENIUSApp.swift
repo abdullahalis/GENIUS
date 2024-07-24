@@ -56,6 +56,10 @@ struct GENIUSApp: App {
                     .tabItem {
                         Label("Sims", systemImage: "tv.circle")
                     }
+                CalendarView()
+                    .tabItem {
+                        Label("Cakendar", systemImage: "tv.circle")
+                    }
             }
         }
 //        WindowGroup {

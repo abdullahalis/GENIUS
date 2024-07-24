@@ -164,6 +164,7 @@
 		AC81CAC62BED259800933492 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAC52BED259800933492 /* Preview Assets.xcassets */; };
 		AC81CAD12BED259800933492 /* GENIUSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC81CAD02BED259800933492 /* GENIUSTests.swift */; };
 		AC953E962C482813002D8190 /* RealityKitContent in Resources */ = {isa = PBXBuildFile; fileRef = AC81CAB92BED259700933492 /* RealityKitContent */; };
+		AC953E982C4EB29D002D8190 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC953E972C4EB29D002D8190 /* CalendarView.swift */; };
 		ACDC9BD22BF7F39F008C5B21 /* RecorderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */; };
 		ACDC9C662BFD15A4008C5B21 /* hands-together.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */; };
 		ACDC9C682BFD1D84008C5B21 /* spiderman.gesturecomposer in Resources */ = {isa = PBXBuildFile; fileRef = ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */; };
@@ -340,6 +341,7 @@
 		AC81CACC2BED259800933492 /* GENIUSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GENIUSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC81CAD02BED259800933492 /* GENIUSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GENIUSTests.swift; sourceTree = "<group>"; };
 		AC953E912C48253C002D8190 /* SpiderMan.usda */ = {isa = PBXFileReference; lastKnownFileType = text; name = SpiderMan.usda; path = Packages/RealityKitContent/Sources/RealityKitContent/RealityKitContent.rkassets/SpiderMan.usda; sourceTree = "<group>"; };
+		AC953E972C4EB29D002D8190 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		ACDC9BD12BF7F39F008C5B21 /* RecorderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderModel.swift; sourceTree = "<group>"; };
 		ACDC9C642BFD15A4008C5B21 /* hands-together.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "hands-together.gesturecomposer"; sourceTree = "<group>"; };
 		ACDC9C672BFD1D84008C5B21 /* spiderman.gesturecomposer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spiderman.gesturecomposer; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				2FD48ED62C10F3BB002DBC5D /* ModelView.swift */,
+				AC953E972C4EB29D002D8190 /* CalendarView.swift */,
 				AC3828092C29D3B5007EB78F /* SimulationsView.swift */,
 				AC1F03C52C06778D00F4D500 /* MeetingView.swift */,
 				2FE827D12C067DEB007AA006 /* ConvoView.swift */,
@@ -902,6 +905,7 @@
 				2F5F90822C2370A80064AFE1 /* SimView.swift in Sources */,
 				2FD48ECF2C0E3E06002DBC5D /* AnimationManager.swift in Sources */,
 				AC38280A2C29D3B5007EB78F /* SimulationsView.swift in Sources */,
+				AC953E982C4EB29D002D8190 /* CalendarView.swift in Sources */,
 				AC4308602C19EC430089EC65 /* PolarisManager.swift in Sources */,
 				AC81CAC12BED259700933492 /* ImmersiveView.swift in Sources */,
 				450441222BFF94DE0034F730 /* ProteinView.swift in Sources */,
