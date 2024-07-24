@@ -73,7 +73,6 @@ struct GENIUSApp: App {
             ImmersiveView()
             .environmentObject(recorder)
             .environmentObject(argo)
-
         }
         
         // Window to open Sketchfab Viewer API

@@ -23,6 +23,7 @@ struct ImmersiveView: View {
     @State private var stopCount = 0;
     @State private var spidermanActive = false
     let speechSynthesizer = AVSpeechSynthesizer()
+    let showHUD = false
     
     let detector: GestureDetector
       
@@ -64,30 +65,32 @@ struct ImmersiveView: View {
     let worldInfo = WorldTrackingProvider()
     
     var body: some View {
-        // Displays Halo HUD
         RealityView { content in
-            let mesh: MeshResource = .generatePlane(width: 0.83, height: 0.6)
-                    
-            var material = SimpleMaterial()
-            material.color = .init(tint: .white.withAlphaComponent(0.999),
-                                texture: .init(try! .load(named: "halo_hud.png")))
-            material.metallic = .float(1.0)
-            material.roughness = .float(0.0)
+            // Displays Halo HUD if true
+            if showHUD {
+                let mesh: MeshResource = .generatePlane(width: 0.83, height: 0.6)
+                        
+                var material = SimpleMaterial()
+                material.color = .init(tint: .white.withAlphaComponent(0.999),
+                                    texture: .init(try! .load(named: "halo_hud.png")))
+                material.metallic = .float(1.0)
+                material.roughness = .float(0.0)
 
-            let planeEntity = ModelEntity(mesh: mesh, materials: [material])
-            headTrackedEntity.addChild(planeEntity)
-            
-            content.add(headTrackedEntity)
-            
-            try? await session.run([worldInfo])
-            // Retrieve headeset position
-            let pose = worldInfo.queryDeviceAnchor(atTimestamp: CACurrentMediaTime())
-            let devicePos = (pose?.originFromAnchorTransform.translation ?? simd_float3(0,1,0)) + simd_float3(0, 0, -0.7)
-            
-            // Position graph in front of headset with devicePos
-            //root.position = devicePos
-            root.position = SIMD3<Float>(0.0, 1.6, -0.7)
-            content.add(root)
+                let planeEntity = ModelEntity(mesh: mesh, materials: [material])
+                headTrackedEntity.addChild(planeEntity)
+                
+                content.add(headTrackedEntity)
+                
+                try? await session.run([worldInfo])
+                // Retrieve headeset position
+                let pose = worldInfo.queryDeviceAnchor(atTimestamp: CACurrentMediaTime())
+                let devicePos = (pose?.originFromAnchorTransform.translation ?? simd_float3(0,1,0)) + simd_float3(0, 0, -0.7)
+                
+                // Position graph in front of headset with devicePos
+                //root.position = devicePos
+                root.position = SIMD3<Float>(0.0, 1.6, -0.7)
+                content.add(root)
+            }
         }
         .task {
             await detectGestures()
