@@ -17,7 +17,6 @@ struct GENIUSApp: App {
     @StateObject private var recorder = Recorder()
     @StateObject private var argo = Argo()
 
-    
     // Create a shared instance of AVSpeechSynthesizer
     let synthesizer = SpeechSynthesizer.shared
     
@@ -52,23 +51,13 @@ struct GENIUSApp: App {
                     .tabItem {
                         Label("Polaris", systemImage: "apple.terminal")
                     }
-                SimulationsView()
-                    .tabItem {
-                        Label("Sims", systemImage: "tv.circle")
-                    }
                 CalendarView()
                     .tabItem {
                         Label("Cakendar", systemImage: "tv.circle")
                     }
             }
         }
-//        WindowGroup {
-//            ContentView()
-//                .environmentObject(ConversationManager.shared)
-//        }
-//        WindowGroup {
-//            NavView(updatingTextHolder: updatingTextHolder)
-//        }
+
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
             .environmentObject(recorder)
@@ -82,22 +71,13 @@ struct GENIUSApp: App {
             }
         }
         
-        // Window to open Sketchfab Viewer API
+        // Window to open simulations
         WindowGroup(id: "sim", for: String.self) { $parameters in
             if let parameters {
                 SimView(parameters: parameters)
             }
         }
         
-        WindowGroup(id: "volume", for: String.self) { $modelName in
-            if let modelName {
-                VolumeView(modelName: modelName)
-                    .useMagnifyGesture()
-                    .useRotateGesture()
-            }
-            
-        }.windowStyle(.volumetric)
-    
         WindowGroup(id: "Proteins") {
             ProteinView()
         }

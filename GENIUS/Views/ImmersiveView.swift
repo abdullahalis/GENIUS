@@ -40,9 +40,6 @@ struct ImmersiveView: View {
         guard let spidermanURL = Bundle.main.url(forResource: "spiderman", withExtension: "gesturecomposer") else {
                     fatalError("spiderman.gesturecomposer not found in bundle")
         }
-
-//            // Initialize the configuration with the URL
-//            let configuration = GestureDetectorConfiguration(packages: [handsTogetherURL, thumbsUpURL])
     
         // Initialize the configuration with the URL
         let configuration = GestureDetectorConfiguration(packages: [handsTogetherURL, spreadURL, spidermanURL])
