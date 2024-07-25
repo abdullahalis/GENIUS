@@ -17,19 +17,6 @@ struct ContentView: View {
     @ObservedObject var updatingTextHolder = UpdatingTextHolder.shared
     @ObservedObject var animation = AnimationManager.shared
     
-    @State private var handsTogether = false
-    @State private var prompt = ""
-    @State private var showImmersiveSpace = true
-    @State private var immersiveSpaceIsShown = true
-    @State private var nightMode = false
-    @State private var isRecording = false
-    
-    @State private var question = ""
-    @State private var meetingText = ""
-    let speechSynthesizer = AVSpeechSynthesizer()
-    
-    let frameDuration = 1.0 / 30.0 // 30 fps
-    
     @State private var textOpacity: Double = 0.0
     @State private var circleScale: CGFloat = 1.0
     
@@ -40,8 +27,8 @@ struct ContentView: View {
     @State private var showAlert = false
     
     var body: some View {
-        
         NavigationStack {
+            // Background GENIUS avatar
             ZStack {
                 GeometryReader { geometry in
                     Circle()
@@ -67,10 +54,10 @@ struct ContentView: View {
                         circleScale = 1.2
                     }
                 }
-
                 
+                // Main UI elements: displays mode, recognized speech, response from GENIUS, and recording button
                 VStack {
-                    Spacer() // Pushes content to the top
+                    Spacer()
                     
                     Text("GENIUS")
                         .font(Font.custom("Dune_Rise", size: 64, relativeTo: .title))
@@ -99,7 +86,7 @@ struct ContentView: View {
                     }
                     .frame(height: 100)
                     
-                    Spacer() // Pushes content upwards
+                    Spacer()
                     
                     VStack(spacing: 30) {
                         
@@ -156,10 +143,7 @@ struct ContentView: View {
 
 }
 
-#Preview(windowStyle: .automatic) {
-    ContentView()
-}
-
+// Displays how to use GENIUS
 struct InfoPopupView: View {
     @Binding var showAlert: Bool
     
@@ -167,9 +151,6 @@ struct InfoPopupView: View {
             VStack(spacing: 20) {
                 Text("Activating GENIUS")
                     .font(.headline)
-                
-                // Example image; replace with your own image or 3D model view
-                
                 
                 Text("GENIUS can be activated by clicking the record button or by putting your fingers together as shown below. Your prompt is recorded as long as you hold the gesture and will be sent to GENIUS upon release.")
                     .multilineTextAlignment(.center)
@@ -194,6 +175,7 @@ struct InfoPopupView: View {
         }
 }
 
+// Holds essential UI variables to be easily accessed in other classes
 final class UpdatingTextHolder: ObservableObject {
     static let shared = UpdatingTextHolder()
     @Published var responseText: String = ""
@@ -205,3 +187,6 @@ final class UpdatingTextHolder: ObservableObject {
     private init() {}
 }
 
+#Preview(windowStyle: .automatic) {
+    ContentView()
+}

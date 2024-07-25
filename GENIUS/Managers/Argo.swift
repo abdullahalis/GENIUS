@@ -121,8 +121,8 @@ class Argo : ObservableObject {
         print("recording in Argo", recording)
         let prompt = "You will decide what type of action that needs to be taken based on user input. Respond with one of the following options with no punctuation or spaces: meeting, prompt, model, or simulation. Choose meeting if based on the user input, the user wants to start recording a meeting. Choose prompt if the user wants information about something. Choose model if the user wants to see a representation of something. Choose simulation if the user wants to run a simulation of something. Choose protein if the user wants to visualize protein interactions. Choose clear if the user wants to clear the screen. Your response must be one word. The user said: \(recording)."
         Task {
-            let mode = try await getResponse(prompt: prompt, model: "Llama")
-            print("Mode:", mode)
+            let mode = try await getResponse(prompt: prompt, model: "Argo")
+            print("Mode:", mode, "done")
             if mode.contains("meeting") {
                 self.handleMeeting()
             }
@@ -173,7 +173,7 @@ class Argo : ObservableObject {
             Task {
                 // call Argo API to get response to prompt
                 let response = try await getResponse(prompt: question, model: "Argo")
-                print("response:", response)
+                print("response:", response, "response done")
                 
                 // call text to speech function with the response from Argo
                 speaker.speak(text: response)
@@ -196,12 +196,27 @@ class Argo : ObservableObject {
         Task {
             // generate a search query based on user input
             var prompt = "I need to display a 3d model. I want to use an API which takes a search query in the form of a string and returns 3D models as a response. The user prompted: \(userPrompt)'. You will give me the best search query to use given this prompt. If previous context exists use that along with the prompt to decide on a search query for the 3D model API. Your response will be directly used to open the model, so you must respond with only a search query that is as short as possible with no other words and no periods. Make sure your entire response has no other words other than the search query so it can be directly used to search with the API. You must not mention model in the search query because that is implied. You must not explain why you chose the query, just return the query."
-            let modelSearch = try await getResponse(prompt: prompt, model: "Llama")
+            
+            var results: Array<Result> = [Result]()
+            var modelSearch = ""
+            var attempts = 0
+            
+            // Keep searching until a result is given
+            while results.isEmpty {
+                // If we don't get a result in 3 searches, give up
+                if attempts > 2 {
+                    speaker.speak(text: "Sorry, I couldn't find a model for that")
+                    updatingTextHolder.responseText = "Sorry, I couldn't find a model for that."
+                    return
+                }
+                modelSearch = try await getResponse(prompt: prompt, model: "Argo")
 
-            print("Searching for: \(modelSearch)")
+                print("Searching for: \(modelSearch)")
 
-            // search Sketchfab API for models relating to the search query
-            let results = try await sketchFabSearch(q: modelSearch)
+                // search Sketchfab API for models relating to the search query
+                results = try await sketchFabSearch(q: modelSearch)
+                attempts += 1
+            }
             
             // Construct dictionary from the result struct
             var models = [String:String]()
@@ -211,22 +226,30 @@ class Argo : ObservableObject {
             
             // Use the names of models to pick the one to open
             prompt = "Your response must be one phrase with no spaces or punctuation: You have previously created a search query for a 3D model. That search has been ran and now I have the results as a dictionary of models in the form (uid, name). Here is the dictionary of models: \(models). Based on the search: '\(modelSearch)' and our previous discussion, decide which model's name best matches. Please provide ONLY the uid of the matching model. Your response must only include the uid."
-            let modelToOpen = try await getResponse(prompt: prompt, model: "Llama")
-            print("model to open:", modelToOpen)
             
-            // check if model is valid
-            if models.keys.contains(modelToOpen) {
-                // open it using the main thread
-                DispatchQueue.main.async {
-                    self.openWindow(id: "model", value: modelToOpen)
+            attempts = 0
+            var modelToOpen = ""
+
+            // Try no more than 3 times to pick a model UID
+            while models.keys.contains(modelToOpen) == false {
+                if attempts > 2 {
+                    speaker.speak(text: "Sorry, there was an error opening the model")
+                    updatingTextHolder.responseText = "Sorry, there was an error opening the model."
+                    print("No valid UID generated")
+                    return
                 }
-                
-                updatingTextHolder.mode = " "
-                conversationManager.addEntry(prompt: updatingTextHolder.recongnizedText, response: "*Displays '\(models[modelToOpen] ?? "model")'*", modelId: modelToOpen)
+                modelToOpen = try await getResponse(prompt: prompt, model: "Argo")
+                print("model to open:", modelToOpen)
+                attempts += 1
             }
-            else {
-                print("Error generating model to open")
+            
+            // open it using the main thread
+            DispatchQueue.main.async {
+                self.openWindow(id: "model", value: modelToOpen)
             }
+            
+            updatingTextHolder.mode = " "
+            conversationManager.addEntry(prompt: updatingTextHolder.recongnizedText, response: "*Displays '\(models[modelToOpen] ?? "model")'*", modelId: modelToOpen)
         }
     }
     

@@ -52,10 +52,6 @@ struct GENIUSApp: App {
                     .tabItem {
                         Label("Polaris", systemImage: "apple.terminal")
                     }
-                SimulationsView()
-                    .tabItem {
-                        Label("Sims", systemImage: "tv.circle")
-                    }
             }
         }
 //        WindowGroup {
