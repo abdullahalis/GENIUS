@@ -42,8 +42,33 @@ Fixed it by changing 'http' to 'https' in the BaseURL in Engine/Build/Commit.git
     * Llama response is easier to manipulate (can tell it how to start or end response)
     
 # June 24 - June 28
+* Running jobs on Polaris and displaying results
+    * Using LBM CFD sim
+    * Able to display the results as a video
+    * Created window to display simulation
+* Made recording one held gesture instead of two for starting and stopping
+* Error recovery and guiding the user 
+* Getting protein objects to move around 3D space.
+* Getting edges to follow protein movement.
+
 # July 01 - July 05
+* Able to submit jobs from the app
+* Integrated Argo into running and modifying jobs
+* More UI changes: Fonts, color schemes 
+* Removing jitter from edge movement.
+
 # July 08 - July 12
+* Fixed small errors in running the simulation
+* Integrated Argo to provide protein interaction partners.
+
 # July 15 - July 19
+* More UI changes
+* Working on trying to convert a .vtu to a .usdz
+* Adjusted simulation feature to allow adjustments of parameters before running the job
+
 # July 22 - July 26
+* Put a pause on trying to get a simulation that produces a 3D module working
+* Working on making a calendar/scheduling feature
+* Added clear all windows function
+
 # July 29 - August 02
